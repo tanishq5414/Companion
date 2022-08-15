@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import './screens/search.dart';
 import 'home.dart';
 void main() {
-  runApp(const MyApp());
+  runApp(const MyApp() );
 }
 
 class MyApp extends StatelessWidget {
@@ -9,7 +10,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Home(),
+      initialRoute: '/',
+      routes: <String, WidgetBuilder>{
+        '/': (context) => Home(),
+        '/search': (context) => const Search(),
+      },
     );
   }
 }
