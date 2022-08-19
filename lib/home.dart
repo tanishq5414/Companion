@@ -7,6 +7,7 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 class _HomeState extends State<Home> {
+
     int selected = 0;
     static const TextStyle optionStyle =
         TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -25,9 +26,18 @@ class _HomeState extends State<Home> {
           ),
         ];
     void _onItemTapped(int index) {
-      setState(() {
-        selected = index;
-      });
+      switch(index){
+        case 0:
+          Navigator.pushNamed(context, '/');
+          break;
+        case 1:
+          Navigator.pushNamed(context, '/search');
+          break;
+        case 2:
+          Navigator.pushNamed(context, '/bookmarks');
+          break;
+      }
+
     }
     @override
     Widget build(BuildContext context){
@@ -38,7 +48,7 @@ class _HomeState extends State<Home> {
             bottomNavigationBar: BottomNavigationBar(
                 items: const <BottomNavigationBarItem>[
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.home,color: Colors.black,size: 45,FontWeight: 600,),
+                        icon: Icon(Icons.home,color: Colors.black,size: 45,),
                         label: 'Home',
                     ),
                     BottomNavigationBarItem(
@@ -48,13 +58,15 @@ class _HomeState extends State<Home> {
                     BottomNavigationBarItem(
                         icon: Icon(Icons.bookmark,color: Colors.black,size: 45,),
                         label: 'Bookmarks',
+                        
                     ),
                 ],
                 currentIndex: selected,
                 selectedItemColor: Colors.black,
                 onTap: _onItemTapped,
                 
-            ),
-        );
+                )
+            );
     }
+
 }
