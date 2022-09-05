@@ -1,8 +1,18 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:notesapp/screens/Login/GreetingPage1.dart';
 import './screens/search.dart';
 import 'home.dart';
+import 'screens/Login/GreetingPage2.dart';
+import 'screens/Login/GreetingPage3.dart';
+import 'screens/Login/GreetingPage1.dart';
+import 'screens/Login/loginPage.dart';
+import 'package:device_preview/device_preview.dart';
+
 void main() {
-  runApp(const MyApp() );
+  runApp(DevicePreview(
+    enabled: true,
+    builder: (context) => MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -11,9 +21,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/',
+      initialRoute: '/home',
       routes: <String, WidgetBuilder>{
-        '/': (context) => Home(),
+        '/home': (context) => LoginDemo(),
         '/search': (context) => const Search(),
       },
     );

@@ -15,6 +15,9 @@ class _SearchState extends State<Search> {
         return MaterialPageRoute<void>(
           settings: settings,
           builder: (BuildContext context) => Scaffold(
+            appBar: AppBar(
+              leading: IconButton(onPressed: (){Navigator.pop(context,'/home');}, icon: Icon(Icons.arrow_left_outlined)),
+            ),
             body: Center(
               child: Text('Search'),
             ),
