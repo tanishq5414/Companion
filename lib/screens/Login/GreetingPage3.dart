@@ -104,7 +104,7 @@ class GreetingPage3 extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/login');
+                      Navigator.pushNamed(context, '/signup');
                     },
                   ),
                 ],

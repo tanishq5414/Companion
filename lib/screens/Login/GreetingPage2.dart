@@ -87,7 +87,7 @@ class GreetingPage2 extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/login');
+                      Navigator.pushNamed(context, '/greeting1');
                     },
                   ),
                   SizedBox(
@@ -104,7 +104,7 @@ class GreetingPage2 extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/login');
+                      Navigator.pushNamed(context, '/greeting3');
                     },
                   ),
                 ],

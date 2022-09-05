@@ -1,16 +1,15 @@
-// ignore_for_file: file_names
+
 
 import 'package:flutter/material.dart';
-import 'package:notesapp/screens/Login/signupPage.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class SignUp extends StatefulWidget {
+  const SignUp({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -253,33 +252,7 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: size.height*0.05,
-                    ),
-                    SizedBox(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // ignore: prefer_const_constructors
-                          Text('Dont have an account?',
-                              style: const TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                              )),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(context, '/signup');
-                            },
-                            child: const Text(' Sign Up',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.blue,
-                                )),
-                          ),
-                        ],
-                      )
-                    )
+                    
               ],
             ),
           ),
