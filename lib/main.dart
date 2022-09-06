@@ -2,12 +2,12 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:notesapp/screens/Login/GreetingPage1.dart';
 import './screens/search.dart';
-import 'home.dart';
 import 'screens/Login/GreetingPage2.dart';
 import 'screens/Login/GreetingPage3.dart';
 import 'screens/Login/GreetingPage1.dart';
 import 'screens/Login/loginPage.dart';
-import 'package:device_preview/device_preview.dart';
+import 'screens/Login/signupPage.dart';
+import 'home.dart';
 
 void main() {
   runApp(DevicePreview(
@@ -28,6 +28,8 @@ class MyApp extends StatelessWidget {
         '/greeting1': (context) => const GreetingPage1(),
         '/greeting2': (context) => const GreetingPage2(),
         '/greeting3': (context) => const GreetingPage3(),
+        '/signup': (context) => const SignupPage(),
+        '/home': (context) => const HomePage(),
       },
     );
   }

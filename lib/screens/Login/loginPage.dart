@@ -1,7 +1,6 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:notesapp/screens/Login/signupPage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -19,7 +18,7 @@ class _LoginPageState extends State<LoginPage> {
       minimumSize: Size(400, size.height*0.08),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+        borderRadius: BorderRadius.all(Radius.circular(30)),
       ),
       elevation: 25,
     );
@@ -28,44 +27,13 @@ class _LoginPageState extends State<LoginPage> {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       body: Container(
-        margin: EdgeInsets.only(top:size.height*0.08,left: size.width*0.08, right: size.width*0.08),
+        margin: EdgeInsets.only(top:size.height*0.1,left: size.width*0.08, right: size.width*0.08),
         height: size.height*0.9,
         width: size.width,
         child: SizedBox(
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(
-                  height: size.height*0.1,
-                  child: Row(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(bottom: size.height*0.03),
-                        child: SizedBox(
-                          height: size.height*0.07,
-                          width: size.height*0.07,
-                          child: TextButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.white,
-                              onPrimary: Colors.grey,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                              ),
-                              side: const BorderSide(
-                                color: Color.fromARGB(255, 215, 212, 212),
-                                width: 2,
-                              ),
-                            ),
-                            child: const Icon(Icons.arrow_back_ios_new_rounded,
-                                color: Colors.black),
-                            onPressed: () {},
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-          
                 if(!isKeyboard)Padding(
                   padding: EdgeInsets.only(top: size.height*0.007),
                   child: SizedBox(
@@ -87,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                       children: const [
                         Text('Glad to see you again',
                             style:
-                                TextStyle(fontSize: 12,)),
+                                TextStyle(fontSize: 12,color: Color.fromARGB(255, 182, 180, 180), fontWeight: FontWeight.bold)),
                       ],
                     ),
                   ),
@@ -103,6 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                       labelStyle: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
+                        color: Colors.grey,
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -120,6 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                       labelStyle: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
+                        color: Colors.grey,
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -263,7 +233,7 @@ class _LoginPageState extends State<LoginPage> {
                           // ignore: prefer_const_constructors
                           Text('Dont have an account?',
                               style: const TextStyle(
-                                fontSize: 10,
+                                fontSize: 13,
                                 fontWeight: FontWeight.bold,
                               )),
                           GestureDetector(
@@ -272,7 +242,7 @@ class _LoginPageState extends State<LoginPage> {
                             },
                             child: const Text(' Sign Up',
                                 style: TextStyle(
-                                  fontSize: 10,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.blue,
                                 )),
