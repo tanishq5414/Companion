@@ -35,6 +35,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   device_preview: ^1.1.0
   firebase_auth: ^3.7.0
+  http: ^0.13.5
+  line_icons: ^2.0.1
 
 dev_dependencies:
   flutter_test:
