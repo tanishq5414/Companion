@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -31,7 +32,7 @@ class _HomePageState extends State<HomePage> {
           Navigator.pushNamed(context, '/');
           break;
         case 1:
-          Navigator.pushNamed(context, '/search');
+          FirebaseAuth.instance.signOut();
           break;
         case 2:
           Navigator.pushNamed(context, '/bookmarks');
@@ -41,33 +42,69 @@ class _HomePageState extends State<HomePage> {
     }
     @override
     Widget build(BuildContext context){
-        return Scaffold(
-            body: Center(
-                child: _widgetOptions.elementAt(selected),
-            ),
-            bottomNavigationBar: BottomNavigationBar(
-                items: const <BottomNavigationBarItem>[
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.home,color: Colors.black,size: 45,),
-                        label: 'Home',
+      var size = MediaQuery.of(context).size;
+      final ButtonStyle leadingStyle = ElevatedButton.styleFrom(
+      primary: Colors.black,
+      minimumSize: Size(400, size.height * 0.08),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(30)),
+      ),
+      elevation: 25,
+    );
+      
+        return SafeArea(
+          child: Scaffold(
+              body: SizedBox(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      child: Row(
+                        children: [
+                          Text('Good Morning',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold)),
+                          //create a profile button
+                          SizedBox(
+                            width: size.width * 0.5,
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.person),
+                          )
+
+                        ],
+                      ),
                     ),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.search,color: Colors.black,size: 45,),
-                        label: 'Search',
-                    ),
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.bookmark,color: Colors.black,size: 45,),
-                        label: 'Bookmarks',
-                        
-                    ),
-                ],
-                currentIndex: selected,
-                selectedItemColor: Colors.black,
-                onTap: _onItemTapped,
-                
-                )
-                //
-            );
+                    
+
+                  ],
+                ),
+              ),
+              bottomNavigationBar: BottomNavigationBar(
+                  items: const <BottomNavigationBarItem>[
+                      BottomNavigationBarItem(
+                          icon: Icon(Icons.home,color: Colors.black,size: 45,),
+                          label: 'Home',
+                      ),
+                      BottomNavigationBarItem(
+                          icon: Icon(Icons.search,color: Colors.black,size: 45,),
+                          label: 'Search',
+                      ),
+                      BottomNavigationBarItem(
+                          icon: Icon(Icons.bookmark,color: Colors.black,size: 45,),
+                          label: 'Bookmarks',
+                          
+                      ),
+                  ],
+                  currentIndex: selected,
+                  selectedItemColor: Colors.black,
+                  onTap: _onItemTapped,
+                  
+                  )
+                  //
+              ),
+        );
     }
 
 }
