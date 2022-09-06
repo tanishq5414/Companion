@@ -264,10 +264,7 @@ class _SignupPageState extends State<SignupPage> {
                               width: 2,
                             ),
                           ),
-                          child: FittedBox(
-                              fit: BoxFit.fill,
-                              child:
-                                  Image.asset('assets/pictures/google_ic.png')),
+                          child: Image.asset('assets/pictures/google_ic.png'),
                           onPressed: () {},
                         ),
                       ),
