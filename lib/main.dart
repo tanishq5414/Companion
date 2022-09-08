@@ -4,8 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:notesapp/bookmarks.dart';
 import 'package:notesapp/screens/Login/GreetingPage1.dart';
-import 'package:notesapp/utils/utils.dart';
 import 'package:notesapp/utils/utils.dart';
 import './screens/search.dart';
 import 'screens/Login/GreetingPage2.dart';
@@ -14,6 +14,7 @@ import 'screens/Login/GreetingPage1.dart';
 import 'screens/Login/loginPage.dart';
 import 'screens/Login/signUp/signupPage.dart';
 import 'home.dart';
+import 'screens/settings.dart';
 import 'utils/utils.dart';
 
 Future main() async {
@@ -68,6 +69,8 @@ class _MyAppState extends State<MyApp> {
         '/greeting3': (context) => const GreetingPage3(),
         '/signup': (context) => const SignupPage(),
         '/home': (context) => const HomePage(),
+        '/settings': (context) => const SettingsPage(),
+        '/bookmarks': (context) => const BookmarkPage(),
       },
       navigatorKey: _navigatorKey,
       initialRoute:

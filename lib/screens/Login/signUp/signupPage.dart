@@ -15,6 +15,7 @@ class _SignupPageState extends State<SignupPage> {
   final passwordController = TextEditingController();
   final userNameController = TextEditingController();
   final fullNameController = TextEditingController();
+  final phoneNumberController = TextEditingController();
 
   @override
   void dispose() {
@@ -22,6 +23,7 @@ class _SignupPageState extends State<SignupPage> {
     passwordController.dispose();
     userNameController.dispose();
     fullNameController.dispose();
+    phoneNumberController.dispose();
     super.dispose();
   }
 
@@ -108,9 +110,9 @@ class _SignupPageState extends State<SignupPage> {
                   ),
                   SizedBox(
                     child: TextField(
-                      controller: userNameController,
+                      controller: phoneNumberController,
                       decoration: InputDecoration(
-                        labelText: 'Username',
+                        labelText: 'Phone Number',
                         labelStyle: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -338,8 +340,12 @@ class _SignupPageState extends State<SignupPage> {
     final isValid = formKey.currentState!.validate();
     if (!isValid) return;
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
+      UserCredential result = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      User? user = result.user;
+      user?.updateDisplayName(fullNameController.text);
     } on FirebaseAuthException catch (e) {
       print(e);
 

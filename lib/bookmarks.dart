@@ -1,35 +1,22 @@
-// ignore_for_file: prefer_const_constructors, unused_element
+// ignore_for_file: prefer_const_constructors
 
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:notesapp/widgets/courseBuilder.dart';
-import 'package:notesapp/widgets/courses.dart';
+import 'package:http/http.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class BookmarkPage extends StatefulWidget {
+  const BookmarkPage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<BookmarkPage> createState() => _BookmarkPageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  int selected = 0;
-  @override
-  static Future<List<Course>> getCourses() async {
-    const url = 'https://tanishq5414.github.io/apiNotesApp/courses1.json';
-    final response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      final List jsonResponse = json.decode(response.body);
-      return jsonResponse.map((course) => Course.fromJson(course)).toList();
-    } else {
-      throw Exception('Failed to load courses from API');
-    }
-  }
-
+class _BookmarkPageState extends State<BookmarkPage> {
+  final user = FirebaseAuth.instance.currentUser;
+  int selected = 2;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
@@ -49,7 +36,7 @@ class _HomePageState extends State<HomePage> {
   void _onItemTapped(int index) {
     switch (index) {
       case 0:
-        Navigator.pushNamed(context, '/');
+        Navigator.pushNamed(context, '/home');
         break;
       case 1:
         Navigator.pushNamed(context, '/search');
@@ -77,7 +64,8 @@ class _HomePageState extends State<HomePage> {
         body: Container(
           padding: EdgeInsets.only(
             top: size.height * 0.06,
-            left: size.width * 0.05,
+            left: size.width * 0.1,
+            right: size.width * 0.1,
           ),
           child: SingleChildScrollView(
             child: Column(
@@ -86,11 +74,9 @@ class _HomePageState extends State<HomePage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Good ',
+                      
+                      Text(FirebaseAuth.instance.currentUser!.displayName.toString(),
                           style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold)),
-                      Text(greeting(),
-                          style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
                       const Spacer(),
                       TextButton(
@@ -109,185 +95,55 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 20),
-                FutureBuilder<List<Course>>(
-                  future: getCourses(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return SizedBox(
-                        height: size.height * 0.07,
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: EdgeInsets.only(right: size.width * 0.05),
-                              child: courseWidget(
-                                  size,
-                                  snapshot.data![index].name,
-                                  snapshot.data![index].courseImageUrl),
-                            );
-                          },
-                        ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return const Text('Error');
-                    }
-                    return const CircularProgressIndicator();
-                  },
-                ),
-                
                 SizedBox(
                   height: size.height * 0.03,
                 ),
                 Column(
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
-                        Text(
-                          'Trending Today',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                      children: [
+                        bookBuilder(size),
+                        Spacer(),
+                        bookBuilder(size),
                       ],
                     ),
-                    SizedBox(
-                      height: size.height * 0.03,
-                    ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          trendingBuilder(size),
-                          SizedBox(
-                            width: size.width * 0.03,
-                          ),
-                          trendingBuilder(size),
-                          SizedBox(
-                            width: size.width * 0.03,
-                          ),
-                          trendingBuilder(size),
-                          SizedBox(
-                            width: size.width * 0.03,
-                          ),
-                          trendingBuilder(size),
-                          SizedBox(
-                            width: size.width * 0.03,
-                          ),
-                          trendingBuilder(size),
-                          SizedBox(
-                            width: size.width * 0.03,
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: size.height * 0.03,
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
-                        Text(
-                          'Recently Viewed',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                      children: [
+                        bookBuilder(size),
+                        Spacer(),
+                        bookBuilder(size),
                       ],
                     ),
-                    SizedBox(
-                      height: size.height * 0.03,
-                    ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          recentBuilder(size),
-                          SizedBox(
-                            width: size.width * 0.03,
-                          ),
-                          recentBuilder(size),
-                          SizedBox(
-                            width: size.width * 0.03,
-                          ),
-                          recentBuilder(size),
-                          SizedBox(
-                            width: size.width * 0.03,
-                          ),
-                          recentBuilder(size),
-                          SizedBox(
-                            width: size.width * 0.03,
-                          ),
-                          recentBuilder(size),
-                          SizedBox(
-                            width: size.width * 0.03,
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: size.height * 0.03,
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: const [
-                        Text(
-                          'Your Bookmarks',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                      children: [
+                        bookBuilder(size),
+                        Spacer(),
+                        bookBuilder(size),
                       ],
                     ),
-                    SizedBox(
-                      height: size.height * 0.03,
+                    Row(
+                      children: [
+                        bookBuilder(size),
+                        Spacer(),
+                        bookBuilder(size),
+                      ],
                     ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          bookBuilder(size),
-                          SizedBox(
-                            width: size.width * 0.03,
-                          ),
-                          bookBuilder(size),
-                          SizedBox(
-                            width: size.width * 0.03,
-                          ),
-                          bookBuilder(size),
-                          SizedBox(
-                            width: size.width * 0.03,
-                          ),
-                          bookBuilder(size),
-                          SizedBox(
-                            width: size.width * 0.03,
-                          ),
-                          bookBuilder(size),
-                          SizedBox(
-                            width: size.width * 0.03,
-                          ),
-                        ],
-                      ),
+                    Row(
+                      children: [
+                        bookBuilder(size),
+                        Spacer(),
+                        bookBuilder(size),
+                      ],
                     ),
-                    SizedBox(
-                      height: size.height * 0.1,
+                    Row(
+                      children: [
+                        bookBuilder(size),
+                        Spacer(),
+                        bookBuilder(size),
+                      ],
                     ),
                   ],
-                ),
+                )
               ],
             ),
           ),
@@ -349,6 +205,52 @@ class _HomePageState extends State<HomePage> {
         )
         //
         );
+  }
+
+  ElevatedButton courseBuilder(Size size) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        minimumSize: Size.zero,
+        padding: EdgeInsets.zero,
+        onPrimary: Colors.grey,
+        primary: Colors.white,
+        side: BorderSide(color: Colors.grey, width: 1),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+        ),
+      ),
+      onPressed: () {},
+      child: SizedBox(
+        width: size.width * 0.4,
+        height: size.height * 0.07,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.only(left: 0),
+              width: size.width * 0.13,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadiusDirectional.only(
+                    topStart: Radius.circular(8),
+                    bottomStart: Radius.circular(8)),
+                image: DecorationImage(
+                  image: AssetImage('lib/assets/pictures/black.jpg'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Flexible(
+              child: Text(
+                'DBMS',
+                overflow: TextOverflow.fade,
+                style: const TextStyle(fontSize: 11.5, color: Colors.black),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Container trendingBuilder(Size size) {
