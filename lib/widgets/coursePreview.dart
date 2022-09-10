@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'courses.dart';
+import '../models/courses.dart';
 
-
-
-ElevatedButton courseWidget(
+ElevatedButton CoursePreview(
   Size size,
   String courseName,
   String imageUrl,

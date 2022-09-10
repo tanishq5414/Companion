@@ -6,8 +6,12 @@ import 'package:line_icons/line_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:notesapp/widgets/courseBuilder.dart';
-import 'package:notesapp/widgets/courses.dart';
+import 'package:notesapp/screens/bookmarks/bookmarks.dart';
+import 'package:notesapp/screens/search/search.dart';
+import 'package:notesapp/widgets/coursePreview.dart';
+import 'package:notesapp/models/courses.dart';
+
+import '../../widgets/notesPreview.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -17,11 +21,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int selected = 0;
+  int selectedIndex = 0;
   @override
   static Future<List<Course>> getCourses() async {
-    const url = 'https://tanishq5414.github.io/apiNotesApp/courses1.json';
-    final response = await http.get(Uri.parse(url));
+    const coursesDataJson = 'https://tanishq5414.github.io/apiNotesApp/courses1.json';
+    final response = await http.get(Uri.parse(coursesDataJson));
     if (response.statusCode == 200) {
       final List jsonResponse = json.decode(response.body);
       return jsonResponse.map((course) => Course.fromJson(course)).toList();
@@ -49,13 +53,13 @@ class _HomePageState extends State<HomePage> {
   void _onItemTapped(int index) {
     switch (index) {
       case 0:
-        Navigator.pushNamed(context, '/');
+        HomePage();
         break;
       case 1:
-        Navigator.pushNamed(context, '/search');
+        Search();
         break;
       case 2:
-        Navigator.pushNamed(context, '/bookmarks');
+        BookmarkPage(); 
         break;
     }
   }
@@ -122,8 +126,9 @@ class _HomePageState extends State<HomePage> {
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) {
                             return Padding(
-                              padding: EdgeInsets.only(right: size.width * 0.05),
-                              child: courseWidget(
+                              padding:
+                                  EdgeInsets.only(right: size.width * 0.05),
+                              child: CoursePreview(
                                   size,
                                   snapshot.data![index].name,
                                   snapshot.data![index].courseImageUrl),
@@ -137,7 +142,6 @@ class _HomePageState extends State<HomePage> {
                     return const CircularProgressIndicator();
                   },
                 ),
-                
                 SizedBox(
                   height: size.height * 0.03,
                 ),
@@ -162,23 +166,23 @@ class _HomePageState extends State<HomePage> {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
-                          trendingBuilder(size),
+                          NotesPreview(size),
                           SizedBox(
                             width: size.width * 0.03,
                           ),
-                          trendingBuilder(size),
+                          NotesPreview(size),
                           SizedBox(
                             width: size.width * 0.03,
                           ),
-                          trendingBuilder(size),
+                          NotesPreview(size),
                           SizedBox(
                             width: size.width * 0.03,
                           ),
-                          trendingBuilder(size),
+                          NotesPreview(size),
                           SizedBox(
                             width: size.width * 0.03,
                           ),
-                          trendingBuilder(size),
+                          NotesPreview(size),
                           SizedBox(
                             width: size.width * 0.03,
                           ),
@@ -211,23 +215,23 @@ class _HomePageState extends State<HomePage> {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
-                          recentBuilder(size),
+                          NotesPreview(size),
                           SizedBox(
                             width: size.width * 0.03,
                           ),
-                          recentBuilder(size),
+                          NotesPreview(size),
                           SizedBox(
                             width: size.width * 0.03,
                           ),
-                          recentBuilder(size),
+                          NotesPreview(size),
                           SizedBox(
                             width: size.width * 0.03,
                           ),
-                          recentBuilder(size),
+                          NotesPreview(size),
                           SizedBox(
                             width: size.width * 0.03,
                           ),
-                          recentBuilder(size),
+                          NotesPreview(size),
                           SizedBox(
                             width: size.width * 0.03,
                           ),
@@ -260,23 +264,23 @@ class _HomePageState extends State<HomePage> {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
-                          bookBuilder(size),
+                          NotesPreview(size),
                           SizedBox(
                             width: size.width * 0.03,
                           ),
-                          bookBuilder(size),
+                          NotesPreview(size),
                           SizedBox(
                             width: size.width * 0.03,
                           ),
-                          bookBuilder(size),
+                          NotesPreview(size),
                           SizedBox(
                             width: size.width * 0.03,
                           ),
-                          bookBuilder(size),
+                          NotesPreview(size),
                           SizedBox(
                             width: size.width * 0.03,
                           ),
-                          bookBuilder(size),
+                          NotesPreview(size),
                           SizedBox(
                             width: size.width * 0.03,
                           ),
@@ -296,6 +300,7 @@ class _HomePageState extends State<HomePage> {
           color: Colors.black.withOpacity(0.8),
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.16),
           child: BottomNavigationBar(
+            currentIndex: selectedIndex,
             elevation: 0,
             backgroundColor: Colors.transparent,
             unselectedItemColor: Colors.white70,
@@ -343,7 +348,6 @@ class _HomePageState extends State<HomePage> {
                 label: 'Bookmarks',
               ),
             ],
-            currentIndex: selected,
             onTap: _onItemTapped,
           ),
         )
@@ -351,215 +355,7 @@ class _HomePageState extends State<HomePage> {
         );
   }
 
-  Container trendingBuilder(Size size) {
-    return Container(
-      width: size.width * 0.34,
-      child: Column(
-        children: [
-          TextButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size.zero,
-              padding: EdgeInsets.zero,
-              onPrimary: Colors.grey,
-              primary: Colors.white,
-            ),
-            onPressed: () {},
-            child: SizedBox(
-              width: size.width * 0.34,
-              height: size.width * 0.34,
-              child: Column(
-                children: [
-                  Container(
-                    width: size.width * 0.34,
-                    height: size.width * 0.34,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('lib/assets/pictures/black.jpg'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: size.height * 0.01,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text(
-                'Unit 5',
-                style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
-              ),
-              Text('v4.0',
-                  style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey)),
-            ],
-          ),
-          SizedBox(
-            height: size.height * 0.007,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
-              Text(
-                'Data Mining',
-                style: TextStyle(fontSize: 11, color: Colors.black),
-                overflow: TextOverflow.fade,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Container recentBuilder(Size size) {
-    return Container(
-      width: size.width * 0.34,
-      child: Column(
-        children: [
-          TextButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size.zero,
-              padding: EdgeInsets.zero,
-              onPrimary: Colors.grey,
-              primary: Colors.white,
-            ),
-            onPressed: () {},
-            child: SizedBox(
-              width: size.width * 0.34,
-              height: size.width * 0.34,
-              child: Column(
-                children: [
-                  Container(
-                    width: size.width * 0.34,
-                    height: size.width * 0.34,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('lib/assets/pictures/black.jpg'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: size.height * 0.01,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text(
-                'Unit 1',
-                style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
-              ),
-              Text('v1.0',
-                  style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey)),
-            ],
-          ),
-          SizedBox(
-            height: size.height * 0.007,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
-              Text(
-                'Web Technologies',
-                style: TextStyle(fontSize: 11, color: Colors.black),
-                overflow: TextOverflow.fade,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Container bookBuilder(Size size) {
-    return Container(
-      width: size.width * 0.34,
-      child: Column(
-        children: [
-          TextButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size.zero,
-              padding: EdgeInsets.zero,
-              onPrimary: Colors.grey,
-              primary: Colors.white,
-            ),
-            onPressed: () {},
-            child: SizedBox(
-              width: size.width * 0.34,
-              height: size.width * 0.34,
-              child: Column(
-                children: [
-                  Container(
-                    width: size.width * 0.34,
-                    height: size.width * 0.34,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('lib/assets/pictures/black.jpg'),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: size.height * 0.01,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text(
-                'Unit 3',
-                style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
-              ),
-              Text('v3.0',
-                  style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey)),
-            ],
-          ),
-          SizedBox(
-            height: size.height * 0.007,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
-              Text(
-                'DBMS',
-                style: TextStyle(fontSize: 11, color: Colors.black),
-                overflow: TextOverflow.fade,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+  
 
   String greeting() {
     var hour = DateTime.now().hour;

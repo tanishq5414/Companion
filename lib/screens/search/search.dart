@@ -16,7 +16,7 @@ class _SearchState extends State<Search> {
           settings: settings,
           builder: (BuildContext context) => Scaffold(
             appBar: AppBar(
-              leading: IconButton(onPressed: (){Navigator.pop(context,'/home');}, icon: Icon(Icons.arrow_left_outlined)),
+              leading: IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_left_outlined)),
             ),
             body: Center(
               child: Text('Search'),

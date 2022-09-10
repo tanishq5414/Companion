@@ -4,18 +4,16 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
-import 'package:notesapp/bookmarks.dart';
-import 'package:notesapp/screens/Login/GreetingPage1.dart';
-import 'package:notesapp/utils/utils.dart';
-import './screens/search.dart';
-import 'screens/Login/GreetingPage2.dart';
-import 'screens/Login/GreetingPage3.dart';
-import 'screens/Login/GreetingPage1.dart';
-import 'screens/Login/loginPage.dart';
-import 'screens/Login/signUp/signupPage.dart';
-import 'home.dart';
-import 'screens/settings.dart';
-import 'utils/utils.dart';
+import 'package:notesapp/screens/bookmarks/bookmarks.dart';
+import 'package:notesapp/screens/userAuthentication/Login/GreetingPage1.dart';
+import 'package:notesapp/components/snackBar.dart';
+import 'screens/search/search.dart';
+import 'screens/userAuthentication/Login/GreetingPage2.dart';
+import 'screens/userAuthentication/Login/GreetingPage3.dart';
+import 'screens/userAuthentication/Login/logIn/loginPage.dart';
+import 'screens/userAuthentication/Login/signUp/signupPage.dart';
+import 'screens/home/home.dart';
+import 'screens/settings/settings.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,6 +55,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Gotham',
       ),
@@ -80,17 +79,17 @@ class _MyAppState extends State<MyApp> {
           case 'home':
             return MaterialPageRoute(
               settings: settings,
-              builder: (_) => HomePage(),
+              builder: (_) => const HomePage(),
             );
           case 'login':
             return MaterialPageRoute(
               settings: settings,
-              builder: (_) => GreetingPage1(),
+              builder: (_) => const GreetingPage1(),
             );
           default:
             return MaterialPageRoute(
               settings: settings,
-              builder: (_) => UnknownPage(),
+              builder: (_) => const UnknownPage(),
             );
         }
       },
@@ -137,3 +136,5 @@ class MainPage extends StatelessWidget {
         ),
       );
 }
+
+
