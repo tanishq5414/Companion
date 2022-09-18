@@ -16,54 +16,35 @@ Container NotesPreview(Size size) {
           child: SizedBox(
             width: size.width * 0.34,
             height: size.width * 0.34,
-            child: Column(
-              children: [
-                Container(
-                  width: size.width * 0.34,
-                  height: size.width * 0.34,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('lib/assets/pictures/black.jpg'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ],
+            child: Container(
+              color: Colors.black87,
+              child: Padding(
+                padding: EdgeInsets.only(left: size.width*0.001,right: size.width*0.03),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                  Text('Automata Compiler Design',
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white)),
+                  Text('Unit 1',
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.white)),
+                  
+                  Text('imp Questions',
+                      style: TextStyle(
+                          fontSize: 10,
+                          color: Colors.white)),
+                ]),
+              ),
             ),
           ),
         ),
         SizedBox(
           height: size.height * 0.01,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
-            Text(
-              'Unit 5',
-              style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
-            ),
-            Text('v4.0',
-                style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey)),
-          ],
-        ),
-        SizedBox(
-          height: size.height * 0.007,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: const [
-            Text(
-              'Data Mining',
-              style: TextStyle(fontSize: 11, color: Colors.black),
-              overflow: TextOverflow.fade,
-            ),
-          ],
         ),
       ],
     ),
