@@ -8,10 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:notesapp/pages/bookmarks/bookmarks.dart';
 import 'package:notesapp/pages/search/search.dart';
-import 'package:notesapp/pages/components/coursePreview.dart';
+import 'package:notesapp/pages/components/course_preview.dart';
 import 'package:notesapp/domain/courses.dart';
 
-import '../components/notesPreview.dart';
+import '../components/notes_preview.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
