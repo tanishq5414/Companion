@@ -5,13 +5,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:notesapp/screens/bookmarks/bookmarks.dart';
-import 'package:notesapp/screens/userAuthentication/Login/GreetingPage1.dart';
 import 'package:notesapp/components/snackBar.dart';
+import 'package:notesapp/screens/userAuthentication/loginEmail/forgot_password.dart';
+import 'package:notesapp/screens/userAuthentication/login_main.dart';
+import 'package:notesapp/screens/userAuthentication/signUpEmail/signup_getemail.dart';
+import 'package:notesapp/screens/userAuthentication/signUpEmail/signup_getpassword.dart';
+import 'package:notesapp/screens/userAuthentication/loginPhone/PhoneLoginPage.dart';
+import 'package:provider/provider.dart';
+import 'domain/firebase_auth_methods.dart';
 import 'screens/search/search.dart';
-import 'screens/userAuthentication/Login/GreetingPage2.dart';
-import 'screens/userAuthentication/Login/GreetingPage3.dart';
-import 'screens/userAuthentication/Login/logIn/loginPage.dart';
-import 'screens/userAuthentication/Login/signUp/signupPage.dart';
+import 'screens/userAuthentication/loginEmail/login_email.dart';
+import 'screens/userAuthentication/signUpEmail/signup_main.dart';
 import 'screens/home/home.dart';
 import 'screens/settings/settings.dart';
 
@@ -20,7 +24,7 @@ Future main() async {
   await Firebase.initializeApp();
   runApp(
     DevicePreview(
-      enabled: true,
+      enabled: false,
       builder: (context) => MyApp(),
     ),
   );
@@ -33,7 +37,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late StreamSubscription<User?> _sub;
-  final _navigatorKey = new GlobalKey<NavigatorState>();
+  final _navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   void initState() {
@@ -54,45 +58,58 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: 'Gotham',
+    return MultiProvider(
+      providers: [
+        Provider<FirebaseAuthMethods>(
+          create: (_) => FirebaseAuthMethods(FirebaseAuth.instance),
+        ),
+        StreamProvider(
+          create: (context) => context.read<FirebaseAuthMethods>().authState,
+          initialData: null,
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          fontFamily: 'Gotham',
+        ),
+        scaffoldMessengerKey: Utils.messengerKey,
+        routes: <String, WidgetBuilder>{
+          '/search': (context) => const Search(),
+          '/login': (context) => const LoginPage(),
+          '/phonelogin': (context) => const PhoneLogin(),
+          '/start': (context) => const LoginMain(),
+          '/signup': (context) => const SignupPage(),
+          '/home': (context) => const HomePage(),
+          '/settings': (context) => const SettingsPage(),
+          '/bookmarks': (context) => const BookmarkPage(),
+          '/emailpage': (context) => const EmailPage(),
+          '/passwordpage': (context) => const PasswordPage(),
+          '/forgotpassword': (context) => const ForgotPasswordPage(),
+        },
+        navigatorKey: _navigatorKey,
+        initialRoute:
+            FirebaseAuth.instance.currentUser == null ? 'login' : 'home',
+        onGenerateRoute: (settings) {
+          switch (settings.name) {
+            case 'home':
+              return MaterialPageRoute(
+                settings: settings,
+                builder: (_) => const HomePage(),
+              );
+            case 'login':
+              return MaterialPageRoute(
+                settings: settings,
+                builder: (_) => const LoginMain(),
+              );
+            default:
+              return MaterialPageRoute(
+                settings: settings,
+                builder: (_) => const UnknownPage(),
+              );
+          }
+        },
       ),
-      scaffoldMessengerKey: Utils.messengerKey,
-      routes: <String, WidgetBuilder>{
-        '/search': (context) => const Search(),
-        '/login': (context) => const LoginPage(),
-        '/greeting1': (context) => const GreetingPage1(),
-        '/greeting2': (context) => const GreetingPage2(),
-        '/greeting3': (context) => const GreetingPage3(),
-        '/signup': (context) => const SignupPage(),
-        '/home': (context) => const HomePage(),
-        '/settings': (context) => const SettingsPage(),
-        '/bookmarks': (context) => const BookmarkPage(),
-      },
-      navigatorKey: _navigatorKey,
-      initialRoute:
-          FirebaseAuth.instance.currentUser == null ? 'login' : 'home',
-      onGenerateRoute: (settings) {
-        switch (settings.name) {
-          case 'home':
-            return MaterialPageRoute(
-              settings: settings,
-              builder: (_) => const HomePage(),
-            );
-          case 'login':
-            return MaterialPageRoute(
-              settings: settings,
-              builder: (_) => const GreetingPage1(),
-            );
-          default:
-            return MaterialPageRoute(
-              settings: settings,
-              builder: (_) => const UnknownPage(),
-            );
-        }
-      },
     );
   }
 }
@@ -130,11 +147,9 @@ class MainPage extends StatelessWidget {
                 child: Text('Something went wrong'),
               );
             } else {
-              return const LoginPage();
+              return const LoginMain();
             }
           },
         ),
       );
 }
-
-
