@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:notesapp/components/snackBar.dart';
+import 'package:notesapp/pages/components/snackBar.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../components/otpBox.dart';
+import '../pages/components/otpBox.dart';
 
 class FirebaseAuthMethods {
   final FirebaseAuth _auth;

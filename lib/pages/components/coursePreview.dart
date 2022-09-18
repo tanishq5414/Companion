@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/courses.dart';
+import '../../domain/courses.dart';
 
 ElevatedButton CoursePreview(
   Size size,

@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:notesapp/pages/bookmarks/bookmarks.dart';
-import 'package:notesapp/components/snackBar.dart';
+import 'package:notesapp/pages/components/snackBar.dart';
 import 'package:notesapp/pages/userAuthentication/loginEmail/forgot_password.dart';
 import 'package:notesapp/pages/userAuthentication/loginPhone/login_phone.dart';
 import 'package:notesapp/pages/userAuthentication/login_main.dart';
