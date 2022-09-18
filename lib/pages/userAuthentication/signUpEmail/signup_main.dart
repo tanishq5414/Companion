@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notesapp/assets/colors/colors.dart';
+import 'package:notesapp/config/colors.dart';
 import 'package:notesapp/domain/firebase_auth_methods.dart';
 import 'package:provider/provider.dart';
 

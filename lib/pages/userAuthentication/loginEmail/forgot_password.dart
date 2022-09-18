@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:notesapp/assets/colors/colors.dart';
-import 'package:notesapp/domain/firebase_auth_methods.dart';
+import 'package:notesapp/config/colors.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-class PhoneLogin extends StatefulWidget {
-  const PhoneLogin({super.key});
+import '../../../domain/firebase_auth_methods.dart';
+
+class ForgotPasswordPage extends StatefulWidget {
+  const ForgotPasswordPage({super.key});
 
   @override
-  State<PhoneLogin> createState() => _PhoneLoginState();
+  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
 }
 
-class _PhoneLoginState extends State<PhoneLogin> {
-  var phoneController = TextEditingController();
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+  final emailController = TextEditingController();
+  var buttonColor = appGreyColor;
+  var buttonTextColor = appOtherGreyColor;
+  var inputTextColor = appGreyColor;
   @override
   Widget build(BuildContext context) {
+    void forgotPassword({
+    required String email,
+  }){
+    context.read<FirebaseAuthMethods>().resetPassword(email: email);
+  }
     var size = MediaQuery.of(context).size;
-
-    var buttonColor = appGreyColor;
-    var buttonTextColor = appOtherGreyColor;
-    var inputTextColor = appGreyColor;
-    void phoneSignIn() {
-      context
-          .read<FirebaseAuthMethods>()
-          .phoneSignIn(context, phoneController.text);
-    }
-
-    if (phoneController.text.isEmpty) {
+    if (emailController.text.isEmpty) {
       buttonColor = appGreyColor;
       buttonTextColor = appOtherGreyColor;
     } else {
@@ -51,7 +51,14 @@ class _PhoneLoginState extends State<PhoneLogin> {
               Navigator.pop(context);
             },
           ),
+          title: const Text('Forgot Password',
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              )),
           elevation: 0,
+          centerTitle: true,
         ),
         body: Padding(
           padding: EdgeInsets.only(
@@ -60,28 +67,15 @@ class _PhoneLoginState extends State<PhoneLogin> {
             child: Column(
               children: [
                 SizedBox(
-                  height: size.height * 0.07,
+                  height: size.height * 0.03,
                 ),
                 const Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    'Enter your phone number',
+                    'Enter your email',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Enter with your country code (Eg. +917XXXXXXX39)',
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w400,
                     ),
                   ),
                 ),
@@ -98,11 +92,14 @@ class _PhoneLoginState extends State<PhoneLogin> {
                       padding:
                           const EdgeInsets.only(top: 8, left: 8, bottom: 16),
                       child: TextField(
-                        keyboardType: TextInputType.phone,
-                        style: const TextStyle(fontSize: 20),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r"\s"))
+                        ],
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w400),
                         cursorColor: Colors.black,
                         cursorHeight: size.height * 0.03,
-                        controller: phoneController,
+                        controller: emailController,
                         decoration: InputDecoration(
                           fillColor: inputTextColor,
                           border: InputBorder.none,
@@ -112,13 +109,30 @@ class _PhoneLoginState extends State<PhoneLogin> {
                   ),
                 ),
                 SizedBox(
+                  height: size.height * 0.01,
+                ),
+                const Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'The Password Reset Link will be sent to your email',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+                SizedBox(
                   height: size.height * 0.04,
                 ),
                 ElevatedButton(
                   style: loginButtonStyle,
-                  onPressed: phoneSignIn,
+                  onPressed: () {
+                    forgotPassword(email: emailController.text);
+                    Navigator.pop(context);
+                  },
                   child: Text(
-                    'Send OTP',
+                    'Reset Password',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: buttonTextColor,

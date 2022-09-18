@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
-import 'package:notesapp/assets/colors/colors.dart';
+import 'package:notesapp/config/colors.dart';
 import 'package:provider/provider.dart';
 
 import '../../../domain/firebase_auth_methods.dart';

@@ -6,12 +6,12 @@ import 'package:line_icons/line_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:notesapp/screens/bookmarks/bookmarks.dart';
-import 'package:notesapp/screens/search/search.dart';
-import 'package:notesapp/widgets/coursePreview.dart';
+import 'package:notesapp/pages/bookmarks/bookmarks.dart';
+import 'package:notesapp/pages/search/search.dart';
+import 'package:notesapp/components/coursePreview.dart';
 import 'package:notesapp/models/courses.dart';
 
-import '../../widgets/notesPreview.dart';
+import '../../components/notesPreview.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

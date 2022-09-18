@@ -1,28 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:notesapp/assets/colors/colors.dart';
-import 'package:flutter/services.dart';
 
-class PasswordPage extends StatefulWidget {
-  const PasswordPage({super.key});
+import 'package:notesapp/domain/firebase_auth_methods.dart';
+import 'package:provider/provider.dart';
+
+import '../../../config/colors.dart';
+
+class PhoneLogin extends StatefulWidget {
+  const PhoneLogin({super.key});
 
   @override
-  State<PasswordPage> createState() => _PasswordPageState();
+  State<PhoneLogin> createState() => _PhoneLoginState();
 }
 
-class _PasswordPageState extends State<PasswordPage> {
-  var email;
-  final passwordController = TextEditingController();
-  var buttonColor = appGreyColor;
-  var buttonTextColor = appOtherGreyColor;
-  var inputTextColor = appGreyColor;
+class _PhoneLoginState extends State<PhoneLogin> {
+  var phoneController = TextEditingController();
+  
+  
   @override
   Widget build(BuildContext context) {
-    final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
-    var email = arguments['email'];
     var size = MediaQuery.of(context).size;
-    final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
 
-    if (passwordController.text.isEmpty) {
+    var buttonColor = appGreyColor;
+    var buttonTextColor = appOtherGreyColor;
+    var inputTextColor = appGreyColor;
+    void phoneSignIn() {
+      context
+          .read<FirebaseAuthMethods>()
+          .phoneSignIn(context, phoneController.text);
+    }
+
+    if (phoneController.text.isEmpty) {
       buttonColor = appGreyColor;
       buttonTextColor = appOtherGreyColor;
     } else {
@@ -57,15 +64,28 @@ class _PasswordPageState extends State<PasswordPage> {
             child: Column(
               children: [
                 SizedBox(
-                  height: size.height * 0.03,
+                  height: size.height * 0.07,
                 ),
                 const Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    'Enter your password',
+                    'Enter your phone number',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'Enter with your country code (Eg. +917XXXXXXX39)',
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
                 ),
@@ -82,12 +102,11 @@ class _PasswordPageState extends State<PasswordPage> {
                       padding:
                           const EdgeInsets.only(top: 8, left: 8, bottom: 16),
                       child: TextField(
-                        inputFormatters: [],
-                        // keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.phone,
                         style: const TextStyle(fontSize: 20),
                         cursorColor: Colors.black,
                         cursorHeight: size.height * 0.03,
-                        controller: passwordController,
+                        controller: phoneController,
                         decoration: InputDecoration(
                           fillColor: inputTextColor,
                           border: InputBorder.none,
@@ -101,14 +120,9 @@ class _PasswordPageState extends State<PasswordPage> {
                 ),
                 ElevatedButton(
                   style: loginButtonStyle,
-                  onPressed: () {
-                    if (passwordController.text.isNotEmpty) {
-                      Navigator.pushNamed(context, '/signup',
-                          arguments: {'email': email, 'password': passwordController.text});
-                    }
-                  },
+                  onPressed: phoneSignIn,
                   child: Text(
-                    'Next',
+                    'Send OTP',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: buttonTextColor,
