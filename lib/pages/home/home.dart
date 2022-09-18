@@ -1,11 +1,10 @@
 // ignore_for_file: prefer_const_constructors, unused_element
 
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:notesapp/config/colors.dart';
 import 'package:notesapp/pages/bookmarks/bookmarks.dart';
 import 'package:notesapp/pages/components/heading.dart';
@@ -13,6 +12,7 @@ import 'package:notesapp/pages/search/search.dart';
 import 'package:notesapp/pages/components/course_preview.dart';
 import 'package:notesapp/domain/courses.dart';
 
+import '../components/course_builder.dart';
 import '../components/notes_preview.dart';
 
 class HomePage extends StatefulWidget {
@@ -25,20 +25,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
   @override
-  static Future<List<Course>> getCourses() async {
-    const coursesDataJson =
-        'https://tanishq5414.github.io/apiNotesApp/courses1.json';
-    const NotesDataJson =
-        'https://tanishq5414.github.io/apiNotesApp/notes1.json';
-    final response = await http.get(Uri.parse(coursesDataJson));
-    if (response.statusCode == 200) {
-      final List jsonResponse = json.decode(response.body);
-      return jsonResponse.map((course) => Course.fromJson(course)).toList();
-    } else {
-      throw Exception('Failed to load courses from API');
-    }
-  }
-
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
@@ -124,33 +110,7 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: size.height * 0.03,
                   ),
-                  FutureBuilder<List<Course>>(
-                    future: getCourses(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return GridView.builder(
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio:
-                                size.width /
-                                    120),
-                          shrinkWrap: true,
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (context, index) {
-                            print(snapshot.data![index].name);
-                            return CoursePreview(
-                                size,
-                                snapshot.data![index].name,
-                                snapshot.data![index].courseImageUrl);
-                          },
-                        );
-                      } else if (snapshot.hasError) {
-                        return const Text('Error');
-                      }
-                      return const CircularProgressIndicator();
-                    },
-                  ),
+                  CourseBuilder(size),
                   SizedBox(
                     height: size.height * 0.03,
                   ),
@@ -351,6 +311,7 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
 
   String greeting() {
     var hour = DateTime.now().hour;
