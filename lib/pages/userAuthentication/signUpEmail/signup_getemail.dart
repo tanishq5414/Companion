@@ -26,7 +26,7 @@ class _EmailPageState extends State<EmailPage> {
       buttonTextColor = Colors.white;
     }
     final ButtonStyle loginButtonStyle = ElevatedButton.styleFrom(
-      primary: buttonColor,
+      backgroundColor: buttonColor,
       minimumSize: Size(size.width / 5.2, size.height / 22),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       shape: const RoundedRectangleBorder(
@@ -116,7 +116,6 @@ class _EmailPageState extends State<EmailPage> {
                     if (emailController.text.isNotEmpty) {
                       Navigator.pushNamed(context, '/passwordpage',
                           arguments: {'email': emailController.text});
-                      print(emailController.text);
                     }
                   },
                   child: Text(

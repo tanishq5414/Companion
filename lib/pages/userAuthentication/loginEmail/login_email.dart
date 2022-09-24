@@ -4,7 +4,7 @@ import 'package:line_icons/line_icon.dart';
 import 'package:notesapp/config/colors.dart';
 import 'package:provider/provider.dart';
 
-import '../../../domain/firebase_auth_methods.dart';
+import '../../../provider/firebase_auth_methods.dart';
 
 // FILE INFO:
 // This file displays the login page for email and signup
@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
     }
     // login button style
     final ButtonStyle loginButtonStyle = ElevatedButton.styleFrom(
-      primary: buttonColor,
+      backgroundColor: buttonColor,
       minimumSize: Size(size.width / 5.2, size.height / 22),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       shape: const RoundedRectangleBorder(
@@ -177,13 +177,11 @@ class _LoginPageState extends State<LoginPage> {
                         onTap: () {
                           Navigator.pushNamed(context, '/forgotpassword');
                         },
-                        child: Container(
-                          child: const Text('Forgot Password?',
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
-                              )),
-                        ),
+                        child: const Text('Forgot Password?',
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                            )),
                       ),
                     ),
                   ],

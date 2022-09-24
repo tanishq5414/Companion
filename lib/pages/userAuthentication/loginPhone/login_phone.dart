@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:notesapp/domain/firebase_auth_methods.dart';
+import 'package:notesapp/provider/firebase_auth_methods.dart';
 import 'package:provider/provider.dart';
 
 import '../../../config/colors.dart';
@@ -37,7 +37,7 @@ class _PhoneLoginState extends State<PhoneLogin> {
       buttonTextColor = Colors.white;
     }
     final ButtonStyle loginButtonStyle = ElevatedButton.styleFrom(
-      primary: buttonColor,
+      backgroundColor: buttonColor,
       minimumSize: Size(size.width / 5.2, size.height / 22),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       shape: const RoundedRectangleBorder(

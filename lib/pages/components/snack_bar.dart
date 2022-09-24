@@ -6,7 +6,7 @@ class Utils{
 
     final snackBar = SnackBar(
       content: Text(text),
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     );
     messengerKey.currentState!
       ..removeCurrentSnackBar()

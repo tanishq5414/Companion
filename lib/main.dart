@@ -5,14 +5,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:notesapp/pages/bookmarks/bookmarks.dart';
+import 'package:notesapp/pages/components/course_builder.dart';
 import 'package:notesapp/pages/components/snack_bar.dart';
+import 'package:notesapp/pages/notesView/notes_view.dart';
 import 'package:notesapp/pages/userAuthentication/loginEmail/forgot_password.dart';
 import 'package:notesapp/pages/userAuthentication/loginPhone/login_phone.dart';
 import 'package:notesapp/pages/userAuthentication/login_main.dart';
 import 'package:notesapp/pages/userAuthentication/signUpEmail/signup_getemail.dart';
 import 'package:notesapp/pages/userAuthentication/signUpEmail/signup_getpassword.dart';
+import 'package:notesapp/provider/get_courses.dart';
+import 'package:notesapp/provider/get_notes.dart';
 import 'package:provider/provider.dart';
-import 'domain/firebase_auth_methods.dart';
+import 'provider/firebase_auth_methods.dart';
 import 'pages/search/search.dart';
 import 'pages/userAuthentication/loginEmail/login_email.dart';
 import 'pages/userAuthentication/signUpEmail/signup_main.dart';
@@ -25,12 +29,14 @@ Future main() async {
   runApp(
     DevicePreview(
       enabled: false,
-      builder: (context) => MyApp(),
+      builder: (context) => const MyApp(),
     ),
   );
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -67,6 +73,17 @@ class _MyAppState extends State<MyApp> {
           create: (context) => context.read<FirebaseAuthMethods>().authState,
           initialData: null,
         ),
+        StreamProvider(
+          create: (BuildContext context) {
+            GetCourses.getCourses();
+          },
+          initialData: null,
+        ),
+        StreamProvider(
+            create: (BuildContext context) {
+              GetNotes.getNotes();
+            },
+            initialData: null),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -86,6 +103,7 @@ class _MyAppState extends State<MyApp> {
           '/emailpage': (context) => const EmailPage(),
           '/passwordpage': (context) => const PasswordPage(),
           '/forgotpassword': (context) => const ForgotPasswordPage(),
+          '/pdfview': (context) => PdfViewer(),
         },
         navigatorKey: _navigatorKey,
         initialRoute:

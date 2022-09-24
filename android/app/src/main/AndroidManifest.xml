@@ -7,7 +7,7 @@
     </queries>
 
    <application
-        android:label="notesapp"
+        android:label="Companion"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>

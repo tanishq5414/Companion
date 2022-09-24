@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:notesapp/domain/firebase_auth_methods.dart';
+import 'package:notesapp/provider/firebase_auth_methods.dart';
 import 'package:provider/provider.dart';
 class SettingsPage extends StatelessWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -48,18 +48,18 @@ class SettingsPage extends StatelessWidget {
             //     ),
             //   ),
             // ),
-            SizedBox(
+            const SizedBox(
               child: Card(
                 child: ListTile(
-                  title: const Text('Email'),
+                  title: Text('Email'),
                   // subtitle: Text(user!.email!),
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               child: Card(
                 child: ListTile(
-                  title: const Text('Phone Number'),
+                  title: Text('Phone Number'),
                   // subtitle: Text(userphoneNumber!),
                 ),
               ),
@@ -73,11 +73,11 @@ class SettingsPage extends StatelessWidget {
             ),
           ),
         ),
-        Spacer(),
-        SizedBox(
+        const Spacer(),
+        const SizedBox(
           child: Card(
             child: ListTile(
-              title: const Text('Earn Money'),
+              title: Text('Earn Money'),
               subtitle: Text('Upload Notes and Earn Money'),
             ),
           ),

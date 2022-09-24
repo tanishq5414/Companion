@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:notesapp/config/colors.dart';
-import 'package:flutter/services.dart';
 
 class PasswordPage extends StatefulWidget {
   const PasswordPage({super.key});
@@ -10,6 +9,7 @@ class PasswordPage extends StatefulWidget {
 }
 
 class _PasswordPageState extends State<PasswordPage> {
+  // ignore: prefer_typing_uninitialized_variables
   var email;
   final passwordController = TextEditingController();
   var buttonColor = appGreyColor;
@@ -20,7 +20,6 @@ class _PasswordPageState extends State<PasswordPage> {
     final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
     var email = arguments['email'];
     var size = MediaQuery.of(context).size;
-    final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
 
     if (passwordController.text.isEmpty) {
       buttonColor = appGreyColor;
@@ -30,7 +29,7 @@ class _PasswordPageState extends State<PasswordPage> {
       buttonTextColor = Colors.white;
     }
     final ButtonStyle loginButtonStyle = ElevatedButton.styleFrom(
-      primary: buttonColor,
+      backgroundColor: buttonColor,
       minimumSize: Size(size.width / 5.2, size.height / 22),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       shape: const RoundedRectangleBorder(
@@ -82,8 +81,7 @@ class _PasswordPageState extends State<PasswordPage> {
                       padding:
                           const EdgeInsets.only(top: 8, left: 8, bottom: 16),
                       child: TextField(
-                        inputFormatters: [],
-                        // keyboardType: TextInputType.number,
+                        inputFormatters: const [],
                         style: const TextStyle(fontSize: 20),
                         cursorColor: Colors.black,
                         cursorHeight: size.height * 0.03,

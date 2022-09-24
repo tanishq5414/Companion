@@ -3,7 +3,7 @@ import 'package:notesapp/config/colors.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import '../../../domain/firebase_auth_methods.dart';
+import '../../../provider/firebase_auth_methods.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -33,7 +33,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       buttonTextColor = Colors.white;
     }
     final ButtonStyle loginButtonStyle = ElevatedButton.styleFrom(
-      primary: buttonColor,
+      backgroundColor: buttonColor,
       minimumSize: Size(size.width / 5.2, size.height / 22),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       shape: const RoundedRectangleBorder(

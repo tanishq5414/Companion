@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:notesapp/config/colors.dart';
-import 'package:notesapp/domain/firebase_auth_methods.dart';
+import 'package:notesapp/provider/firebase_auth_methods.dart';
 import 'package:provider/provider.dart';
 
 
@@ -47,165 +47,164 @@ class LoginMain extends StatelessWidget {
       child: Stack(
         children: [
           Image.asset(
-            "lib/assets/pictures/background.png",
+            "assets/pictures/background.png",
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             fit: BoxFit.cover,
           ),
-          Container(
-            child: SafeArea(
-              child: Scaffold(
-                backgroundColor: Colors.transparent,
-                body: Center(
-                  child: SizedBox(
-                    height: size.height,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        SizedBox(
-                            width: size.width / 5,
-                            child: Image.asset(
-                                'lib/assets/pictures/myCompanion_icon_round.png')),
-                        SizedBox(
-                          height: size.height * 0.015,
-                        ),
-                        const Text('Get all your notes',
-                            style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black)),
-                        const Text('Free on myCompanion',
-                            style: TextStyle(
+          SafeArea(
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Center(
+                child: SizedBox(
+                  height: size.height,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                          width: size.width / 5,
+                          child: Image.asset(
+                              'assets/pictures/myCompanion_icon_round.png')),
+                      SizedBox(
+                        height: size.height * 0.015,
+                      ),
+                      const Text('Get all your notes',
+                          style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
-                            )),
-                        SizedBox(
-                          height: size.height * 0.03,
-                        ),
-                        SizedBox(
-                          width: size.width / 1.29,
-                          child: TextButton.icon(
-                            style: otherButtonStyle,
-                            icon: LineIcon.googlePlus(
-                              color: appWhiteColor,
-                            ),
-                            label: const Align(
-                              alignment: Alignment.topCenter,
-                              child: Text(
-                                'Continue with Google',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: appWhiteColor,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            onPressed: () {
-                              context
-                                  .read<FirebaseAuthMethods>()
-                                  .signInWithGoogle(context);
-                            },
+                              color: Colors.white)),
+                      const Text('Free on myCompanion',
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          )),
+                      SizedBox(
+                        height: size.height * 0.03,
+                      ),
+                      SizedBox(
+                        width: size.width / 1.29,
+                        child: TextButton.icon(
+                          style: otherButtonStyle,
+                          icon: LineIcon.googlePlus(
+                            color: appWhiteColor,
                           ),
-                        ),
-                        SizedBox(
-                          height: size.height * 0.01,
-                        ),
-                        SizedBox(
-                          width: size.width / 1.29,
-                          child: TextButton.icon(
-                            style: otherButtonStyle,
-                            icon: const Icon(
-                              Icons.facebook_rounded,
-                              color: appWhiteColor,
-                              size: 20,
-                            ),
-                            label: const Align(
-                              alignment: Alignment.topCenter,
-                              child: Text(
-                                'Continue with Facebook',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: appWhiteColor,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            onPressed: () {
-                              context
-                                  .read<FirebaseAuthMethods>()
-                                  .signInWithFacebook(context);
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          height: size.height * 0.01,
-                        ),
-                        SizedBox(
-                          width: size.width / 1.29,
-                          child: TextButton.icon(
-                            style: otherButtonStyle,
-                            icon: const Icon(
-                              Icons.phone_iphone_rounded,
-                              color: appWhiteColor,
-                              size: 20,
-                            ),
-                            label: const Align(
-                              alignment: Alignment.topCenter,
-                              child: Text(
-                                'Continue with Phone',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: appWhiteColor,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/phonelogin');
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          height: size.height * 0.01,
-                        ),
-                        ElevatedButton(
-                          style: signUpButtonStyle,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                width: size.width / 30,
-                              ),
-                              const Text(
-                                'Sign up for free',
-                                style: TextStyle(
-                                  color: Colors.black,
+                          label: const Align(
+                            alignment: Alignment.topCenter,
+                            child: Text(
+                              'Continue with Google',
+                              style: TextStyle(
                                   fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
+                                  color: appWhiteColor,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
                           onPressed: () {
-                            Navigator.pushNamed(context, '/emailpage');
+                            context
+                                .read<FirebaseAuthMethods>()
+                                .signInWithGoogle(context);
                           },
                         ),
-                        TextButton(
-                            style: TextButton.styleFrom(
-                              foregroundColor: Colors.transparent,
-                            ),
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/login');
-                            },
-                            child: const Text(
-                              'Log in',
+                      ),
+                      SizedBox(
+                        height: size.height * 0.01,
+                      ),
+                      SizedBox(
+                        width: size.width / 1.29,
+                        child: TextButton.icon(
+                          style: otherButtonStyle,
+                          icon: const Icon(
+                            Icons.facebook_rounded,
+                            color: appWhiteColor,
+                            size: 20,
+                          ),
+                          label: const Align(
+                            alignment: Alignment.topCenter,
+                            child: Text(
+                              'Continue with Facebook',
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
+                                  fontSize: 12,
+                                  color: appWhiteColor,
                                   fontWeight: FontWeight.bold),
-                            )),
-                        SizedBox(
-                          height: size.height * 0.05,
-                        )
-                      ],
-                    ),
+                            ),
+                          ),
+                          onPressed: () {
+                            context
+                                .read<FirebaseAuthMethods>()
+                                .signInWithFacebook(context);
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: size.height * 0.01,
+                      ),
+                      SizedBox(
+                        width: size.width / 1.29,
+                        child: TextButton.icon(
+                          style: otherButtonStyle,
+                          icon: const Icon(
+                            Icons.phone_iphone_rounded,
+                            color: appWhiteColor,
+                            size: 20,
+                          ),
+                          label: const Align(
+                            alignment: Alignment.topCenter,
+                            child: Text(
+                              'Continue with Phone',
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: appWhiteColor,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/phonelogin');
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: size.height * 0.01,
+                      ),
+                      ElevatedButton(
+                        style: signUpButtonStyle,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                              width: size.width / 30,
+                            ),
+                            const Text(
+                              'Sign up for free',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/emailpage');
+                        },
+                      ),
+                      TextButton(
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.transparent,
+                          ),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/login');
+                          },
+                          child: const Text(
+                            'Log in',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold),
+                          )),
+                      SizedBox(
+                        height: size.height * 0.05,
+                      )
+                    ],
                   ),
                 ),
               ),

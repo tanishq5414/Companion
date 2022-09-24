@@ -20,8 +20,8 @@ void showOTPDialog({
       ),
       actions: <Widget>[
         TextButton(
-          child: const Text("Done"),
           onPressed: onPressed,
+          child: const Text("Done"),
         )
       ],
     ),

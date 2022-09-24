@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notesapp/config/colors.dart';
-import 'package:notesapp/domain/firebase_auth_methods.dart';
+import 'package:notesapp/provider/firebase_auth_methods.dart';
 import 'package:provider/provider.dart';
 
 class SignupPage extends StatefulWidget {
@@ -16,7 +16,9 @@ class _SignupPageState extends State<SignupPage> {
   final fullNameController = TextEditingController();
   final phoneNumberController = TextEditingController();
 
+  // ignore: prefer_typing_uninitialized_variables
   var email;
+  // ignore: prefer_typing_uninitialized_variables
   var password;
 
   @override
@@ -38,16 +40,14 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    Color buttonColor, buttonTextColor;
+    Color buttonColor;
     if (fullNameController.text.isEmpty) {
       buttonColor = appGreyColor;
-      buttonTextColor = appOtherGreyColor;
     } else {
       buttonColor = Colors.black;
-      buttonTextColor = Colors.white;
     }
     final ButtonStyle loginButtonStyle = ElevatedButton.styleFrom(
-      primary: buttonColor,
+      backgroundColor: buttonColor,
       minimumSize: Size(size.width / 5.2, size.height / 22),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       shape: const RoundedRectangleBorder(
@@ -55,7 +55,6 @@ class _SignupPageState extends State<SignupPage> {
       ),
       elevation: 0,
     );
-    final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
     final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
     email = arguments['email'];
     password = arguments['password'];
@@ -119,11 +118,11 @@ class _SignupPageState extends State<SignupPage> {
                             padding: const EdgeInsets.only(
                                 top: 8, left: 8, bottom: 16),
                             child: TextField(
-                              style: TextStyle(fontSize: 20),
+                              style: const TextStyle(fontSize: 20),
                               cursorColor: Colors.black,
                               cursorHeight: size.height * 0.03,
                               controller: fullNameController,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 fillColor: appGreyColor,
                                 border: InputBorder.none,
                               ),
@@ -142,7 +141,7 @@ class _SignupPageState extends State<SignupPage> {
                                 color: Colors.black,
                                 fontWeight: FontWeight.w500)),
                       ),
-                      Divider(
+                      const Divider(
                         color: appGreyColor,
                       ),
                       const Align(

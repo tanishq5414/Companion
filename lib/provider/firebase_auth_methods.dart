@@ -5,7 +5,7 @@ import 'package:notesapp/pages/components/snack_bar.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../pages/components/otp_Box.dart';
+import '../pages/components/otp_box.dart';
 
 class FirebaseAuthMethods {
   final FirebaseAuth _auth;
@@ -35,13 +35,14 @@ class FirebaseAuthMethods {
       );
       User? user1 = result.user;
       user1?.updateDisplayName(fullName);
+      // ignore: use_build_context_synchronously
       await sendEmailVerification(context);
     } on FirebaseAuthException catch (e) {
       // if you want to display your own custom error message
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+        Utils.showSnackBar('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+        Utils.showSnackBar('The account already exists for that email.');
       }
       Utils.showSnackBar(
           e.message!); // Displaying the usual firebase error message
@@ -60,6 +61,7 @@ class FirebaseAuthMethods {
         password: password,
       );
       if (!user.emailVerified) {
+        // ignore: use_build_context_synchronously
         await sendEmailVerification(context);
         // restrict access to certain things using provider
         // transition to another page instead of home screen
@@ -113,6 +115,7 @@ class FirebaseAuthMethods {
             accessToken: googleAuth?.accessToken,
             idToken: googleAuth?.idToken,
           );
+          // ignore: unused_local_variable
           UserCredential userCredential =
               await _auth.signInWithCredential(credential);
 
@@ -125,7 +128,7 @@ class FirebaseAuthMethods {
       Utils.showSnackBar(e.message!); // Displaying the error message
     }
   }
-
+  
   // // FACEBOOK SIGN IN
   Future<void> signInWithFacebook(BuildContext context) async {
     try {
@@ -162,7 +165,9 @@ class FirebaseAuthMethods {
           );
 
           await _auth.signInWithCredential(credential);
+          // ignore: use_build_context_synchronously
           Navigator.of(context).pop(); // Remove the dialog box
+          // ignore: use_build_context_synchronously
           Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
         },
       );
@@ -192,7 +197,9 @@ class FirebaseAuthMethods {
 
               // !!! Works only on Android, iOS !!!
               await _auth.signInWithCredential(credential);
+              // ignore: use_build_context_synchronously
               Navigator.of(context).pop();
+              // ignore: use_build_context_synchronously
               Navigator.pushNamedAndRemoveUntil(
                   context, '/home', (route) => false); // Remove the dialog box
             },
