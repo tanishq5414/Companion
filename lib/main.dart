@@ -4,10 +4,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:notesapp/config/colors.dart';
 import 'package:notesapp/pages/bookmarks/bookmarks.dart';
-import 'package:notesapp/pages/components/course_builder.dart';
 import 'package:notesapp/pages/components/snack_bar.dart';
+import 'package:notesapp/pages/courseView/course_view.dart';
+import 'package:notesapp/pages/error/error_404.dart';
 import 'package:notesapp/pages/notesView/notes_view.dart';
+import 'package:notesapp/pages/settings/edit_profile.dart';
 import 'package:notesapp/pages/userAuthentication/loginEmail/forgot_password.dart';
 import 'package:notesapp/pages/userAuthentication/loginPhone/login_phone.dart';
 import 'package:notesapp/pages/userAuthentication/login_main.dart';
@@ -89,6 +92,9 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           fontFamily: 'Gotham',
+          primaryColor: Colors.black,
+          scaffoldBackgroundColor: appBackgroundColor,
+          primarySwatch: primaryBlack,
         ),
         scaffoldMessengerKey: Utils.messengerKey,
         routes: <String, WidgetBuilder>{
@@ -103,7 +109,9 @@ class _MyAppState extends State<MyApp> {
           '/emailpage': (context) => const EmailPage(),
           '/passwordpage': (context) => const PasswordPage(),
           '/forgotpassword': (context) => const ForgotPasswordPage(),
-          '/pdfview': (context) => PdfViewer(),
+          '/pdfview': (context) => NotesViewPage(),
+          '/courseview': (context) => CourseViewPage(),
+          '/editprofile': (context) => EditProfile(),
         },
         navigatorKey: _navigatorKey,
         initialRoute:
@@ -123,7 +131,7 @@ class _MyAppState extends State<MyApp> {
             default:
               return MaterialPageRoute(
                 settings: settings,
-                builder: (_) => const UnknownPage(),
+                builder: (_) => const Error404(),
               );
           }
         },

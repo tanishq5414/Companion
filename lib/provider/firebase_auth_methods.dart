@@ -128,7 +128,7 @@ class FirebaseAuthMethods {
       Utils.showSnackBar(e.message!); // Displaying the error message
     }
   }
-  
+
   // // FACEBOOK SIGN IN
   Future<void> signInWithFacebook(BuildContext context) async {
     try {
@@ -230,5 +230,22 @@ class FirebaseAuthMethods {
       // if an error of requires-recent-login is thrown, make sure to log
       // in user again and then delete account.
     }
+  }
+}
+
+// UPDATE NAME
+Future<void> updateName(BuildContext context, String name) async {
+  try {
+    await FirebaseAuth.instance.currentUser!.updateDisplayName(
+      name,
+    );
+    // ignore: use_build_context_synchronously
+    Navigator.of(context).pop();
+    // ignore: use_build_context_synchronously
+    Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+    // Navigator.pushNamed(context, '/settings');
+    // Navigator.popAndPushNamed(context, '/home');
+  } on FirebaseAuthException catch (e) {
+    Utils.showSnackBar(e.message!); // Displaying the error message
   }
 }

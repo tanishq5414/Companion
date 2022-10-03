@@ -11,7 +11,7 @@ FutureBuilder<List<Notes>> notesBuilder(Size size) {
       if (snapshot.hasData) {
         var i = 0;
         return SizedBox(
-          height: size.width * 0.34,
+          height: size.width * 0.43,
           child: ListView.builder(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
@@ -30,7 +30,6 @@ FutureBuilder<List<Notes>> notesBuilder(Size size) {
                 version: snapshot.data![index].version,
                 unit: snapshot.data![index].unit,
                 wdlink: snapshot.data![index].wdlink,
-                index: i,
               );
             },
           ),

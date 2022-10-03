@@ -47,7 +47,7 @@ class LoginMain extends StatelessWidget {
       child: Stack(
         children: [
           Image.asset(
-            "assets/pictures/background.png",
+            "assets/pictures/background2.png",
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             fit: BoxFit.cover,
@@ -73,7 +73,7 @@ class LoginMain extends StatelessWidget {
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
                               color: Colors.white)),
-                      const Text('Free on myCompanion',
+                      const Text('Free on Companion',
                           style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
@@ -84,20 +84,29 @@ class LoginMain extends StatelessWidget {
                       ),
                       SizedBox(
                         width: size.width / 1.29,
-                        child: TextButton.icon(
+                        child: TextButton(
                           style: otherButtonStyle,
-                          icon: LineIcon.googlePlus(
-                            color: appWhiteColor,
-                          ),
-                          label: const Align(
-                            alignment: Alignment.topCenter,
-                            child: Text(
-                              'Continue with Google',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: appWhiteColor,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                          // icon: LineIcon.googlePlus(
+                          //   color: appWhiteColor,
+                          // ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Text(
+                                'Continue with ',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: appWhiteColor,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                'Google',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
                           ),
                           onPressed: () {
                             context
@@ -111,22 +120,31 @@ class LoginMain extends StatelessWidget {
                       ),
                       SizedBox(
                         width: size.width / 1.29,
-                        child: TextButton.icon(
+                        child: TextButton(
                           style: otherButtonStyle,
-                          icon: const Icon(
-                            Icons.facebook_rounded,
-                            color: appWhiteColor,
-                            size: 20,
-                          ),
-                          label: const Align(
-                            alignment: Alignment.topCenter,
-                            child: Text(
-                              'Continue with Facebook',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: appWhiteColor,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                          // icon: const Icon(
+                          //   Icons.facebook_rounded,
+                          //   color: appWhiteColor,
+                          //   size: 20,
+                          // ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Text(
+                                'Continue with ',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: appWhiteColor,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                'Facebook',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
                           ),
                           onPressed: () {
                             context
@@ -140,22 +158,31 @@ class LoginMain extends StatelessWidget {
                       ),
                       SizedBox(
                         width: size.width / 1.29,
-                        child: TextButton.icon(
+                        child: TextButton(
                           style: otherButtonStyle,
-                          icon: const Icon(
-                            Icons.phone_iphone_rounded,
-                            color: appWhiteColor,
-                            size: 20,
-                          ),
-                          label: const Align(
-                            alignment: Alignment.topCenter,
-                            child: Text(
-                              'Continue with Phone',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: appWhiteColor,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                          // icon: const Icon(
+                          //   Icons.phone_iphone_rounded,
+                          //   color: appWhiteColor,
+                          //   size: 20,
+                          // ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Text(
+                                'Continue with ',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: appWhiteColor,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                'Phone',
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.greenAccent,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
                           ),
                           onPressed: () {
                             Navigator.pushNamed(context, '/phonelogin');

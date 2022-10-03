@@ -13,7 +13,7 @@ class TextHeading extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: Text(heading,
           style: const TextStyle(
-            color: Colors.black,
+            color: Colors.white,
             fontSize: 20,
             fontWeight: FontWeight.bold,
           )),
