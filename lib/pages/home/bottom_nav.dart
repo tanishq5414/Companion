@@ -22,6 +22,7 @@ class _AppBottomNavigatorState extends State<AppBottomNavigator> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           pages[selectedIndex],
@@ -38,6 +39,7 @@ class _AppBottomNavigatorState extends State<AppBottomNavigator> {
                         Colors.transparent,
                       ]),),
               child: BottomNavigationBar(
+
                 selectedItemColor: appAccentColor,
                 unselectedItemColor: appWhiteColor,
                 showSelectedLabels: false,

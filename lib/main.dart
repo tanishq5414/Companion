@@ -11,6 +11,7 @@ import 'package:notesapp/pages/courseView/course_view.dart';
 import 'package:notesapp/pages/error/error_404.dart';
 import 'package:notesapp/pages/home/bottom_nav.dart';
 import 'package:notesapp/pages/notesView/notes_view.dart';
+import 'package:notesapp/pages/search/main_search.dart';
 import 'package:notesapp/pages/settings/edit_profile.dart';
 import 'package:notesapp/pages/userAuthentication/loginEmail/forgot_password.dart';
 import 'package:notesapp/pages/userAuthentication/loginPhone/login_phone.dart';
@@ -95,6 +96,11 @@ class _MyAppState extends State<MyApp> {
           fontFamily: 'Gotham',
           primaryColor: Colors.black,
           scaffoldBackgroundColor: appBackgroundColor,
+          textSelectionTheme: TextSelectionThemeData(
+            cursorColor: appBlackColor,
+            selectionColor: appAccentColor,
+            selectionHandleColor: Colors.black,
+          ),
           primarySwatch: primaryBlack,
         ),
         scaffoldMessengerKey: Utils.messengerKey,
@@ -113,6 +119,8 @@ class _MyAppState extends State<MyApp> {
           '/pdfview': (context) => NotesViewPage(),
           '/courseview': (context) => CourseViewPage(),
           '/editprofile': (context) => EditProfile(),
+          '/error404': (context) => const Error404(),
+          '/mainsearch': (context) => const MainSearchPage(),
         },
         navigatorKey: _navigatorKey,
         initialRoute:
