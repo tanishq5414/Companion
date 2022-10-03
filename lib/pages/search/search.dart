@@ -1,13 +1,13 @@
 //flutter screen with a search bar
 import 'package:flutter/material.dart';
 
-class Search extends StatefulWidget {
-  const Search({Key? key}) : super(key: key);
+class SearchPage extends StatefulWidget {
+  const SearchPage({Key? key}) : super(key: key);
   @override
-  State<Search> createState() => _SearchState();
+  State<SearchPage> createState() => _SearchPageState();
 }
 
-class _SearchState extends State<Search> {
+class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Navigator(
@@ -16,7 +16,11 @@ class _SearchState extends State<Search> {
           settings: settings,
           builder: (BuildContext context) => Scaffold(
             appBar: AppBar(
-              leading: IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_left_outlined)),
+              leading: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Icons.arrow_left_outlined)),
             ),
             body: Center(
               child: Text('Search'),

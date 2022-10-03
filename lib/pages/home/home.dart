@@ -18,21 +18,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int selectedIndex = 0;
-  void _onItemTapped(int index) {
-    switch (index) {
-      case 0:
-        HomePage();
-        break;
-      case 1:
-        Search();
-        break;
-      case 2:
-        BookmarkPage();
-        break;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -185,40 +170,6 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ],
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    color: Colors.black.withOpacity(0.9),
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                          left: size.width * 0.1, right: size.width * 0.1),
-                      child: BottomNavigationBar(
-                        backgroundColor: Colors.transparent,
-                        selectedIconTheme: IconThemeData(color: appAccentColor),
-                        unselectedIconTheme: IconThemeData(color: Colors.grey),
-                        showSelectedLabels: false,
-                        showUnselectedLabels: false,
-                        elevation: 0,
-                        items: const <BottomNavigationBarItem>[
-                          BottomNavigationBarItem(
-                            icon: Icon(Icons.home),
-                            label: 'Home',
-                          ),
-                          BottomNavigationBarItem(
-                            icon: Icon(Icons.search),
-                            label: 'Search',
-                          ),
-                          BottomNavigationBarItem(
-                            icon: Icon(Icons.bookmark),
-                            label: 'Bookmarks',
-                          ),
-                        ],
-                        currentIndex: selectedIndex,
-                        onTap: _onItemTapped,
-                      ),
-                    ),
                   ),
                 ),
               ],

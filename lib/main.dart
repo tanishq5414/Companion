@@ -9,6 +9,7 @@ import 'package:notesapp/pages/bookmarks/bookmarks.dart';
 import 'package:notesapp/pages/components/snack_bar.dart';
 import 'package:notesapp/pages/courseView/course_view.dart';
 import 'package:notesapp/pages/error/error_404.dart';
+import 'package:notesapp/pages/home/bottom_nav.dart';
 import 'package:notesapp/pages/notesView/notes_view.dart';
 import 'package:notesapp/pages/settings/edit_profile.dart';
 import 'package:notesapp/pages/userAuthentication/loginEmail/forgot_password.dart';
@@ -98,14 +99,14 @@ class _MyAppState extends State<MyApp> {
         ),
         scaffoldMessengerKey: Utils.messengerKey,
         routes: <String, WidgetBuilder>{
-          '/search': (context) => const Search(),
+          '/search': (context) => const SearchPage(),
           '/login': (context) => const LoginPage(),
           '/phonelogin': (context) => const PhoneLogin(),
           '/start': (context) => const LoginMain(),
           '/signup': (context) => const SignupPage(),
           '/home': (context) => const HomePage(),
           '/settings': (context) => const SettingsPage(),
-          '/bookmarks': (context) => const BookmarkPage(),
+          '/bookmarks': (context) => const BookmarksPage(),
           '/emailpage': (context) => const EmailPage(),
           '/passwordpage': (context) => const PasswordPage(),
           '/forgotpassword': (context) => const ForgotPasswordPage(),
@@ -121,7 +122,7 @@ class _MyAppState extends State<MyApp> {
             case 'home':
               return MaterialPageRoute(
                 settings: settings,
-                builder: (_) => const HomePage(),
+                builder: (_) => const AppBottomNavigator(),
               );
             case 'login':
               return MaterialPageRoute(

@@ -7,14 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class BookmarkPage extends StatefulWidget {
-  const BookmarkPage({Key? key}) : super(key: key);
+class BookmarksPage extends StatefulWidget {
+  const BookmarksPage({Key? key}) : super(key: key);
 
   @override
-  State<BookmarkPage> createState() => _BookmarkPageState();
+  State<BookmarksPage> createState() => _BookmarksPageState();
 }
 
-class _BookmarkPageState extends State<BookmarkPage> {
+class _BookmarksPageState extends State<BookmarksPage> {
   final user = FirebaseAuth.instance.currentUser;
   int selected = 2;
   static const TextStyle optionStyle =
@@ -74,8 +74,9 @@ class _BookmarkPageState extends State<BookmarkPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      
-                      Text(FirebaseAuth.instance.currentUser!.displayName.toString(),
+                      Text(
+                          FirebaseAuth.instance.currentUser!.displayName
+                              .toString(),
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold)),
                       const Spacer(),
