@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:notesapp/config/colors.dart';
-import 'package:flutter/services.dart';
+// import 'package:flutter/services.dart';
+import 'package:notesapp/pages/components/custom_appbar.dart';
 import 'package:provider/provider.dart';
 
 import '../../../provider/firebase_auth_methods.dart';
+import '../components/custom_subtitle.dart';
+import '../components/custom_title.dart';
+import '../components/text_field.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -20,19 +24,20 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   @override
   Widget build(BuildContext context) {
     void forgotPassword({
-    required String email,
-  }){
-    context.read<FirebaseAuthMethods>().resetPassword(email: email);
-  }
+      required String email,
+    }) {
+      context.read<FirebaseAuthMethods>().resetPassword(email: email);
+    }
+
     var size = MediaQuery.of(context).size;
     if (emailController.text.isEmpty) {
-      buttonColor = appGreyColor;
-      buttonTextColor = appOtherGreyColor;
+      buttonColor = appBackgroundColor;
+      buttonTextColor = appWhiteColor;
     } else {
-      buttonColor = Colors.black;
-      buttonTextColor = Colors.white;
+      buttonColor = appWhiteColor;
+      buttonTextColor = appBlackColor;
     }
-    final ButtonStyle loginButtonStyle = ElevatedButton.styleFrom(
+    final ButtonStyle resetButtonStyle = ElevatedButton.styleFrom(
       backgroundColor: buttonColor,
       minimumSize: Size(size.width / 5.2, size.height / 22),
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -42,23 +47,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       elevation: 0,
     );
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          title: const Text('Forgot Password',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              )),
-          elevation: 0,
-          centerTitle: true,
+        appBar: CustomAppBar(
+          title: 'Forgot password',
         ),
         body: Padding(
           padding: EdgeInsets.only(
@@ -69,64 +59,26 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 SizedBox(
                   height: size.height * 0.03,
                 ),
-                const Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Enter your email',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                CustomHeading(title: 'Enter your email'),
+                SizedBox(
+                  height: size.height * 0.01,
+                ),
+                CustomTextField(
+                  size: size,
+                  // inputTextColor: inputTextColor,
+                  inputController: emailController,
                 ),
                 SizedBox(
                   height: size.height * 0.01,
                 ),
-                SizedBox(
-                  height: size.height * 0.06,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(3),
-                        color: inputTextColor),
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(top: 8, left: 8, bottom: 16),
-                      child: TextField(
-                        inputFormatters: [
-                          FilteringTextInputFormatter.deny(RegExp(r"\s"))
-                        ],
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w400),
-                        cursorColor: Colors.black,
-                        cursorHeight: size.height * 0.03,
-                        controller: emailController,
-                        decoration: InputDecoration(
-                          fillColor: inputTextColor,
-                          border: InputBorder.none,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: size.height * 0.01,
-                ),
-                const Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'The Password Reset Link will be sent to your email',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
+                CustomSubtitle(
+                  text: 'We will send you a link to reset your password',
                 ),
                 SizedBox(
                   height: size.height * 0.04,
-                ),
+                ),  
                 ElevatedButton(
-                  style: loginButtonStyle,
+                  style: resetButtonStyle,
                   onPressed: () {
                     forgotPassword(email: emailController.text);
                     Navigator.pop(context);

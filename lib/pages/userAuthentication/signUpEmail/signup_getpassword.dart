@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:notesapp/config/colors.dart';
+import 'package:notesapp/pages/components/custom_appbar.dart';
+import 'package:notesapp/pages/userAuthentication/components/custom_title.dart';
+import 'package:notesapp/pages/userAuthentication/components/text_field.dart';
 
 class PasswordPage extends StatefulWidget {
   const PasswordPage({super.key});
@@ -37,85 +40,56 @@ class _PasswordPageState extends State<PasswordPage> {
       ),
       elevation: 0,
     );
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          elevation: 0,
-        ),
-        body: Padding(
-          padding: EdgeInsets.only(
-              left: size.width * 0.025, right: size.width * 0.025),
-          child: Center(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: size.height * 0.03,
-                ),
-                const Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Enter your password',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+    return Container(
+      color: appBackgroundColor,
+      child: SafeArea(
+        child: Scaffold(
+            appBar: CustomAppBar(
+              title: 'Signup',
+            ),
+            body: Padding(
+              padding: EdgeInsets.only(
+                  left: size.width * 0.025, right: size.width * 0.025),
+              child: Center(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: size.height * 0.03,
                     ),
-                  ),
-                ),
-                SizedBox(
-                  height: size.height * 0.01,
-                ),
-                SizedBox(
-                  height: size.height * 0.06,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(3),
-                        color: inputTextColor),
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(top: 8, left: 8, bottom: 16),
-                      child: TextField(
-                        inputFormatters: const [],
-                        style: const TextStyle(fontSize: 20),
-                        cursorColor: Colors.black,
-                        cursorHeight: size.height * 0.03,
-                        controller: passwordController,
-                        decoration: InputDecoration(
-                          fillColor: inputTextColor,
-                          border: InputBorder.none,
+                    CustomHeading(
+                      title: 'Create a password',
+                    ),
+                    SizedBox(
+                      height: size.height * 0.01,
+                    ),
+                    SizedBox(
+                      height: size.height * 0.06,
+                      child: CustomTextField(inputController: passwordController,size: size,),
+                    ),
+                    SizedBox(
+                      height: size.height * 0.04,
+                    ),
+                    ElevatedButton(
+                      style: loginButtonStyle,
+                      onPressed: () {
+                        if (passwordController.text.isNotEmpty) {
+                          Navigator.pushNamed(context, '/signup',
+                              arguments: {'email': email, 'password': passwordController.text});
+                        }
+                      },
+                      child: Text(
+                        'Next',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: buttonTextColor,
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-                SizedBox(
-                  height: size.height * 0.04,
-                ),
-                ElevatedButton(
-                  style: loginButtonStyle,
-                  onPressed: () {
-                    if (passwordController.text.isNotEmpty) {
-                      Navigator.pushNamed(context, '/signup',
-                          arguments: {'email': email, 'password': passwordController.text});
-                    }
-                  },
-                  child: Text(
-                    'Next',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: buttonTextColor,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ));
+              ),
+            )),
+      ),
+    );
   }
 }

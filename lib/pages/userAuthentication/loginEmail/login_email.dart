@@ -2,6 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:notesapp/config/colors.dart';
+import 'package:notesapp/pages/components/custom_appbar.dart';
+import 'package:notesapp/pages/userAuthentication/components/custom_title.dart';
+import 'package:notesapp/pages/userAuthentication/components/text_field.dart';
 import 'package:provider/provider.dart';
 
 import '../../../provider/firebase_auth_methods.dart';
@@ -33,11 +36,11 @@ class _LoginPageState extends State<LoginPage> {
     var inputTextColor = appGreyColor;
     //logic to change login button color if email and password pages are filled
     if (emailController.text.isEmpty || passwordController.text.isEmpty) {
-      buttonColor = appGreyColor;
-      buttonTextColor = appOtherGreyColor;
+      buttonColor = appBackgroundColor;
+      buttonTextColor = appWhiteColor;
     } else {
-      buttonColor = Colors.black;
-      buttonTextColor = Colors.white;
+      buttonColor = appGreyColor;
+      buttonTextColor = appBlackColor;
     }
     // login button style
     final ButtonStyle loginButtonStyle = ElevatedButton.styleFrom(
@@ -60,23 +63,12 @@ class _LoginPageState extends State<LoginPage> {
 
     //UI Starts
     return Container(
-      color: Colors.white,
+      color: appBackgroundColor,
       child: SafeArea(
         child: Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            leading: IconButton(
-              icon: LineIcon.arrowLeft(
-                color: Colors.black,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            backgroundColor: appWhiteColor,
-          ),
+          backgroundColor: appBackgroundColor,
+          appBar: CustomAppBar(title: 'Login',),
           resizeToAvoidBottomInset: false,
-          backgroundColor: appWhiteColor,
           body: Padding(
             padding: EdgeInsets.only(
                 left: size.width * 0.025, right: size.width * 0.025),
@@ -84,72 +76,18 @@ class _LoginPageState extends State<LoginPage> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Email',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
-                          ),
-                        )),
+                    CustomHeading(title: 'Email'),
                     SizedBox(
                       height: size.height * 0.06,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            color: inputTextColor),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 8, left: 8, bottom: 16),
-                          child: TextField(
-                            style: const TextStyle(fontSize: 20),
-                            cursorColor: Colors.black,
-                            cursorHeight: size.height * 0.03,
-                            controller: emailController,
-                            decoration: InputDecoration(
-                              fillColor: inputTextColor,
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ),
+                      child: CustomTextField(inputController: emailController,size: size,)
                     ),
                     SizedBox(
                       height: size.height * 0.04,
                     ),
-                    const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Password',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
-                          ),
-                        )),
+                    CustomHeading(title: 'Password'),
                     SizedBox(
                       height: size.height * 0.07,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(3),
-                            color: appGreyColor),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 8, left: 8, bottom: 16),
-                          child: TextField(
-                            obscureText: true,
-                            controller: passwordController,
-                            cursorColor: Colors.black,
-                            cursorHeight: size.height * 0.03,
-                            style: const TextStyle(
-                                fontSize: 20, color: Colors.black),
-                            decoration: const InputDecoration(
-                              fillColor: appGreyColor,
-                              border: InputBorder.none,
-                            ),
-                          ),
-                        ),
-                      ),
+                      child: CustomTextField(inputController: passwordController,size: size,) 
                     ),
                     SizedBox(
                       height: size.height * 0.009,
@@ -180,6 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: const Text('Forgot Password?',
                             style: TextStyle(
                               fontSize: 10,
+                              color: appWhiteColor,
                               fontWeight: FontWeight.bold,
                             )),
                       ),

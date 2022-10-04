@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:notesapp/config/colors.dart';
 import 'package:flutter/services.dart';
+import 'package:notesapp/pages/components/custom_appbar.dart';
+import 'package:notesapp/pages/userAuthentication/components/custom_subtitle.dart';
+import 'package:notesapp/pages/userAuthentication/components/custom_title.dart';
+import 'package:notesapp/pages/userAuthentication/components/text_field.dart';
 
 class EmailPage extends StatefulWidget {
   const EmailPage({super.key});
@@ -18,7 +22,7 @@ class _EmailPageState extends State<EmailPage> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    if (emailController.text.isEmpty) {
+    if (emailController.text.isEmpty || emailController.text.contains('@') == false) {
       buttonColor = appGreyColor;
       buttonTextColor = appOtherGreyColor;
     } else {
@@ -34,101 +38,62 @@ class _EmailPageState extends State<EmailPage> {
       ),
       elevation: 0,
     );
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          elevation: 0,
-        ),
-        body: Padding(
-          padding: EdgeInsets.only(
-              left: size.width * 0.025, right: size.width * 0.025),
-          child: Center(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: size.height * 0.03,
-                ),
-                const Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'Enter your email',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+    return Container(
+      color: appBackgroundColor,
+      child: SafeArea(
+        child: Scaffold(
+            appBar: CustomAppBar(
+              title: 'Signup',
+            ),
+            body: Padding(
+              padding: EdgeInsets.only(
+                  left: size.width * 0.025, right: size.width * 0.025),
+              child: Center(
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: size.height * 0.03,
                     ),
-                  ),
-                ),
-                SizedBox(
-                  height: size.height * 0.01,
-                ),
-                SizedBox(
-                  height: size.height * 0.06,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(3),
-                        color: inputTextColor),
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(top: 8, left: 8, bottom: 16),
-                      child: TextField(
-                        inputFormatters: [
-                          FilteringTextInputFormatter.deny(RegExp(r"\s"))
-                        ],
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w400),
-                        cursorColor: Colors.black,
-                        cursorHeight: size.height * 0.03,
-                        controller: emailController,
-                        decoration: InputDecoration(
-                          fillColor: inputTextColor,
-                          border: InputBorder.none,
+                    CustomHeading(title: 'Enter your Email'),
+                    SizedBox(
+                      height: size.height * 0.01,
+                    ),
+                    SizedBox(
+                      height: size.height * 0.06,
+                      child: CustomTextField(
+                        inputController: emailController,
+                        size: size,
+                      ),
+                    ),
+                    SizedBox(
+                      height: size.height * 0.01,
+                    ),
+                    CustomSubtitle(text: 'You will need to verify your email'),
+                    SizedBox(
+                      height: size.height * 0.04,
+                    ),
+                    ElevatedButton(
+                      style: loginButtonStyle,
+                      onPressed: () {
+                        if (emailController.text.isNotEmpty &&
+                            emailController.text.contains('@')) {
+                          Navigator.pushNamed(context, '/passwordpage',
+                              arguments: {'email': emailController.text});
+                        }
+                      },
+                      child: Text(
+                        'Next',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: buttonTextColor,
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-                SizedBox(
-                  height: size.height * 0.01,
-                ),
-                const Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    'You will need to confirm this later',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: size.height * 0.04,
-                ),
-                ElevatedButton(
-                  style: loginButtonStyle,
-                  onPressed: () {
-                    if (emailController.text.isNotEmpty) {
-                      Navigator.pushNamed(context, '/passwordpage',
-                          arguments: {'email': emailController.text});
-                    }
-                  },
-                  child: Text(
-                    'Next',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: buttonTextColor,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ));
+              ),
+            )),
+      ),
+    );
   }
 }

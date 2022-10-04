@@ -42,6 +42,7 @@ dependencies:
   provider: ^6.0.3
   flutter_launcher_icons: ^0.10.0
   syncfusion_flutter_pdfviewer: ^20.2.50-beta
+  flutter_windowmanager: ^0.2.0
 
 dev_dependencies:
   flutter_test:
