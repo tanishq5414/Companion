@@ -1,0 +1,3 @@
+//xml export to keys variables
+$facebook_app_id = $xml->facebook->app_id;
+$facebook_app_secret = $xml->facebook->app_secret;

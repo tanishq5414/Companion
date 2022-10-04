@@ -33,7 +33,7 @@ Future main() async {
   await Firebase.initializeApp();
   runApp(
     DevicePreview(
-      enabled: false,
+      enabled: true,
       builder: (context) => const MyApp(),
     ),
   );
@@ -96,7 +96,7 @@ class _MyAppState extends State<MyApp> {
           fontFamily: 'Gotham',
           primaryColor: Colors.black,
           scaffoldBackgroundColor: appBackgroundColor,
-          textSelectionTheme: TextSelectionThemeData(
+          textSelectionTheme: const TextSelectionThemeData(
             cursorColor: appBlackColor,
             selectionColor: appAccentColor,
             selectionHandleColor: Colors.black,
