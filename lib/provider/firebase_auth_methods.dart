@@ -55,19 +55,20 @@ class FirebaseAuthMethods {
     required String password,
     required BuildContext context,
   }) async {
+    await _auth.signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
     try {
-      await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
       if (!user.emailVerified) {
         // ignore: use_build_context_synchronously
         await sendEmailVerification(context);
+        Utils.showSnackBar('Please verify your email first. Verification link sent to $email');
         // restrict access to certain things using provider
         // transition to another page instead of home screen
       }
     } on FirebaseAuthException catch (e) {
-      Utils.showSnackBar(e.message!); // Displaying the error message
+      Utils.showSnackBar(e.message!);// Displaying the error message
     }
   }
 
@@ -231,21 +232,42 @@ class FirebaseAuthMethods {
       // in user again and then delete account.
     }
   }
-}
+
 
 // UPDATE NAME
-Future<void> updateName(BuildContext context, String name) async {
-  try {
-    await FirebaseAuth.instance.currentUser!.updateDisplayName(
-      name,
-    );
-    // ignore: use_build_context_synchronously
-    Navigator.of(context).pop();
-    // ignore: use_build_context_synchronously
-    Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-    // Navigator.pushNamed(context, '/settings');
-    // Navigator.popAndPushNamed(context, '/home');
-  } on FirebaseAuthException catch (e) {
-    Utils.showSnackBar(e.message!); // Displaying the error message
+  Future<void> updateName(BuildContext context, String name) async {
+    try {
+      await FirebaseAuth.instance.currentUser!.updateDisplayName(
+        name,
+      );
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pop();
+      // ignore: use_build_context_synchronously
+      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+      // Navigator.pushNamed(context, '/settings');
+      // Navigator.popAndPushNamed(context, '/home');
+    } on FirebaseAuthException catch (e) {
+      Utils.showSnackBar(e.message!); // Displaying the error message
+    }
+  }
+
+// UPDATE EMAIL
+  Future<void> updateEmail(
+      BuildContext context, String newemail, String password) async {
+      var email = FirebaseAuth.instance.currentUser!.email.toString();
+    await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email.toString(), password: password.toString());
+    try {
+      
+      await FirebaseAuth.instance.currentUser!.updateEmail(
+        newemail,
+      );
+      await FirebaseAuth.instance.currentUser!.sendEmailVerification();
+      Utils.showSnackBar(
+          'Email updated successfully. Please verify your new email.');
+      await FirebaseAuth.instance.signOut();
+    } on FirebaseAuthException catch (e) {
+      Utils.showSnackBar(e.message!); // Displaying the error message
+    }
   }
 }

@@ -13,6 +13,7 @@ import 'package:notesapp/pages/home/bottom_nav.dart';
 import 'package:notesapp/pages/notesView/notes_view.dart';
 import 'package:notesapp/pages/search/main_search.dart';
 import 'package:notesapp/pages/settings/edit_profile.dart';
+import 'package:notesapp/pages/userAuthentication/changeEmail/changeEmail.dart';
 import 'package:notesapp/pages/userAuthentication/loginEmail/forgot_password.dart';
 import 'package:notesapp/pages/userAuthentication/loginPhone/login_phone.dart';
 import 'package:notesapp/pages/userAuthentication/login_main.dart';
@@ -116,11 +117,12 @@ class _MyAppState extends State<MyApp> {
           '/emailpage': (context) => const EmailPage(),
           '/passwordpage': (context) => const PasswordPage(),
           '/forgotpassword': (context) => const ForgotPasswordPage(),
-          '/pdfview': (context) => NotesViewPage(),
-          '/courseview': (context) => CourseViewPage(),
+          '/pdfview': (context) => const NotesViewPage(),
+          '/courseview': (context) => const CourseViewPage(),
           '/editprofile': (context) => EditProfile(),
           '/error404': (context) => const Error404(),
           '/mainsearch': (context) => const MainSearchPage(),
+          '/changeemail': (context) => const ChangeEmailPage(),
         },
         navigatorKey: _navigatorKey,
         initialRoute:
@@ -149,42 +151,30 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-class UnknownPage extends StatefulWidget {
-  const UnknownPage({Key? key}) : super(key: key);
-
-  @override
-  _UnknownPageState createState() => _UnknownPageState();
-}
-
-class _UnknownPageState extends State<UnknownPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(color: Colors.red);
-  }
-}
-
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (snapshot.hasData) {
-              return const HomePage();
-            } else if (snapshot.hasError) {
-              return const Center(
-                child: Text('Something went wrong'),
-              );
-            } else {
-              return const LoginMain();
-            }
-          },
-        ),
-      );
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasData) {
+            return const HomePage();
+          } else if (snapshot.hasError) {
+            return const Center(
+              child: Text('Something went wrong'),
+            );
+          } else {
+            return const LoginMain();
+          }
+        },
+      ),
+    );
+  }
 }

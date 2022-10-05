@@ -117,11 +117,7 @@ class SettingsPage extends StatelessWidget {
                     title: 'Email',
                     subtitle: email,
                     onpressed: () {
-                      if (email == "update your email") {
-                        Navigator.pushNamed(context, '/updateprofile');
-                      } else {
-                        print('email already updated');
-                      }
+                        Navigator.pushNamed(context, '/changeemail');
                     },
                   ),
                   DisplayTile(

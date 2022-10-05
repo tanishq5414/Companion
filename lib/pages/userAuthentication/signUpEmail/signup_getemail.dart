@@ -23,11 +23,11 @@ class _EmailPageState extends State<EmailPage> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     if (emailController.text.isEmpty || emailController.text.contains('@') == false) {
-      buttonColor = appGreyColor;
-      buttonTextColor = appOtherGreyColor;
+      buttonColor = appBackgroundColor;
+      buttonTextColor = appWhiteColor;
     } else {
-      buttonColor = Colors.black;
-      buttonTextColor = Colors.white;
+      buttonColor = appWhiteColor;
+      buttonTextColor = appBlackColor;
     }
     final ButtonStyle loginButtonStyle = ElevatedButton.styleFrom(
       backgroundColor: buttonColor,

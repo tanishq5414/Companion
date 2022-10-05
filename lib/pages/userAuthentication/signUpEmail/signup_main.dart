@@ -44,10 +44,13 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     Color buttonColor;
+    Color buttonTextColor;
     if (fullNameController.text.isEmpty) {
       buttonColor = appBlackColor;
+      buttonTextColor = appWhiteColor;
     } else {
-      buttonColor = appGreyColor;
+      buttonColor = appWhiteColor;
+      buttonTextColor = appBlackColor;
     }
     final ButtonStyle loginButtonStyle = ElevatedButton.styleFrom(
       backgroundColor: buttonColor,
@@ -116,10 +119,10 @@ class _SignupPageState extends State<SignupPage> {
                       ElevatedButton(
                         style: loginButtonStyle,
                         onPressed: signUP,
-                        child: const Text(
+                        child: Text(
                           'Create Account',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: buttonTextColor,
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),

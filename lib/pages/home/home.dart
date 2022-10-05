@@ -37,6 +37,7 @@ class _HomePageState extends State<HomePage> {
           body: NestedScrollView(
             headerSliverBuilder: (context, innerBoxIsScrolled) => [
               SliverAppBar(
+                automaticallyImplyLeading: false,
                 backgroundColor: appBackgroundColor,
                 elevation: 0,
                 title: Row(

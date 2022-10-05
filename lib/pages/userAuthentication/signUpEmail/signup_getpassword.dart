@@ -25,11 +25,11 @@ class _PasswordPageState extends State<PasswordPage> {
     var size = MediaQuery.of(context).size;
 
     if (passwordController.text.isEmpty) {
-      buttonColor = appGreyColor;
-      buttonTextColor = appOtherGreyColor;
+      buttonColor = appBackgroundColor;
+      buttonTextColor = appWhiteColor;
     } else {
-      buttonColor = Colors.black;
-      buttonTextColor = Colors.white;
+      buttonColor = appWhiteColor;
+      buttonTextColor = appBlackColor;
     }
     final ButtonStyle loginButtonStyle = ElevatedButton.styleFrom(
       backgroundColor: buttonColor,
@@ -64,7 +64,7 @@ class _PasswordPageState extends State<PasswordPage> {
                     ),
                     SizedBox(
                       height: size.height * 0.06,
-                      child: CustomTextField(inputController: passwordController,size: size,),
+                      child: CustomTextField(inputController: passwordController,size: size,obscureText: true,),
                     ),
                     SizedBox(
                       height: size.height * 0.04,

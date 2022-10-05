@@ -3,10 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:notesapp/config/colors.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({
+  var obscureText;
+
+  CustomTextField({
     Key? key,
     required this.size,
     required this.inputController,
+    this.obscureText = false,
   }) : super(key: key);
 
   final Size size;
@@ -25,13 +28,14 @@ class CustomTextField extends StatelessWidget {
           child: Center(
             child: TextField(
               textAlignVertical: TextAlignVertical.bottom,
-              inputFormatters: [
-                FilteringTextInputFormatter.deny(RegExp(r"\s"))
-              ],
+              // inputFormatters: [
+              //   FilteringTextInputFormatter.deny(RegExp(r"\s"))
+              // ],
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
               cursorColor: Colors.black,
               cursorHeight: size.height * 0.03,
               controller: inputController,
+              obscureText: obscureText,
               decoration: InputDecoration(
                 fillColor: inputTextColor,
                 border: InputBorder.none,
