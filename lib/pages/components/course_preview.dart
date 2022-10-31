@@ -24,7 +24,7 @@ class _CoursePreviewState extends State<CoursePreview> {
           right: widget.size.width * 0.015),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(2),
-        child: Container(
+        child: SizedBox(
           width: widget.size.width * 0.45,
           height: widget.size.height * 0.9,
           child: Stack(
@@ -57,71 +57,57 @@ class _CoursePreviewState extends State<CoursePreview> {
               ),
               //gradient effect ==> the second layer of stack
 
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(left: widget.size.width * 0.03),
-                      child: Container(
-                        // height: widget.size.height * 0.8,
-                        width: widget.size.width * 0.7,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Flexible(
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  minimumSize: Size.zero,
-                                  padding: EdgeInsets.zero,
-                                  fixedSize: Size(widget.size.width,
-                                      widget.size.height * 0.1),
-                                  backgroundColor: Colors.transparent,
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(2)),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/courseview');
-                                },
-                                child: Container(
-                                  color: Colors.transparent,
-                                  width: widget.size.width * 0.45,
-                                  height: widget.size.height * 0.03,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      // SizedBox(
-                                      //   width: widget.size.width * 0.03,
-                                      // ),
-                                      Flexible(
-                                        child: Text(
-                                          widget.courseName,
-                                          overflow: TextOverflow.fade,
-                                          style: const TextStyle(
-                                              fontSize: 13,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+              Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(left: widget.size.width * 0.03),
+                        child: SizedBox(
+                          // height: widget.size.height * 0.3,
+                          width: widget.size.width * 0.7,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: Size.zero,
+                              padding: EdgeInsets.zero,
+                              fixedSize: Size(
+                                  widget.size.width, widget.size.height * 0.1),
+                              backgroundColor: Colors.transparent,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2)),
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/courseview');
+                            },
+                            child: Container(
+                              color: Colors.transparent,
+                              width: widget.size.width * 0.45,
+                              height: widget.size.height * 0.02,
+                              child: Text(
+                                widget.courseName,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
-                          ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Container(
-                    height: widget.size.height * 0.0008,
-                    color: appAccentColor,
-                  ),
-                ],
+                    Container(
+                      height: widget.size.height * 0.0008,
+                      color: appAccentColor,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

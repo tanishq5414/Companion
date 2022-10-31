@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:notesapp/config/colors.dart';
 import 'package:notesapp/pages/components/custom_appbar.dart';
@@ -32,7 +32,6 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
     //login Button Text Color
     var buttonTextColor = appOtherGreyColor;
     // email password input Text Color
-    var inputTextColor = appGreyColor;
     //logic to change login button color if email and password pages are filled
     if (emailController.text.isEmpty || passwordController.text.isEmpty) {
       buttonColor = appBackgroundColor;
@@ -51,15 +50,7 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
       ),
       elevation: 0,
     );
-    // login Function
-    void loginUser() {
-      context.read<FirebaseAuthMethods>().loginWithEmail(
-            email: emailController.text,
-            password: passwordController.text,
-            context: context,
-          );
-    }
-
+    // chnage email function
     void changeEmailUser() {
       context
           .read<FirebaseAuthMethods>()
@@ -86,7 +77,7 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
                     SizedBox(
                       height: size.height * 0.05,
                     ),
-                    CustomHeading(title: 'Enter new email'),
+                    const CustomHeading(title: 'Enter new email'),
                     SizedBox(
                         height: size.height * 0.06,
                         child: CustomTextField(

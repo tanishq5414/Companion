@@ -21,6 +21,7 @@ class _AppBottomNavigatorState extends State<AppBottomNavigator> {
   ];
   @override
   Widget build(BuildContext context) {
+  final size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
@@ -29,6 +30,7 @@ class _AppBottomNavigatorState extends State<AppBottomNavigator> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
+              height: size.height * 0.12,
               decoration: const BoxDecoration(gradient: LinearGradient(
                       begin: Alignment.bottomCenter,
                       end: Alignment.topCenter,
@@ -40,23 +42,25 @@ class _AppBottomNavigatorState extends State<AppBottomNavigator> {
                       ]),),
               child: BottomNavigationBar(
 
-                selectedItemColor: appAccentColor,
-                unselectedItemColor: appWhiteColor,
-                showSelectedLabels: false,
-                showUnselectedLabels: false,
-                  elevation: 25,
+                selectedItemColor: appWhiteColor,
+                unselectedItemColor: Colors.grey[600],
+                showSelectedLabels: true,
+                showUnselectedLabels: true,
+                selectedLabelStyle: TextStyle(fontSize: 10),
+                unselectedLabelStyle: TextStyle(fontSize: 10),
+                  elevation:35,
                   backgroundColor: Colors.transparent,
-                  items: const [
+                  items: [
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.home),
+                      icon: Icon(Icons.home, size: size.height * 0.04),
                       label: 'Home',
                     ),
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.search),
+                      icon: Icon(Icons.search, size: size.height * 0.04),
                       label: 'Search',
                     ),
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.bookmark),
+                      icon: Icon(Icons.bookmark, size: size.height * 0.04),
                       label: 'Bookmarks',
                     ),
                   ],

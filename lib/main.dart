@@ -8,6 +8,7 @@ import 'package:notesapp/config/colors.dart';
 import 'package:notesapp/pages/bookmarks/bookmarks.dart';
 import 'package:notesapp/pages/components/snack_bar.dart';
 import 'package:notesapp/pages/courseView/course_view.dart';
+import 'package:notesapp/pages/courseView/courselistfilter.dart';
 import 'package:notesapp/pages/error/error_404.dart';
 import 'package:notesapp/pages/home/bottom_nav.dart';
 import 'package:notesapp/pages/notesView/notes_view.dart';
@@ -19,8 +20,10 @@ import 'package:notesapp/pages/userAuthentication/loginPhone/login_phone.dart';
 import 'package:notesapp/pages/userAuthentication/login_main.dart';
 import 'package:notesapp/pages/userAuthentication/signUpEmail/signup_getemail.dart';
 import 'package:notesapp/pages/userAuthentication/signUpEmail/signup_getpassword.dart';
+import 'package:notesapp/provider/firestore_methods.dart';
 import 'package:notesapp/provider/get_courses.dart';
 import 'package:notesapp/provider/get_notes.dart';
+import 'package:notesapp/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'provider/firebase_auth_methods.dart';
 import 'pages/search/search.dart';
@@ -34,7 +37,7 @@ Future main() async {
   await Firebase.initializeApp();
   runApp(
     DevicePreview(
-      enabled: true,
+      enabled: false,
       builder: (context) => const MyApp(),
     ),
   );
@@ -73,12 +76,12 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         Provider<FirebaseAuthMethods>(
-          create: (_) => FirebaseAuthMethods(FirebaseAuth.instance),
+          create: (_) => FirebaseAuthMethods(),
         ),
-        StreamProvider(
-          create: (context) => context.read<FirebaseAuthMethods>().authState,
-          initialData: null,
+        Provider<FirestoreMethods>(
+          create: (_) => FirestoreMethods(),
         ),
+        ChangeNotifierProvider(create: (_) => UserProvider(),),
         StreamProvider(
           create: (BuildContext context) {
             GetCourses.getCourses();
@@ -94,7 +97,7 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          fontFamily: 'Gotham',
+          fontFamily: 'Montserrat',
           primaryColor: Colors.black,
           scaffoldBackgroundColor: appBackgroundColor,
           textSelectionTheme: const TextSelectionThemeData(
@@ -119,10 +122,11 @@ class _MyAppState extends State<MyApp> {
           '/forgotpassword': (context) => const ForgotPasswordPage(),
           '/pdfview': (context) => const NotesViewPage(),
           '/courseview': (context) => const CourseViewPage(),
-          '/editprofile': (context) => EditProfile(),
+          '/editprofile': (context) => const EditProfile(),
           '/error404': (context) => const Error404(),
           '/mainsearch': (context) => const MainSearchPage(),
           '/changeemail': (context) => const ChangeEmailPage(),
+          '/courselistfilter': ((context) => const CourseListFilterPage()),
         },
         navigatorKey: _navigatorKey,
         initialRoute:

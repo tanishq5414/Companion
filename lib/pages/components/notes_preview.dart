@@ -38,7 +38,7 @@ class _NotesPreviewState extends State<NotesPreview> {
           right: size.width * 0.015),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(2),
-        child: Container(
+        child: SizedBox(
           width: size.width * 0.43,
           height: size.width * 0.43,
           child: Stack(
@@ -75,60 +75,86 @@ class _NotesPreviewState extends State<NotesPreview> {
               //gradient effect ==> the second layer of stack
 
               Container(
-                width: size.width * 0.34,
-                height: size.width * 0.34,
+                width: size.width * 0.43,
+                height: size.width * 0.43,
                 color: Colors.transparent,
                 child: Row(
                   children: [
                     SizedBox(
                       width: size.width * 0.02,
                     ),
-                    Flexible(
-                      child: TextButton(
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.zero,
+                    TextButton(
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/pdfview', arguments: {
+                          'name': widget.name,
+                          'course': widget.course,
+                          'version': widget.version,
+                          'unit': widget.unit,
+                          'wdlink': widget.wdlink,
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(2.0),
                         ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/pdfview', arguments: {
-                            'name': widget.name,
-                            'course': widget.course,
-                            'version': widget.version,
-                            'unit': widget.unit,
-                            'wdlink': widget.wdlink,
-                          });
-                        },
-                        child: SizedBox(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(2.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: size.width * 0.04,
                             ),
-                            child: Column(
+                            SizedBox(
+                              width: size.width * 0.34,
+                              height: size.width * 0.2,
+                              child: Text(widget.course,
+                                  maxLines: 3,
+                                  style: const TextStyle(
+                                      overflow: TextOverflow.clip,
+                                      fontWeight: FontWeight.bold,
+                                      backgroundColor: appBackgroundColor,
+                                      fontSize: 18,
+                                      color: appWhiteColor)),
+                            ),
+                            SizedBox(
+                              height: size.width * 0.02,
+                            ),
+                            Expanded(
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Flexible(
-                                    child: Text(widget.course,
-                                        maxLines: 3,
-                                        style: const TextStyle(
-                                            overflow: TextOverflow.ellipsis,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 17,
-                                            color: appWhiteColor)),
+                                  SizedBox(
+                                    width: size.width * 0.34,
+                                    height: size.width * 0.06,
+                                    child: Text(
+                                      widget.unit,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        color: appWhiteColor,
+                                      ),
+                                    ),
                                   ),
-                                  Text(widget.unit,
+                                  SizedBox(
+                                    width: size.width * 0.34,
+                                    height: size.width * 0.06,
+                                    child: Text(
+                                      widget.name,
+                                      maxLines: 2,
                                       style: const TextStyle(
-                                          fontSize: 12, color: appWhiteColor)),
-                                  Text(widget.name,
-                                      style: const TextStyle(
-                                          fontSize: 11, color: appAccentColor)),
-                                ]),
-                          ),
+                                        fontSize: 12,
+                                        color: appAccentColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      width: size.width * 0.009,
                     ),
                   ],
                 ),

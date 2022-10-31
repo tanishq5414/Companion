@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:notesapp/provider/get_user_courses.dart';
 
 import '../domain/notes_modal.dart';
 import 'package:http/http.dart' as http;
@@ -16,7 +17,6 @@ class GetNotes with ChangeNotifier {
     if (_notesdata.statusCode == 200) {
       final List jsonResponse = json.decode(_notesdata.body);
       return jsonResponse.map((notes) => Notes.fromJson(notes)).toList();
-
     } else {
       throw Exception('Failed to load notes from API');
     }

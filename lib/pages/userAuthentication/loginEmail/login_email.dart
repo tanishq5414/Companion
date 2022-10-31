@@ -1,6 +1,5 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, unused_local_variable
 import 'package:flutter/material.dart';
-import 'package:line_icons/line_icon.dart';
 import 'package:notesapp/config/colors.dart';
 import 'package:notesapp/pages/components/custom_appbar.dart';
 import 'package:notesapp/pages/userAuthentication/components/custom_title.dart';
@@ -76,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    CustomHeading(title: 'Email'),
+                    const CustomHeading(title: 'Email'),
                     SizedBox(
                       height: size.height * 0.06,
                       child: CustomTextField(inputController: emailController,size: size,)
@@ -84,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(
                       height: size.height * 0.04,
                     ),
-                    CustomHeading(title: 'Password'),
+                    const CustomHeading(title: 'Password'),
                     SizedBox(
                       height: size.height * 0.07,
                       child: CustomTextField(inputController: passwordController,size: size,) 

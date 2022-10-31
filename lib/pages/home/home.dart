@@ -1,14 +1,21 @@
 // ignore_for_file: prefer_const_constructors, unused_element
 
 import 'package:flutter/material.dart';
+import 'package:flutter_launcher_icons/main.dart';
 
 import 'package:notesapp/config/colors.dart';
 import 'package:notesapp/pages/bookmarks/bookmarks.dart';
 import 'package:notesapp/pages/components/heading.dart';
 import 'package:notesapp/pages/components/notes_builder.dart';
 import 'package:notesapp/pages/search/search.dart';
+import 'package:notesapp/provider/get_courses.dart';
+import 'package:notesapp/provider/get_user_courses.dart';
+import 'package:provider/provider.dart';
 
+import '../../domain/courses_modal.dart';
+import '../../provider/user_provider.dart';
 import '../components/course_builder.dart';
+import '../components/subheading.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -18,6 +25,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<UserProvider>(context, listen: false).refreshUser();
+  }
+  
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -45,12 +59,12 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Text('Good ',
                         style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 25,
                             fontWeight: FontWeight.bold,
                             color: Colors.white)),
                     Text(greeting(),
                         style: TextStyle(
-                            fontSize: 20,
+                            fontSize: 25,
                             fontWeight: FontWeight.bold,
                             color: Colors.white)),
                   ],
@@ -77,10 +91,38 @@ class _HomePageState extends State<HomePage> {
                 SingleChildScrollView(
                   child: Column(
                     children: [
+                      const SizedBox(height: 20),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: size.width * 0.04,
+                                  right: size.width * 0.04),
+                              child: SubHeading(
+                                subheading: 'Your courses',
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: size.width * 0.04,
+                                  right: size.width * 0.04),
+                              child: InkWell(
+                                child: Icon(
+                                  Icons.filter_list,
+                                  color: Colors.white,
+                                ),
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, '/courselistfilter');
+                                },
+                              ),
+                            ),
+                          ]),
                       SizedBox(
                         height: size.height * 0.03,
                       ),
-                      courseBuilder(size),
+                      courseBuilder(size, context),
                       SizedBox(
                         height: size.height * 0.03,
                       ),

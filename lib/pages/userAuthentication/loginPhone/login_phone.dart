@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:notesapp/pages/components/custom_appbar.dart';
 import 'package:notesapp/pages/userAuthentication/components/custom_subtitle.dart';

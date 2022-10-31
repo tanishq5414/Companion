@@ -19,6 +19,9 @@ class SettingsPage extends StatelessWidget {
     void signOut() {
       context.read<FirebaseAuthMethods>().signOut(context);
     }
+    void deleteAccount() {
+      context.read<FirebaseAuthMethods>().deleteAccount(context);
+    }
 
     final String name = user.displayName ?? "Companioner";
     final String email = user.email ?? "update your email";
@@ -156,6 +159,9 @@ class SettingsPage extends StatelessWidget {
                       signOut();
                     },
                   ),
+                  DisplayTile(title: 'Delete Account', subtitle: 'This action is irreversible', onpressed: () {
+                    deleteAccount();
+                  }),
                 ],
               ),
             ),

@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:notesapp/config/colors.dart';
@@ -7,6 +9,8 @@ import 'package:notesapp/provider/firebase_auth_methods.dart';
 import 'package:provider/provider.dart';
 
 class EditProfile extends StatefulWidget {
+  const EditProfile({super.key});
+
   @override
   State<EditProfile> createState() => _EditProfileState();
 }
@@ -18,7 +22,6 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void initState() {
     final user = context.read<FirebaseAuthMethods>().user;
-    Color saveColor = Colors.grey;
     super.initState();
     nameController = TextEditingController(text: user.displayName);
   }

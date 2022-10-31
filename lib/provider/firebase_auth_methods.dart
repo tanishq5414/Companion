@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:notesapp/domain/user_modal.dart';
 import 'package:notesapp/pages/components/snack_bar.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -8,18 +10,24 @@ import 'package:google_sign_in/google_sign_in.dart';
 import '../pages/components/otp_box.dart';
 
 class FirebaseAuthMethods {
-  final FirebaseAuth _auth;
-  FirebaseAuthMethods(this._auth);
-
   // FOR EVERY FUNCTION HERE
   // POP THE ROUTE USING: Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
 
   // GET USER DATA
   // using null check operator since this method should be called only
   // when the user is logged in
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   User get user => _auth.currentUser!;
-
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   Stream<User?> get authState => FirebaseAuth.instance.authStateChanges();
+  // GET USER DATA
+  Future<UserCollection> getUserDetails() async {
+    User currentUser = _auth.currentUser!;
+    DocumentSnapshot documentSnapshot =
+        await _firestore.collection('users').doc(currentUser.uid).get();
+    // print(documentSnapshot.data());
+    return UserCollection.fromSnap(documentSnapshot);
+  }
 
   // EMAIL SIGN UP
   Future<void> signUpWithEmail({
@@ -33,10 +41,22 @@ class FirebaseAuthMethods {
         email: email,
         password: password,
       );
-      User? user1 = result.user;
-      user1?.updateDisplayName(fullName);
+      User? user = result.user;
+      user?.updateDisplayName(fullName);
+      List cid = [];
+      List bid = [];
       // ignore: use_build_context_synchronously
       await sendEmailVerification(context);
+      UserCollection _user = UserCollection(
+        id: user!.uid,
+        cid: cid,
+        bid: bid,
+        email: user.email!,
+        name: [user.displayName!],
+        photoUrl: [user.photoURL!],
+        notificationsEnabled: "true",
+      );
+      await _firestore.collection('users').doc(user.uid).set(_user.toJson());
     } on FirebaseAuthException catch (e) {
       // if you want to display your own custom error message
       if (e.code == 'weak-password') {
@@ -56,19 +76,20 @@ class FirebaseAuthMethods {
     required BuildContext context,
   }) async {
     await _auth.signInWithEmailAndPassword(
-          email: email,
-          password: password,
-        );
+      email: email,
+      password: password,
+    );
     try {
       if (!user.emailVerified) {
         // ignore: use_build_context_synchronously
         await sendEmailVerification(context);
-        Utils.showSnackBar('Please verify your email first. Verification link sent to $email');
+        Utils.showSnackBar(
+            'Please verify your email first. Verification link sent to $email');
         // restrict access to certain things using provider
         // transition to another page instead of home screen
       }
     } on FirebaseAuthException catch (e) {
-      Utils.showSnackBar(e.message!);// Displaying the error message
+      Utils.showSnackBar(e.message!); // Displaying the error message
     }
   }
 
@@ -120,9 +141,27 @@ class FirebaseAuthMethods {
           UserCredential userCredential =
               await _auth.signInWithCredential(credential);
 
-          // if (userCredential.user != null) {
-          //   if (userCredential.additionalUserInfo!.isNewUser) {}
-          // }
+          if (userCredential.user != null) {
+            if (userCredential.additionalUserInfo!.isNewUser) {
+              List cid = [];
+              List bid = [];
+              // ignore: use_build_context_synchronously
+              await sendEmailVerification(context);
+              UserCollection _user = UserCollection(
+                id: user.uid,
+                cid: cid,
+                bid: bid,
+                email: user.email!,
+                name: [user.displayName!],
+                photoUrl: [user.photoURL!],
+                notificationsEnabled: "true",
+              );
+              await _firestore
+                  .collection('users')
+                  .doc(user.uid)
+                  .set(_user.toJson());
+            }
+          }
         }
       }
     } on FirebaseAuthException catch (e) {
@@ -139,6 +178,30 @@ class FirebaseAuthMethods {
           FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
       await _auth.signInWithCredential(facebookAuthCredential);
+      UserCredential userCredential =
+          await _auth.signInWithCredential(facebookAuthCredential);
+
+      if (userCredential.user != null) {
+        if (userCredential.additionalUserInfo!.isNewUser) {
+          List cid = [];
+          List bid = [];
+          // ignore: use_build_context_synchronously
+          await sendEmailVerification(context);
+          UserCollection _user = UserCollection(
+            id: user!.uid,
+            cid: cid,
+            bid: bid,
+            email: user.email!,
+            name: [user.displayName!],
+            photoUrl: [user.photoURL!],
+            notificationsEnabled: "true",
+          );
+          await _firestore
+              .collection('users')
+              .doc(user.uid)
+              .set(_user.toJson());
+        }
+      }
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(e.message!); // Displaying the error message
     }
@@ -198,6 +261,30 @@ class FirebaseAuthMethods {
 
               // !!! Works only on Android, iOS !!!
               await _auth.signInWithCredential(credential);
+              UserCredential userCredential =
+                  await _auth.signInWithCredential(credential);
+
+              if (userCredential.user != null) {
+                if (userCredential.additionalUserInfo!.isNewUser) {
+                  List cid = [];
+                  List bid = [];
+                  // ignore: use_build_context_synchronously
+                  await sendEmailVerification(context);
+                  UserCollection _user = UserCollection(
+                    id: user.uid,
+                    cid: cid,
+                    bid: bid,
+                    email: user.email!,
+                    name: [user.displayName!],
+                    photoUrl: [user.photoURL!],
+                    notificationsEnabled: "true",
+                  );
+                  await _firestore
+                      .collection('users')
+                      .doc(user.uid)
+                      .set(_user.toJson());
+                }
+              }
               // ignore: use_build_context_synchronously
               Navigator.of(context).pop();
               // ignore: use_build_context_synchronously
@@ -225,14 +312,18 @@ class FirebaseAuthMethods {
   // DELETE ACCOUNT
   Future<void> deleteAccount(BuildContext context) async {
     try {
+      deleteUser(user.uid);
       await _auth.currentUser!.delete();
+      // ignore: use_build_context_synchronously
+      Navigator.pushNamedAndRemoveUntil(context, '/start', (route) => false);
+      print('user deleted');
     } on FirebaseAuthException catch (e) {
-      Utils.showSnackBar(e.message!); // Displaying the error message
+      Utils.showSnackBar(e.message!);
+      // Displaying the error message
       // if an error of requires-recent-login is thrown, make sure to log
       // in user again and then delete account.
     }
   }
-
 
 // UPDATE NAME
   Future<void> updateName(BuildContext context, String name) async {
@@ -254,11 +345,10 @@ class FirebaseAuthMethods {
 // UPDATE EMAIL
   Future<void> updateEmail(
       BuildContext context, String newemail, String password) async {
-      var email = FirebaseAuth.instance.currentUser!.email.toString();
-    await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email.toString(), password: password.toString());
+    var email = FirebaseAuth.instance.currentUser!.email.toString();
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email.toString(), password: password.toString());
     try {
-      
       await FirebaseAuth.instance.currentUser!.updateEmail(
         newemail,
       );
@@ -269,5 +359,10 @@ class FirebaseAuthMethods {
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(e.message!); // Displaying the error message
     }
+  }
+
+  Future<void> deleteUser(String uid) async {
+    await FirebaseFirestore.instance.collection('users').doc(uid).delete();
+    print('user deleted');
   }
 }
