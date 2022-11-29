@@ -39,10 +39,13 @@ dependencies:
   line_icons: ^2.0.1
   flutter_facebook_auth: ^4.1.2
   google_sign_in: ^5.2.4
-  provider: ^6.0.3
+  # provider: ^6.0.3
+  flutter_riverpod: ^2.0.2
   flutter_launcher_icons: ^0.10.0
   syncfusion_flutter_pdfviewer: ^20.2.50-beta
   flutter_windowmanager: ^0.2.0
+  fpdart: ^0.3.0
+  routemaster: ^1.0.1
 
 dev_dependencies:
   flutter_test:
