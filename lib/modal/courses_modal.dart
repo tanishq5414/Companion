@@ -10,15 +10,18 @@ class Course {
         required this.cname,
         required this.cid,
         // required this.gid,
+        // required this.gid,
     });
 
     String cname;
-    String cid;
+    int cid;
+    // int gid;
     // Array gid;
 
     factory Course.fromJson(Map<String, dynamic> json) => Course(
         cname: json["cname"],
         cid: json["cid"],
+        // gid: json["gid"],
         // gid: json["gid"],
     );
 

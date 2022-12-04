@@ -12,33 +12,29 @@ GridView courseBuilder(Size size, context, WidgetRef ref) {
   var userslist = user.cid;
   var allcourses = ref.read(coursesDataProvider);
   var usercourseslist = [];
-/* timelineData.when(
-        data: (timeline) {
-          List<Timeline> timelineList = timeline.map((e) => e).toList();
-          for (var i = 0; i < timelineList.length; i++) {
-            if (timelineList[i].rid == tid) {
-              timelineDataList.add(timelineList[i]);
-            }
-          }
-        },
-        error: (err, s) => Text(err.toString()),
-        loading: () => const Center(
-              child: CircularProgressIndicator(),
-            ));*/
-
   allcourses.when(
       data: (courses) {
         List<Course> allcourseslist = courses.map((e) => e).toList();
-        for (var i = 0; i < allcourseslist.length; i++) {
-          if (userslist.contains(allcourseslist[i].cid)) {
-            usercourseslist.add(allcourseslist[i]);
+        for (var i = 0; i < userslist.length; i++) {
+          for (var j = 0; j < allcourseslist.length; j++) {
+            print('$j $i ${userslist[i]} ${allcourseslist[j].cid}');
+            // print(userslist[i] == allcourseslist[j].cid);
+            // print(j);
+
+            if (allcourseslist[j].cid == userslist[i]) {
+              // print(usercourseslist);
+              usercourseslist.add(allcourseslist[i]);
+            }
           }
         }
       },
       error: ((error, stackTrace) => Text(error.toString())),
-      loading: () => Center(
-            child: CircularProgressIndicator(),
+      loading: () => const Center(
+            child: CircularProgressIndicator(
+              color: Colors.white,
+            ),
           ));
+  // print(usercourseslist);
   // var user = ref.watch(userProvider)?.id;
   return GridView.builder(
       itemCount: usercourseslist.length,

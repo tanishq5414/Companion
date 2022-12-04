@@ -9,6 +9,8 @@ import '../../components/snack_bar.dart';
 
 final userProvider = StateProvider<UserCollection?>((ref) => null);
 
+
+
 final authControllerProvider = StateNotifierProvider<AuthController, bool>(
   (ref) => AuthController(
     authRepository: ref.watch(authRepositoryProvider),

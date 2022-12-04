@@ -21,6 +21,7 @@ class _CourseListFilterPageState extends ConsumerState<CourseListFilterPage> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider)!;
+    final usercourseslist = user.cid;
     // print(user.cid);
     final courses = ref.read(coursesDataProvider);
     // print(courses);
@@ -37,28 +38,17 @@ class _CourseListFilterPageState extends ConsumerState<CourseListFilterPage> {
               return ListView.builder(
                 itemCount: courseList.length,
                 itemBuilder: (context, index) {
+                  var _isSelected = false;
                   return CheckboxListTile(
-                    activeColor: appWhiteColor,
-                    checkColor: appWhiteColor,
-                    checkboxShape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-
-                    title: Text(
-                      courseList[index].cname,
-                      style: const TextStyle(color: appWhiteColor),
-                    ),
-                    value: user.cid.contains(courseList[index].cid),
-                    // value: true,
+                    activeColor: Colors.white,
+                    checkColor: Colors.white,
+                    title: const Text('Apple',
+                        style: TextStyle(fontSize: 20, color: Colors.white)),
+                    value: _isSelected,
                     onChanged: (bool? value) {
+                      print(value);
                       setState(() {
-                        if (value == true &&
-                            user.cid.contains(courseList[index].cid) == false &&
-                            user.cid.length < 6) {
-                          user.cid.add(courseList[index].cid);
-                        } else {
-                          user.cid.remove(courseList[index].cid);
-                        }
+                        _isSelected = value!;
                       });
                     },
                   );
@@ -101,8 +91,7 @@ class _CourseListFilterPageState extends ConsumerState<CourseListFilterPage> {
                           ),
                         ),
                         onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                              context, '/home', (route) => false);
+                          // ref.read(userProvider).addCourse(courseslist);
                         },
                         child: const Text(
                           'Save',
