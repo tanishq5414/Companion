@@ -8,6 +8,7 @@ String notesToJson(List<Notes> data) =>
 
 class Notes {
   Notes({
+    required this.id,
     required this.name,
     required this.year,
     required this.branch,
@@ -16,7 +17,8 @@ class Notes {
     required this.version,
     required this.unit,
     required this.wdlink,
-});
+  });
+  int id;
   String name;
   String year;
   String branch;
@@ -27,6 +29,7 @@ class Notes {
   String wdlink;
 
   factory Notes.fromJson(Map<String, dynamic> json) => Notes(
+        id: json["id"],
         name: json["name"],
         year: json["year"],
         branch: json["branch"],
@@ -40,6 +43,7 @@ class Notes {
   String? get imageUrl => null;
 
   Map<String, dynamic> toJson() => {
+        "id": id, 
         "name": name,
         "year": year,
         "branch": branch,

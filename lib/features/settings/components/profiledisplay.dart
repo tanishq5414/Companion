@@ -8,28 +8,32 @@ class ProfileAvatar extends StatelessWidget {
   late String image;
   late String firstlettername;
   late int rad;
-
+  late double? width;
   ProfileAvatar(
       {super.key,
       required this.image,
       required this.firstlettername,
-      required this.rad});
+      required this.rad,
+      required this.width});
 
   @override
   Widget build(BuildContext context) {
-    return CircleAvatar(
-      radius: rad.toDouble(),
-      backgroundColor: appAccentColor,
+    return SizedBox(
+      width: width,
       child: CircleAvatar(
-        backgroundColor: appBackgroundColor,
-        radius: rad.toDouble() - 2,
-        foregroundImage: (image != "null") ? NetworkImage(image) : null,
-        backgroundImage: NetworkImage(image),
-        child: Text(firstlettername,
-            style: const TextStyle(
-              color: appAccentColor,
-              fontSize: 30,
-            )),
+        radius: rad.toDouble(),
+        backgroundColor: appAccentColor,
+        child: CircleAvatar(
+          backgroundColor: appBackgroundColor,
+          radius: rad.toDouble() - 2,
+          foregroundImage: (image != "null" || image!='') ? NetworkImage(image) : null,
+          backgroundImage: NetworkImage(image),
+          child: Text(firstlettername[0],
+              style: const TextStyle(
+                color: appAccentColor,
+                fontSize: 30,
+              )),
+        ),
       ),
     );
   }

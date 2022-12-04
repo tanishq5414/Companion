@@ -74,6 +74,7 @@ class _EditProfileState extends State<EditProfile> {
                       image: image,
                       firstlettername: firstlettername,
                       rad: 75,
+                      width: size.width*0.6,
                     ),
                     SizedBox(
                       height: size.height * 0.03,

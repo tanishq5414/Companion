@@ -8,6 +8,7 @@ import 'package:routemaster/routemaster.dart';
 class NotesPreview extends StatefulWidget {
   const NotesPreview(
       {super.key,
+      required this.id,
       required this.name,
       required this.year,
       required this.branch,
@@ -16,6 +17,7 @@ class NotesPreview extends StatefulWidget {
       required this.version,
       required this.unit,
       required this.wdlink});
+  final int id;
   final String name;
   final String year;
   final String branch;
@@ -89,7 +91,8 @@ class _NotesPreviewState extends State<NotesPreview> {
                         padding: EdgeInsets.zero,
                       ),
                       onPressed: () {
-                        Routemaster.of(context).push('/pdfview', queryParameters: {
+                        Routemaster.of(context)
+                            .push('/pdfview', queryParameters: {
                           'name': widget.name,
                           'course': widget.course,
                           'version': widget.version,

@@ -59,6 +59,7 @@ class SettingsPage extends ConsumerWidget {
                             image: user?.photoUrl.toString() ?? "null",
                             firstlettername: firstlettername,
                             rad: 38,
+                            width: size.width*0.2,
                           ),
                           SizedBox(
                             width: size.width * 0.05,

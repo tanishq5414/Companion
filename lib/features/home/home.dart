@@ -22,7 +22,7 @@ class HomePage extends ConsumerWidget {
     }
     return 'evening';
   }
-
+  
   @override
   Widget build(BuildContext context, ref) {
     var size = MediaQuery.of(context).size;
@@ -80,141 +80,137 @@ class HomePage extends ConsumerWidget {
                 ],
               ),
             ],
-            body: Stack(
-              children: [
-                SingleChildScrollView(
-                  child: Column(
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: size.width * 0.04,
+                              right: size.width * 0.04),
+                          child: const SubHeading(
+                            subheading: 'Your courses',
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: size.width * 0.04,
+                              right: size.width * 0.04),
+                          child: InkWell(
+                            child: const Icon(
+                              Icons.filter_list,
+                              color: Colors.white,
+                            ),
+                            onTap: () {
+                              Routemaster.of(context).push('/courselistfilter');
+                            },
+                          ),
+                        ),
+                      ]),
+                  SizedBox(
+                    height: size.height * 0.03,
+                  ),
+                  courseBuilder(size, context, ref),
+                  SizedBox(
+                    height: size.height * 0.03,
+                  ),
+                  Column(
                     children: [
-                      const SizedBox(height: 20),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Padding(
+                        padding: EdgeInsets.only(left: size.width * 0.02),
+                        child: const TextHeading(
+                          heading: 'Trending today',
+                        ),
+                      ),
+                      SizedBox(
+                        height: size.height * 0.03,
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
                           children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: size.width * 0.04,
-                                  right: size.width * 0.04),
-                              child: const SubHeading(
-                                subheading: 'Your courses',
-                              ),
+                            SizedBox(
+                              width: size.width * 0.02,
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: size.width * 0.04,
-                                  right: size.width * 0.04),
-                              child: InkWell(
-                                child: const Icon(
-                                  Icons.filter_list,
-                                  color: Colors.white,
-                                ),
-                                onTap: () {
-                                  Routemaster.of(context).push('/courselistfilter');
-                                },
-                              ),
+                            Consumer(
+                                builder: (context, ref, child) =>
+                                    notesBuilder(size, notesData)),
+                            SizedBox(
+                              width: size.width * 0.03,
                             ),
-                          ]),
+                          ],
+                        ),
+                      ),
                       SizedBox(
                         height: size.height * 0.03,
-                      ),
-                      courseBuilder(size, context, ref),
-                      SizedBox(
-                        height: size.height * 0.03,
-                      ),
-                      Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: size.width * 0.02),
-                            child: const TextHeading(
-                              heading: 'Trending today',
-                            ),
-                          ),
-                          SizedBox(
-                            height: size.height * 0.03,
-                          ),
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: size.width * 0.02,
-                                ),
-                                Consumer(
-                                    builder: (context, ref, child) =>
-                                        notesBuilder(size, notesData)),
-                                SizedBox(
-                                  width: size.width * 0.03,
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: size.height * 0.03,
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: size.width * 0.02),
-                            child: const TextHeading(heading: 'Recently added'),
-                          ),
-                          SizedBox(
-                            height: size.height * 0.03,
-                          ),
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: size.width * 0.02,
-                                ),
-                                Consumer(
-                                    builder: (context, ref, child) =>
-                                        notesBuilder(size, notesData)),
-                                SizedBox(
-                                  width: size.width * 0.03,
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: size.height * 0.03,
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: size.width * 0.02),
-                            child: const TextHeading(heading: 'Your bookmarks'),
-                          ),
-                          SizedBox(
-                            height: size.height * 0.03,
-                          ),
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: size.width * 0.02,
-                                ),
-                                Consumer(
-                                    builder: (context, ref, child) =>
-                                        notesBuilder(size, notesData)),
-                                SizedBox(
-                                  width: size.width * 0.03,
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: size.height * 0.1,
-                          ),
-                        ],
                       ),
                     ],
                   ),
-                ),
-              ],
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: size.width * 0.02),
+                        child: const TextHeading(heading: 'Recently added'),
+                      ),
+                      SizedBox(
+                        height: size.height * 0.03,
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: size.width * 0.02,
+                            ),
+                            Consumer(
+                                builder: (context, ref, child) =>
+                                    notesBuilder(size, notesData)),
+                            SizedBox(
+                              width: size.width * 0.03,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: size.height * 0.03,
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left: size.width * 0.02),
+                        child: const TextHeading(heading: 'Your bookmarks'),
+                      ),
+                      SizedBox(
+                        height: size.height * 0.03,
+                      ),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: size.width * 0.02,
+                            ),
+                            Consumer(
+                                builder: (context, ref, child) =>
+                                    notesBuilder(size, notesData)),
+                            SizedBox(
+                              width: size.width * 0.03,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: size.height * 0.1,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

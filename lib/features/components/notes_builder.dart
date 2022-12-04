@@ -15,6 +15,7 @@ notesBuilder(Size size, AsyncValue<List<Notes>> notesData) {
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) => NotesPreview(
+                id: noteList[index].id,
                 name: noteList[index].name,
                 year: noteList[index].year,
                 branch: noteList[index].branch,

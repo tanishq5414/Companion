@@ -21,7 +21,9 @@ class _CourseListFilterPageState extends ConsumerState<CourseListFilterPage> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider)!;
+    // print(user.cid);
     final courses = ref.read(coursesDataProvider);
+    // print(courses);
     var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: CustomAppBar(
