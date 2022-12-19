@@ -50,6 +50,20 @@ class LoginMain extends ConsumerWidget {
         width: 2,
       ),
     );
+    final ButtonStyle otherButtonStyle1 = ElevatedButton.styleFrom(
+      foregroundColor: Colors.transparent,
+      alignment: Alignment.centerLeft,
+      backgroundColor: Colors.transparent,
+      minimumSize: Size(size.width / 3, size.height / 18.89),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+      side: const BorderSide(
+        color: Colors.white,
+        width: 2,
+      ),
+    );
     //Start of UI
     return Container(
       color: Colors.transparent,

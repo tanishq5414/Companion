@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:notesapp/core/provider/notes_provider.dart';
 import 'package:notesapp/core/provider/user_provider.dart';
 import 'package:notesapp/features/auth/controller/auth_controller.dart';
+import 'package:notesapp/features/bookmarks/components/bookmark_preview.dart';
 import 'package:notesapp/features/components/notes_preview.dart';
 import 'package:notesapp/features/settings/components/profiledisplay.dart';
 import 'package:notesapp/modal/notes_modal.dart';
@@ -23,13 +25,16 @@ class BookmarksPage extends ConsumerWidget {
     final allnotes = ref.read(notesDataProvider);
     var allnoteslist;
     var userbookmarklist = user?.bid ?? [''];
+    // print(userbookmarklist);
     List bookmarks = [];
-    void getBookmarks() {
+    List getBookmarks() {
       allnotes.when(
           data: (notes) {
             allnoteslist = notes;
+            // print(allnoteslist);
             for (var i = 0; i < allnoteslist.length; i++) {
-              if (userbookmarklist.contains(allnoteslist[i].id)) {
+              // print(userbookmarklist);
+              if (userbookmarklist.contains(allnoteslist[i].id.toString())) {
                 bookmarks.add(allnoteslist[i]);
               }
             }
@@ -37,9 +42,12 @@ class BookmarksPage extends ConsumerWidget {
           },
           error: (error, stackTrace) => Text(error.toString()),
           loading: () => CircularProgressIndicator());
+      return bookmarks;
     }
 
     var bookmarklist = getBookmarks();
+    // print(bookmarklist);
+    // print(bookmarks);
     // var bookmarks = getBookmarks();
     // print(bookmarks);
     // print(allnoteslist);
@@ -47,15 +55,24 @@ class BookmarksPage extends ConsumerWidget {
       child: Scaffold(
           body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
-          const SliverAppBar(
+          SliverAppBar(
             automaticallyImplyLeading: false,
             backgroundColor: appBackgroundColor,
             elevation: 0,
-            title: Text('Your Bookmarks'),
+            title: const Text('Your bookmarks',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 23,),),
+            toolbarHeight: 120,
+            leading: Padding(
+              padding: EdgeInsets.only(left: size.width * 0.04,),
+              child: ProfileAvatar(image: user!.photoUrl, firstlettername: user.name[0], rad: 22, width: 1),
+            ),
+            leadingWidth: 55,
           ),
         ],
         body: Padding(
-          padding: EdgeInsets.only(top: size.height * 0.05,left: size.width * 0.02,right: size.width * 0.03),
+          padding: EdgeInsets.only(
+              top: size.height * 0.05,
+              left: size.width * 0.02,
+              right: size.width * 0.03),
           child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,

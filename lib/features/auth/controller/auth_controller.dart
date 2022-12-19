@@ -9,8 +9,6 @@ import '../../components/snack_bar.dart';
 
 final userProvider = StateProvider<UserCollection?>((ref) => null);
 
-
-
 final authControllerProvider = StateNotifierProvider<AuthController, bool>(
   (ref) => AuthController(
     authRepository: ref.watch(authRepositoryProvider),
@@ -47,7 +45,15 @@ class AuthController extends StateNotifier<bool> {
     user.fold((l) => Utils.showSnackBar(l.message), (userModel) {
       _ref.read(userProvider.notifier).update((state) => userModel);
       pref.setString("email", userModel.email);
+      pref.setStringList('cid', []);
     });
+  }
+
+  void bookmarkNotes(BuildContext context, String id, String gid, bookmarks) {
+    final user = _authRepository.bookmarkNotes(id, gid, bookmarks);
+  }
+  void updateUserCourses(BuildContext context, String uid, var cid) {
+    final user = _authRepository.updateUserCourses(uid,cid);
   }
 
   void logInWithEmail(BuildContext context, email, password) async {
@@ -66,8 +72,8 @@ class AuthController extends StateNotifier<bool> {
     pref.remove("email");
   }
 
-  void updateName(BuildContext context, fullName) async {
-    final user = _authRepository.updateName(context, fullName);
+  void updateName(BuildContext context, fullName, uid) async {
+    final user = _authRepository.updateName(context, fullName, uid);
   }
 
   void updateEmail(BuildContext context, newemail, password) {

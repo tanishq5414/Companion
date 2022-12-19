@@ -12,12 +12,12 @@ class FirestoreMethods {
       if (bookmarks.contains(gid)) {
         // if the likes list contains the user uid, we need to remove it
         _firestore.collection('users').doc(id).update({
-          'likes': FieldValue.arrayRemove([gid])
+          'bid': FieldValue.arrayRemove([gid])
         });
       } else {
         // else we need to add uid to the likes array
         _firestore.collection('users').doc(id).update({
-          'likes': FieldValue.arrayUnion([gid])
+          'bid': FieldValue.arrayUnion([gid])
         });
       }
       res = 'success';

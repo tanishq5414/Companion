@@ -12,6 +12,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod/riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../components/otp_box.dart';
 
 final authRepositoryProvider = Provider(
@@ -73,6 +74,51 @@ class AuthRepository {
       }
       Utils.showSnackBar(e.message!);
     }
+  }
+  //add courses
+  Future<String> updateUserCourses(String uid, List cid) async {
+    String res = "Some error occurred";
+    try {
+      await _firestore.collection('users').doc(uid).update({
+        'cid': cid,
+      });
+      res = 'success';
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+  // Bookmark Notes
+  Future<String> bookmarkNotes(String id, String gid, bookmarks) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var bid = prefs.getStringList('bid')??[];
+    String res = "Some error occurred";
+    try {
+      // print(bookmarks);
+      // L bookmarks = await _firestore.collection('users').doc(id).collection('bookmarks').get();
+      if (bookmarks.contains(gid)) {
+        // print(gid);
+        // print('tanishq');
+        // print(34);
+        // if the likes list contains the user uid, we need to remove it
+        _firestore.collection('users').doc(id).update({
+          'bid': FieldValue.arrayRemove([gid])
+        });
+        bid.remove(gid);
+        prefs.setStringList('bid', bid);
+      } else {
+        // else we need to add uid to the likes array
+        _firestore.collection('users').doc(id).update({
+          'bid': FieldValue.arrayUnion([gid])
+        });
+        bid.add(gid);
+        print(bid);
+      }
+      res = 'success';
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
   }
 
   // EMAIL LOGIN
@@ -321,17 +367,16 @@ class AuthRepository {
   }
 
 // UPDATE NAME
-  Future<void> updateName(BuildContext context, String name) async {
+  Future<void> updateName(BuildContext context, String name, String uid) async {
     try {
+      print(4);
       await FirebaseAuth.instance.currentUser!.updateDisplayName(
         name,
       );
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pop();
-      // ignore: use_build_context_synchronously
-      Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-      // Navigator.pushNamed(context, '/settings');
-      // Navigator.popAndPushNamed(context, '/home');
+      _firestore.collection('users').doc(uid).update({
+        'name': name,
+      });
+      print(5);
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(e.message!); // Displaying the error message
     }

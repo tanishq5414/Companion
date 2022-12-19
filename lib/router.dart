@@ -48,6 +48,6 @@ final loggedInPages = RouteMap(
     '/editprofile': (_) => const MaterialPage(child: EditProfile()),
     '/error404': (_) => const MaterialPage(child: Error404()),
     '/mainsearch': (_) => const MaterialPage(child: MainSearchPage()),
-    '/courselistfilter': (_) => const MaterialPage(child: CourseListFilterPage()),
+    '/courselistfilter': (_) => MaterialPage(child: CourseListFilterPage()),
   },
 );

@@ -2,41 +2,42 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:notesapp/features/auth/controller/auth_controller.dart';
 import 'package:notesapp/theme/colors.dart';
 import 'package:notesapp/features/components/custom_appbar.dart';
 import 'package:notesapp/features/settings/components/profiledisplay.dart';
 import 'package:notesapp/features/auth/repository/firebase_auth_methods.dart';
-import 'package:provider/provider.dart';
 import 'package:routemaster/routemaster.dart';
 
-class EditProfile extends StatefulWidget {
+class EditProfile extends ConsumerStatefulWidget {
   const EditProfile({super.key});
 
   @override
-  State<EditProfile> createState() => _EditProfileState();
+  ConsumerState<EditProfile> createState() => _EditProfileState();
 }
 
-class _EditProfileState extends State<EditProfile> {
+class _EditProfileState extends ConsumerState<EditProfile> {
   TextEditingController nameController = TextEditingController();
   late Color saveColor;
 
   @override
   void initState() {
-    final user = context.read<AuthRepository>().user;
+    final user = ref.read(userProvider);
     super.initState();
-    nameController = TextEditingController(text: user.displayName);
+    nameController = TextEditingController(text: user!.name);
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final user = context.read<AuthRepository>().user;
-    final String email = user.email ?? "update your email";
-    final name = user.displayName ?? "Companioner";
+    final user = ref.read(userProvider)!;
+    final String email = user.email;
+    final name = user.name;
     final firstlettername = name[0];
-    final image = user.photoURL ?? "null";
+    final image = user.photoUrl;
     Color saveColor = Colors.grey;
-    if (user.displayName != nameController.text) {
+    if (user.name != nameController.text) {
       saveColor = appAccentColor;
     }
     return Container(
@@ -50,7 +51,9 @@ class _EditProfileState extends State<EditProfile> {
                   TextButton(
                       onPressed: () {
                         if (name != nameController.text) {
-                          user.updateDisplayName(nameController.text);
+                          ref
+                              .read(authControllerProvider.notifier)
+                              .updateName(context, nameController.text,user.id);
                           Routemaster.of(context).pop();
                           Routemaster.of(context).pop();
                         }
@@ -74,7 +77,7 @@ class _EditProfileState extends State<EditProfile> {
                       image: image,
                       firstlettername: firstlettername,
                       rad: 75,
-                      width: size.width*0.6,
+                      width: size.width * 0.6,
                     ),
                     SizedBox(
                       height: size.height * 0.03,

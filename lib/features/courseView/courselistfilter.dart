@@ -7,10 +7,11 @@ import 'package:notesapp/features/components/course_builder.dart';
 
 import 'package:notesapp/theme/colors.dart';
 import 'package:notesapp/features/components/custom_appbar.dart';
+import 'package:routemaster/routemaster.dart';
 import '../../modal/courses_modal.dart';
 
 class CourseListFilterPage extends ConsumerStatefulWidget {
-  const CourseListFilterPage({super.key});
+  CourseListFilterPage({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -18,11 +19,19 @@ class CourseListFilterPage extends ConsumerStatefulWidget {
 }
 
 class _CourseListFilterPageState extends ConsumerState<CourseListFilterPage> {
+  late var usercourseslist;
+  @override
+  void initState() {
+    var user = ref.read(userProvider)!;
+    usercourseslist = user.cid;
+    print(usercourseslist);
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider)!;
-    final usercourseslist = user.cid;
-    // print(user.cid);
     final courses = ref.read(coursesDataProvider);
     // print(courses);
     var size = MediaQuery.of(context).size;
@@ -38,17 +47,25 @@ class _CourseListFilterPageState extends ConsumerState<CourseListFilterPage> {
               return ListView.builder(
                 itemCount: courseList.length,
                 itemBuilder: (context, index) {
-                  var _isSelected = false;
+                  bool _isSelected =
+                      usercourseslist.contains(courseList[index].cid);
                   return CheckboxListTile(
                     activeColor: Colors.white,
-                    checkColor: Colors.white,
-                    title: const Text('Apple',
-                        style: TextStyle(fontSize: 20, color: Colors.white)),
+                    checkColor: Colors.black,
+                    title: Text(courseList[index].cname,
+                        style: TextStyle(fontSize: 15, color: Colors.white)),
                     value: _isSelected,
                     onChanged: (bool? value) {
-                      print(value);
                       setState(() {
-                        _isSelected = value!;
+                        print(value);
+                        if (value == true &&
+                            usercourseslist.contains(courseList[index].cid) ==
+                                false &&
+                            usercourseslist.length < 6) {
+                          usercourseslist.add(courseList[index].cid);
+                        } else {
+                          usercourseslist.remove(courseList[index].cid);
+                        }
                       });
                     },
                   );
@@ -75,7 +92,7 @@ class _CourseListFilterPageState extends ConsumerState<CourseListFilterPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('${user.cid.length.toString()}/6 selected',
+                      Text('${usercourseslist.length.toString()}/6 selected',
                           style: const TextStyle(
                               color: appWhiteColor,
                               fontWeight: FontWeight.bold,
@@ -91,7 +108,11 @@ class _CourseListFilterPageState extends ConsumerState<CourseListFilterPage> {
                           ),
                         ),
                         onPressed: () {
-                          // ref.read(userProvider).addCourse(courseslist);
+                          ref
+                              .read(authControllerProvider.notifier)
+                              .updateUserCourses(
+                                  context, user.id, usercourseslist);
+                          Routemaster.of(context).pop();
                         },
                         child: const Text(
                           'Save',

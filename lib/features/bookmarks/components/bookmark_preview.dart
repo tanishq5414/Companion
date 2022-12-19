@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:notesapp/theme/colors.dart';
 import 'package:routemaster/routemaster.dart';
 
-class NotesPreview extends StatefulWidget {
-  const NotesPreview(
+class BookmarkPreview extends StatefulWidget {
+  const BookmarkPreview(
       {super.key,
       required this.id,
       required this.name,
@@ -27,10 +27,10 @@ class NotesPreview extends StatefulWidget {
   final String unit;
   final String wdlink;
   @override
-  State<NotesPreview> createState() => _NotesPreviewState();
+  State<BookmarkPreview> createState() => _BookmarkPreviewState();
 }
 
-class _NotesPreviewState extends State<NotesPreview> {
+class _BookmarkPreviewState extends State<BookmarkPreview> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -78,66 +78,56 @@ class _NotesPreviewState extends State<NotesPreview> {
               //gradient effect ==> the second layer of stack
 
               Container(
-                width: size.width * 0.43,
+                width: size.width * 0.8,
                 height: size.width * 0.43,
                 color: Colors.transparent,
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: size.width * 0.02,
+                child: TextButton(
+                  style: ElevatedButton.styleFrom(
+                    // padding: EdgeInsets.zero,
+                  ),
+                  onPressed: () {
+                    Routemaster.of(context)
+                        .push('/pdfview', queryParameters: {
+                      'id': widget.id.toString(),
+                      'name': widget.name,
+                      'year': widget.year,
+                      'branch': widget.branch,
+                      'course': widget.course,
+                      'semester': widget.semester,
+                      'version': widget.version,
+                      'unit': widget.unit,
+                      'wdlink': widget.wdlink,
+                    });
+                    
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(2.0),
                     ),
-                    TextButton(
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                      ),
-                      onPressed: () {
-                        print(1);
-                        Routemaster.of(context)
-                            .push('/pdfview', queryParameters: {
-                          'id': widget.id.toString(),
-                          'name': widget.name,
-                          'year': widget.year,
-                          'branch': widget.branch,
-                          'course': widget.course,
-                          'semester': widget.semester,
-                          'version': widget.version,
-                          'unit': widget.unit,
-                          'wdlink': widget.wdlink,
-                        });
-                        
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(2.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: size.width * 0.34,
+                          height: size.width * 0.2,
+                          child: Text(widget.course,
+                              maxLines: 3,
+                              style: const TextStyle(
+                                  overflow: TextOverflow.clip,
+                                  fontWeight: FontWeight.bold,
+                                  backgroundColor: appBackgroundColor,
+                                  fontSize: 18,
+                                  color: appWhiteColor)),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: size.width * 0.04,
-                            ),
-                            SizedBox(
-                              width: size.width * 0.34,
-                              height: size.width * 0.2,
-                              child: Text(widget.course,
-                                  maxLines: 3,
-                                  style: const TextStyle(
-                                      overflow: TextOverflow.clip,
-                                      fontWeight: FontWeight.bold,
-                                      backgroundColor: appBackgroundColor,
-                                      fontSize: 18,
-                                      color: appWhiteColor)),
-                            ),
-                            SizedBox(
-                              height: size.width * 0.02,
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width: size.width * 0.34,
+                        SizedBox(
+                          // width: size.width * 0.34,
+                          height: size.width * 0.2,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start ,
+                            children: [
+                              SizedBox(
+                                    // width: size.width * 0.34,
                                     height: size.width * 0.06,
                                     child: Text(
                                       widget.unit,
@@ -148,7 +138,7 @@ class _NotesPreviewState extends State<NotesPreview> {
                                     ),
                                   ),
                                   SizedBox(
-                                    width: size.width * 0.34,
+                                    // width: size.width * 0.34,
                                     height: size.width * 0.06,
                                     child: Text(
                                       widget.name,
@@ -159,14 +149,12 @@ class _NotesPreviewState extends State<NotesPreview> {
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ],

@@ -17,7 +17,7 @@ GridView courseBuilder(Size size, context, WidgetRef ref) {
         List<Course> allcourseslist = courses.map((e) => e).toList();
         for (var i = 0; i < userslist.length; i++) {
           for (var j = 0; j < allcourseslist.length; j++) {
-            print('$j $i ${userslist[i]} ${allcourseslist[j].cid}');
+            // print('$j $i ${userslist[i]} ${allcourseslist[j].cid}');
             // print(userslist[i] == allcourseslist[j].cid);
             // print(j);
 
@@ -48,6 +48,6 @@ GridView courseBuilder(Size size, context, WidgetRef ref) {
       itemBuilder: (context, index) {
         // print  (usercourses);
         return CoursePreview(
-            size, usercourseslist[index].cname, usercourseslist[index].cid);
+            size, usercourseslist[index].cname, usercourseslist[index].cid.toString());
       });
 }
