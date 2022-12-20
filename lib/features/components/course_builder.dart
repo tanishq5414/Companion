@@ -33,7 +33,7 @@ GridView courseBuilder(Size size, context, WidgetRef ref) {
             child: CircularProgressIndicator(
               color: Colors.white,
             ),
-          ));
+          ),);
   // print(usercourseslist);
   // var user = ref.watch(userProvider)?.id;
   return GridView.builder(

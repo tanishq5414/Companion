@@ -4,6 +4,7 @@ import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:notesapp/core/provider/notes_provider.dart';
 import 'package:notesapp/features/auth/controller/auth_controller.dart';
+import 'package:notesapp/features/components/advertisment.dart';
 import 'package:notesapp/theme/colors.dart';
 import 'package:notesapp/features/components/heading.dart';
 import 'package:notesapp/features/components/notes_builder.dart';
@@ -24,7 +25,7 @@ class HomePage extends ConsumerWidget {
     }
     return 'evening';
   }
-  
+
   @override
   Widget build(BuildContext context, ref) {
     var size = MediaQuery.of(context).size;
@@ -65,19 +66,16 @@ class HomePage extends ConsumerWidget {
               actions: [
                 TextButton(
                   style: leadingStyle,
-                  child: LineIcon(LineIcons.bell,
-                      color: Colors.white),
+                  child: LineIcon(LineIcons.bell, color: Colors.white),
                   onPressed: () {
-                    ref
-                        .read(authControllerProvider.notifier)
-                        .signOut(context);
+                    ref.read(authControllerProvider.notifier).signOut(context);
                   },
                 ),
                 TextButton(
-                    style: leadingStyle,
-                    child: Icon(Icons.settings, color: Colors.white),
-                    onPressed: () => Routemaster.of(context).push('/settings'),
-                    )
+                  style: leadingStyle,
+                  child: const Icon(Icons.settings, color: Colors.white),
+                  onPressed: () => Routemaster.of(context).push('/settings'),
+                )
               ],
             ),
           ],
@@ -90,16 +88,14 @@ class HomePage extends ConsumerWidget {
                     children: [
                       Padding(
                         padding: EdgeInsets.only(
-                            left: size.width * 0.04,
-                            right: size.width * 0.04),
+                            left: size.width * 0.04, right: size.width * 0.04),
                         child: const SubHeading(
                           subheading: 'Your courses',
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                            left: size.width * 0.04,
-                            right: size.width * 0.04),
+                            left: size.width * 0.04, right: size.width * 0.04),
                         child: InkWell(
                           child: const Icon(
                             Icons.filter_list,
@@ -112,8 +108,9 @@ class HomePage extends ConsumerWidget {
                       ),
                     ]),
                 courseBuilder(size, context, ref),
+                advertismentBuilder(size,context,ref),
                 SizedBox(
-                  height: size.height * 0.03,
+                  height: size.height * 0.01,
                 ),
                 Column(
                   children: [

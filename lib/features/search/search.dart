@@ -1,16 +1,19 @@
 //flutter screen with a search bar
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:notesapp/features/components/advertisment.dart';
 import 'package:notesapp/theme/colors.dart';
 import 'package:notesapp/features/components/custom_appbar.dart';
 import 'package:routemaster/routemaster.dart';
 
-class SearchPage extends StatefulWidget {
+
+class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
   @override
-  State<SearchPage> createState() => _SearchPageState();
+  ConsumerState<SearchPage> createState() => _SearchPageState();
 }
 
-class _SearchPageState extends State<SearchPage> {
+class _SearchPageState extends ConsumerState<SearchPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -35,6 +38,10 @@ class _SearchPageState extends State<SearchPage> {
                 SizedBox(height: size.height * 0.05),
                 const SearchBar(),
                 SizedBox(height: size.height * 0.05),
+                Padding(
+                  padding: EdgeInsets.all(size.width * 0.05),
+                  child: advertismentBuilder(size, context, ref),
+                ),
 
                 // SearchResults(),
               ],

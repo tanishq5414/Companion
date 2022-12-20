@@ -17,34 +17,43 @@ class NotesViewPage extends ConsumerStatefulWidget {
 }
 
 class _NotesViewPageState extends ConsumerState<NotesViewPage> {
+  late var flag = false;
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final notes = RouteData.of(context).queryParameters;
+      final user = ref.read(userProvider);
+      if (user!.bid.contains(notes['id'])) {
+        flag = true;
+      }
+      // TODO: implement initState
+      super.initState();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    
-    var flag = 0;
-    final user = ref.read(userProvider);
-    //get arguments from previous page
+    final user = ref.read(userProvider)!;
     final size = MediaQuery.of(context).size;
     final notes = RouteData.of(context).queryParameters;
-    if (user!.bid.contains(notes['id'])) {
-      flag = 1;
-    }
+
     void addbookmark() {
       setState(() {
-        flag = 1;
+        ref
+            .read(authControllerProvider.notifier)
+            .bookmarkNotes(context, user.id, notes['id']!, user.bid);
+        flag = !flag;
       });
-      ref
-          .read(authControllerProvider.notifier)
-          .bookmarkNotes(context, user.id, notes['id']!, user.bid);
     }
 
-    void removebookmark() {
-      setState(() {
-        flag = 0;
-      });
-      ref
-          .read(authControllerProvider.notifier)
-          .bookmarkNotes(context, user.id, notes['id']!, user.bid);
-    }
+    // void removebookmark() {
+    //   setState(() {
+    //     ref
+    //         .read(authControllerProvider.notifier)
+    //         .bookmarkNotes(context, user.id, notes['id']!, user.bid);
+    //     flag = false;
+    //   });
+    // }
 
     return Scaffold(
       backgroundColor: appBackgroundColor,
@@ -62,16 +71,21 @@ class _NotesViewPageState extends ConsumerState<NotesViewPage> {
           style: const TextStyle(color: appWhiteColor),
         ),
         actions: [
-          flag == 0
+          flag == false
               ? IconButton(
-                  icon: Icon(Icons.bookmark_border),
-                  onPressed: () => addbookmark(),
-                )
+                  icon: const Icon(Icons.bookmark_border),
+                  onPressed: () {
+                    print("{$flag} ${user.bid}");
+                    addbookmark();
+                  })
               : IconButton(
-                  icon: Icon(Icons.bookmark),
-                  onPressed: () => removebookmark(),
+                  icon: const Icon(Icons.bookmark),
+                  onPressed: () {
+                    print("{$flag} ${user.bid}");
+                    addbookmark();
+                  },
                 ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
         ],

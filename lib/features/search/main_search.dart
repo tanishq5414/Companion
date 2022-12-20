@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:notesapp/features/components/advertisment.dart';
 import 'package:notesapp/theme/colors.dart';
 
 import 'search.dart';
 
-class MainSearchPage extends StatelessWidget {
+class MainSearchPage extends ConsumerWidget {
   const MainSearchPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,ref) {
     final size = MediaQuery.of(context).size;
     return Container(
       color: appBackgroundColor,
