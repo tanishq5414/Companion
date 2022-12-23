@@ -10,6 +10,8 @@ import 'package:notesapp/features/components/custom_appbar.dart';
 import 'package:routemaster/routemaster.dart';
 import '../../modal/courses_modal.dart';
 
+List<String> CoursesSearchList = [];
+
 class CourseListFilterPage extends ConsumerStatefulWidget {
   CourseListFilterPage({super.key});
 
@@ -24,8 +26,6 @@ class _CourseListFilterPageState extends ConsumerState<CourseListFilterPage> {
   void initState() {
     var user = ref.read(userProvider)!;
     usercourseslist = user.cid;
-    print(usercourseslist);
-    // TODO: implement initState
     super.initState();
   }
 
@@ -38,12 +38,29 @@ class _CourseListFilterPageState extends ConsumerState<CourseListFilterPage> {
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Course List Filter',
+        actions: [
+          IconButton(
+              onPressed: () {
+                showSearch(
+                  context: context,
+                  delegate: CustomSearchDelegate(),
+                );
+              },
+              icon: const Icon(Icons.search))
+        ],
       ),
       body: Stack(
         children: [
           courses.when(
             data: (courses) {
               List<Course> courseList = courses.map((e) => e).toList();
+              for (int i = 0; i < courseList.length; i++) {
+                if (CoursesSearchList.contains(
+                    courseList[i].cname.toString())) {
+                } else {
+                  CoursesSearchList.add(courseList[i].cname.toString());
+                }
+              }
               return ListView.builder(
                 itemCount: courseList.length,
                 itemBuilder: (context, index) {
@@ -128,5 +145,70 @@ class _CourseListFilterPageState extends ConsumerState<CourseListFilterPage> {
         ],
       ),
     );
+  }
+}
+
+class CustomSearchDelegate extends SearchDelegate {
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+          onPressed: () {
+            print(CoursesSearchList.length);
+            query = '';
+          },
+          icon: Icon(Icons.clear))
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          close(context, null);
+        },
+        icon: Icon(Icons.arrow_back));
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    List<String> matchQuery = [];
+    for (var scourse in CoursesSearchList) {
+      if (scourse.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(scourse);
+      }
+    }
+    return ListView.builder(
+        itemCount: matchQuery.length,
+        itemBuilder: (context, index) {
+          var result = matchQuery[index];
+          return ListTile(
+            title: Text(
+              result,
+              style: TextStyle(color: Colors.white),
+            ),
+          );
+        });
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<String> matchQuery = [];
+    for (String scourse in CoursesSearchList) {
+      if (scourse.contains(query.toLowerCase())) {
+        matchQuery.add(scourse);
+      }
+    }
+    return ListView.builder(
+        itemCount: matchQuery.length,
+        itemBuilder: (context, index) {
+          var result = matchQuery[index];
+          return ListTile(
+            title: Text(
+              result,
+              style: TextStyle(color: Colors.white),
+            ),
+          );
+        });
   }
 }

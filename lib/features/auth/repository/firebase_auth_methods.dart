@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -112,7 +114,9 @@ class AuthRepository {
           'bid': FieldValue.arrayUnion([gid])
         });
         bid.add(gid);
-        print(bid);
+        if (kDebugMode) {
+          print(bid);
+        }
       }
       res = 'success';
     } catch (err) {
@@ -133,6 +137,7 @@ class AuthRepository {
     );
     try {
       if (!user.emailVerified) {
+        // ignore: use_build_context_synchronously
         await sendEmailVerification(context);
         Utils.showSnackBar(
             'Please verify your email first. Verification link sent to $email');

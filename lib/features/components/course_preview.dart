@@ -5,10 +5,10 @@ import 'package:notesapp/theme/colors.dart';
 import 'package:routemaster/routemaster.dart';
 
 class CoursePreview extends StatefulWidget {
-  CoursePreview(this.size, this.courseName, this.imageUrl, {super.key});
+  CoursePreview(this.size, this.courseName, this.cid, {super.key});
   late Size size;
   late String courseName;
-  late String imageUrl;
+  late String cid;
 
   @override
   State<CoursePreview> createState() => _CoursePreviewState();
@@ -65,7 +65,8 @@ class _CoursePreviewState extends State<CoursePreview> {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsets.only(left: widget.size.width * 0.03),
+                        padding:
+                            EdgeInsets.only(left: widget.size.width * 0.03),
                         child: SizedBox(
                           // height: widget.size.height * 0.3,
                           width: widget.size.width * 0.7,
@@ -82,7 +83,11 @@ class _CoursePreviewState extends State<CoursePreview> {
                               ),
                             ),
                             onPressed: () {
-                              Routemaster.of(context).push('/courseview');
+                              Routemaster.of(context)
+                                  .push('/courseview', queryParameters: {
+                                'id': widget.cid.toString(),
+                                'name': widget.courseName,
+                              });
                             },
                             child: Container(
                               color: Colors.transparent,
