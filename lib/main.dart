@@ -79,7 +79,7 @@ class _MyAppState extends ConsumerState<MyApp> {
             routeInformationParser: const RoutemasterParser(),
             routerDelegate: RoutemasterDelegate(
               routesBuilder: (context) {
-                if (data != null) {
+                if (data != null && data.emailVerified == true) {
                   getData(ref, data);
                   if (userModel != null) {
                     return loggedInPages;

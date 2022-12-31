@@ -55,11 +55,14 @@ class AuthController extends StateNotifier<bool> {
     final user = _authRepository.updateUserCourses(uid,cid);
   }
 
-  void logInWithEmail(BuildContext context, email, password) async {
+  void logInWithEmail(BuildContext context, String email, String password) async {
     final user = _authRepository.loginWithEmail(
-        email: email, password: password, context: context);
+        email:email, password: password, context: context);
+    
   }
-
+ void sendEmailVerification(BuildContext context) async {
+    final user = _authRepository.sendEmailVerification(context);
+  }
   void signUpwithEmail(BuildContext context, email, password, fullName) async {
     final user = _authRepository.signUpWithEmail(
         email: email, password: password, fullName: fullName, context: context);

@@ -55,10 +55,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       elevation: 0,
     );
     // login Function
-    void loginUser() {
+    void loginUser(String email, String password) {
       ref
           .read(authControllerProvider.notifier)
-          .logInWithEmail(context, emailController, passwordController);
+          .logInWithEmail(context, email, password);
     }
     void forgotpassword(){
       Routemaster.of(context).push('/forgotpassword');
@@ -106,7 +106,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ),
                     ElevatedButton(
                       style: loginButtonStyle,
-                      onPressed: loginUser,
+                      onPressed: (){
+                        loginUser(emailController.text, passwordController.text);
+                      },
                       child: Text(
                         'Log in',
                         style: TextStyle(

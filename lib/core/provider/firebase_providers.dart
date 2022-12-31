@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:notesapp/features/auth/repository/firestore_methods.dart';
 // import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:riverpod/riverpod.dart';

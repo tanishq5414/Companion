@@ -69,7 +69,7 @@ List bookmarks = [];
                 left: size.width * 0.04,
               ),
               child: ProfileAvatar(
-                  image: user!.photoUrl??"",
+                  image: user!.photoUrl,
                   firstlettername: user.name[0],
                   rad: 22,
                   width: 1),

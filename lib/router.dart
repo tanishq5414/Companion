@@ -18,6 +18,8 @@ import 'package:notesapp/features/settings/edit_profile.dart';
 import 'package:notesapp/features/settings/settings.dart';
 import 'package:routemaster/routemaster.dart';
 
+import 'features/auth/screens/send_email_verification.dart';
+
 final loggedOutPages = RouteMap(
   routes: {
     '/': (_) => const MaterialPage(child: LoginMain()),
@@ -28,6 +30,7 @@ final loggedOutPages = RouteMap(
           email: route.pathParameters['email']!,
     )),
     '/forgotpassword': (_) => const MaterialPage(child: ForgotPasswordPage()),
+    '/sendverification': (_) => const MaterialPage(child: SendEmailVerification()),
   },
 );
 
@@ -38,6 +41,7 @@ final loggedInPages = RouteMap(
     '/search': (_) => const MaterialPage(child: SearchPage()),
     '/home': (_) => const MaterialPage(child: HomePage()),
     '/bookmarks': (_) => const MaterialPage(child: BookmarksPage()),
+    '/sendverification': (_) => const MaterialPage(child: SendEmailVerification()),
     '/pdfview': (_) => const MaterialPage(child: NotesViewPage()),
     '/courseview': (_) => const MaterialPage(child: CourseViewPage()),
     '/editprofile': (_) => const MaterialPage(child: EditProfile()),

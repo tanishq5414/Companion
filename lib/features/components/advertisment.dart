@@ -31,7 +31,7 @@ ListView advertismentBuilder(Size size, context, WidgetRef ref) {
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        String image = advertlist[0].photoUrl;
+        String image = advertlist[0].photoUrl??"";
         String url = advertlist[0].redirectLink;
         // print  (usercourses);
         return InkWell(

@@ -31,15 +31,15 @@ class _SignupPageState extends ConsumerState<SignupPage> {
     super.dispose();
   }
 
-  signUp(email,password,fullname) {
+  void signUp(email, password, fullname) {
     ref
         .read(authControllerProvider.notifier)
         .signUpwithEmail(context, email, password, fullname);
   }
-  
+
   @override
   Widget build(BuildContext context) {
-  var params = RouteData.of(context).queryParameters;
+    var params = RouteData.of(context).queryParameters;
 
     var size = MediaQuery.of(context).size;
     Color buttonColor;
@@ -117,7 +117,10 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                       ),
                       ElevatedButton(
                         style: loginButtonStyle,
-                        onPressed: signUp(params['email'],params['password'],fullNameController.text),
+                        onPressed: () {
+                          signUp(params['email'], params['password'],
+                              fullNameController.text);
+                        },
                         child: Text(
                           'Create Account',
                           style: TextStyle(

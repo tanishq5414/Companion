@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:http/http.dart';
 import 'package:notesapp/core/failure.dart';
 import 'package:notesapp/core/provider/firebase_providers.dart';
 import 'package:notesapp/core/type_defs.dart';
@@ -56,29 +57,39 @@ class AuthRepository {
     required String fullName,
     required BuildContext context,
   }) async {
+    late UserCollection userModel;
     try {
       final result = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
       var user = result.user!;
+      userModel = UserCollection(
+        id: user.uid,
+        email: user.email!,
+        name: fullName,
+        photoUrl: 'yes',
+        notificationsEnabled: 'true',
+        cid: [],
+        bid: [],
+      );
       final data = await _supabaseClient.from('userscollection').insert({
-        "uid": "${user.uid}",
+        "uid": user.uid,
         "cid": [],
         "bid": [],
         "email": "${user.email}",
-        "name": "$fullName",
+        "name": fullName,
         "notificationsEnabled": "true",
         "photoUrl": "yes"
       });
-      print(data);
+      await sendEmailVerification(context);
+      Routemaster.of(context).push('/sendverification');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         Utils.showSnackBar('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
         Utils.showSnackBar('The account already exists for that email.');
       }
-      Utils.showSnackBar(e.message!);
     }
   }
 
@@ -127,25 +138,37 @@ class AuthRepository {
   }
 
   // EMAIL LOGIN
-  Future<void> loginWithEmail({
+  FutureEither<UserCollection> loginWithEmail({
     required String email,
     required String password,
     required BuildContext context,
   }) async {
-    await _auth.signInWithEmailAndPassword(
+    late UserCollection userModel;
+    var userCredential = await _auth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
+    var user = userCredential.user!;
+    print(1);
     try {
-      if (!user.emailVerified) {
-        // ignore: use_build_context_synchronously
+      if (user.emailVerified == false) {
         await sendEmailVerification(context);
+        Routemaster.of(context).push('/sendverification');
         Utils.showSnackBar(
             'Please verify your email first. Verification link sent to $email');
+
+        return left(Failure('Please verify your email first'));
+      } else {
+        userModel = await getUserData(user.uid).first;
+        Routemaster.of(context).push('/');
+        return right(userModel);
       }
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(e.message!);
+    } catch (e) {
+      return left(Failure(e.toString()));
     }
+    return left(Failure(e.toString()));
   }
 
   //RESET PASSWORD
