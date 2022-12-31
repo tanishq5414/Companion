@@ -17,10 +17,6 @@ class LoginMain extends ConsumerWidget {
     ref.read(authControllerProvider.notifier).signInWithGoogle(context);
   }
 
-  void signInWithFacebook(BuildContext context, WidgetRef ref) {
-    ref.read(authControllerProvider.notifier).signInWithFacebook(context);
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.of(context).size;
@@ -103,7 +99,19 @@ class LoginMain extends ConsumerWidget {
                             color: Colors.white,
                           )),
                       SizedBox(
-                        height: size.height * 0.03,
+                        height: size.height * 0.01,
+                      ),
+                      const Text('A LightHeads Product',
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white,
+                          )),
+                      SizedBox(
+                        height: size.height * 0.04,
+                      ),
+                      SizedBox(
+                        height: size.height * 0.04,
                       ),
                       SizedBox(
                         height: size.height * 0.04,
@@ -139,34 +147,8 @@ class LoginMain extends ConsumerWidget {
                       SizedBox(
                         height: size.height * 0.01,
                       ),
-                      SizedBox(
-                        width: size.width / 1.29,
-                        child: TextButton(
-                            style: otherButtonStyle,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Text(
-                                  'Continue with ',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: appWhiteColor,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  'Facebook',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.blue,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                            onPressed: () => signInWithFacebook(context, ref)),
-                      ),
-                      SizedBox(
-                        height: size.height * 0.01,
-                      ),
+                      
+                      
                       ElevatedButton(
                         style: signUpButtonStyle,
                         child: Row(
@@ -176,7 +158,7 @@ class LoginMain extends ConsumerWidget {
                               width: size.width / 30,
                             ),
                             const Text(
-                              'Sign up for Lighthead\'s Account',
+                              'Sign up for LightHeads Account',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 12,

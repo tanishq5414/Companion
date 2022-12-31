@@ -1,5 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
 
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -224,80 +226,6 @@ class AuthRepository {
     }
   }
 
-  FutureEither<UserCollection> signInWithFacebook(BuildContext context) async {
-      late UserCollection userModel;
-    try { 
-
-        final LoginResult loginResult = await FacebookAuth.instance.login();
-        final OAuthCredential facebookAuthCredential =
-          FacebookAuthProvider.credential(loginResult.accessToken!.token);
-      await _auth.signInWithCredential(facebookAuthCredential);
-      UserCredential userCredential =
-          await _auth.signInWithCredential(facebookAuthCredential);
-      final user = userCredential.user!;
-      if (userCredential.user != null) {
-        if (userCredential.additionalUserInfo!.isNewUser) {
-
-          List bid = [];
-          await sendEmailVerification(context);
-          userModel = UserCollection(
-              id: user.uid,
-              cid: cid,
-              bid: [],
-              email: user.email!,
-              name: user.displayName!,
-              photoUrl: user.photoURL ?? "",
-              notificationsEnabled: "true",
-            );
-          await _supabaseClient.from('userscollection').insert({
-            'uid': user.uid,
-            'cid': cid,
-            'bid': [],
-            'email': user.email,
-            'name': user.displayName,
-            'photoUrl': user.photoURL ?? "",
-            'notificationsEnabled': "true",
-          });
-        }
-      }else {
-            userModel = await getUserData(userCredential.user!.uid).first;
-          }
-      return right(userModel);
-        }catch (e) {
-      return left(Failure(e.toString()));
-    }
-}
-
-  // // // FACEBOOK SIGN IN
-  // FutureEither<UserCollection> signInWithFacebook(BuildContext context) async {
-  //   try {
-      // final LoginResult loginResult = await FacebookAuth.instance.login();
-      // final OAuthCredential facebookAuthCredential =
-      //     FacebookAuthProvider.credential(loginResult.accessToken!.token);
-      // await _auth.signInWithCredential(facebookAuthCredential);
-      // UserCredential userCredential =
-      //     await _auth.signInWithCredential(facebookAuthCredential);
-      // final user = userCredential.user!;
-      // if (userCredential.user != null) {
-      //   if (userCredential.additionalUserInfo!.isNewUser) {
-      //     List bid = [];
-      //     await sendEmailVerification(context);
-      //     await _supabaseClient.from('userscollection').insert({
-      //       'uid': user.uid,
-      //       'cid': cid,
-      //       'bid': [],
-      //       'email': user.email,
-      //       'name': user.displayName,
-      //       'photoUrl': user.photoURL ?? "",
-      //       'notificationsEnabled': "true",
-      //     });
-      //   }
-      // }
-  //   } on FirebaseAuthException catch (e) {
-  //     Utils.showSnackBar(e.message!); // Displaying the error message
-  //   }
-  // }
-
   // SIGN OUT
   Future<void> signOut(BuildContext context) async {
     try {
@@ -350,6 +278,7 @@ class AuthRepository {
         .stream(primaryKey: ['uid'])
         .eq('uid', uid)
         .map((event) {
+          print(event);
           return UserCollection(
               id: event.elementAt(0)['uid'],
               bid: event.elementAt(0)['bid'],
