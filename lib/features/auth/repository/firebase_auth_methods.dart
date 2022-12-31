@@ -14,30 +14,35 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod/riverpod.dart';
+import 'package:routemaster/routemaster.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 import '../../components/otp_box.dart';
 
 final authRepositoryProvider = Provider(
   (ref) => AuthRepository(
-    firestore: ref.read(firestoreProvider),
+    supabaseClient: ref.read(supabaseProvider),
     auth: ref.read(authProvider),
     googleSignIn: ref.read(googleSignInProvider),
+    firestore: ref.read(firestoreProvider),
   ),
 );
 
 class AuthRepository {
+  final supabase.SupabaseClient _supabaseClient;
   final FirebaseFirestore _firestore;
   final FirebaseAuth _auth;
   final GoogleSignIn _googleSignIn;
   AuthRepository({
-    required FirebaseFirestore firestore,
+    required supabase.SupabaseClient supabaseClient,
     required FirebaseAuth auth,
     required GoogleSignIn googleSignIn,
+    required FirebaseFirestore firestore,
   })  : _auth = auth,
         _firestore = firestore,
+        _supabaseClient = supabaseClient,
         _googleSignIn = googleSignIn;
 
-  CollectionReference get _users => _firestore.collection('users');
   User get user => _auth.currentUser!;
   var cid = [];
   Stream<User?> get authStateChange => _auth.authStateChanges();
@@ -50,24 +55,21 @@ class AuthRepository {
     required BuildContext context,
   }) async {
     try {
-      UserCredential result = await _auth.createUserWithEmailAndPassword(
+      final result = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      User? user = result.user;
-      user?.updateDisplayName(fullName);
-      List bid = [];
-      await sendEmailVerification(context);
-      UserCollection usertemp = UserCollection(
-        id: user!.uid,
-        cid: cid,
-        bid: bid,
-        email: user.email!,
-        name: user.displayName!,
-        photoUrl: user.photoURL!,
-        notificationsEnabled: "true",
-      );
-      await _firestore.collection('users').doc(user.uid).set(usertemp.toMap());
+      var user = result.user!;
+      final data = await _supabaseClient.from('userscollection').insert({
+        "uid": "${user.uid}",
+        "cid": [],
+        "bid": [],
+        "email": "${user.email}",
+        "name": "$fullName",
+        "notificationsEnabled": "true",
+        "photoUrl": "yes"
+      });
+      print(data);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         Utils.showSnackBar('The password provided is too weak.');
@@ -77,42 +79,39 @@ class AuthRepository {
       Utils.showSnackBar(e.message!);
     }
   }
+
   //add courses
   Future<String> updateUserCourses(String uid, List cid) async {
     String res = "Some error occurred";
     try {
-      await _firestore.collection('users').doc(uid).update({
+      await _supabaseClient.from('userscollection').update({
         'cid': cid,
-      });
+      }).eq('uid', uid);
       res = 'success';
     } catch (err) {
       res = err.toString();
     }
     return res;
   }
+
   // Bookmark Notes
   Future<String> bookmarkNotes(String id, String gid, bookmarks) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var bid = prefs.getStringList('bid')??[];
+    var bid = prefs.getStringList('bid') ?? [];
+    getUserData(id);
     String res = "Some error occurred";
     try {
-      // print(bookmarks);
-      // L bookmarks = await _firestore.collection('users').doc(id).collection('bookmarks').get();
       if (bookmarks.contains(gid)) {
-        // print(gid);
-        // print('tanishq');
-        // print(34);
-        // if the likes list contains the user uid, we need to remove it
-        _firestore.collection('users').doc(id).update({
+        _supabaseClient.from('userscollection').update({
           'bid': FieldValue.arrayRemove([gid])
-        });
+        }).eq('uid', id);
         bid.remove(gid);
         prefs.setStringList('bid', bid);
       } else {
         // else we need to add uid to the likes array
-        _firestore.collection('users').doc(id).update({
+        _supabaseClient.from('userscollection').update({
           'bid': FieldValue.arrayUnion([gid])
-        });
+        }).eq('uid', id);
         bid.add(gid);
         if (kDebugMode) {
           print(bid);
@@ -170,8 +169,8 @@ class AuthRepository {
   }
 
   // GOOGLE SIGN IN
+
   FutureEither<UserCollection> signInWithGoogle(BuildContext context) async {
-    // late UserCollection userCollection;
     try {
       UserCredential userCredential;
       late UserCollection userModel;
@@ -201,32 +200,36 @@ class AuthRepository {
               bid: [],
               email: user.email!,
               name: user.displayName!,
-              photoUrl: user.photoURL!,
+              photoUrl: user.photoURL ?? "",
               notificationsEnabled: "true",
             );
-            await _firestore
-                .collection('users')
-                .doc(userModel.id)
-                .set(userModel.toMap());
+            await _supabaseClient.from('userscollection').insert({
+              'uid': user.uid,
+              'cid': cid,
+              'bid': [],
+              'email': user.email,
+              'name': user.displayName,
+              'photoUrl': user.photoURL ?? "",
+              'notificationsEnabled': "true",
+            });
           } else {
             userModel = await getUserData(userCredential.user!.uid).first;
           }
         }
       }
       return right(userModel);
-    } on FirebaseException catch (e) {
-      throw e.message!;
     } catch (e) {
       print(e);
       return left(Failure(e.toString()));
     }
   }
 
-  // // FACEBOOK SIGN IN
-  Future<void> signInWithFacebook(BuildContext context) async {
-    try {
-      final LoginResult loginResult = await FacebookAuth.instance.login();
-      final OAuthCredential facebookAuthCredential =
+  FutureEither<UserCollection> signInWithFacebook(BuildContext context) async {
+      late UserCollection userModel;
+    try { 
+
+        final LoginResult loginResult = await FacebookAuth.instance.login();
+        final OAuthCredential facebookAuthCredential =
           FacebookAuthProvider.credential(loginResult.accessToken!.token);
       await _auth.signInWithCredential(facebookAuthCredential);
       UserCredential userCredential =
@@ -234,117 +237,66 @@ class AuthRepository {
       final user = userCredential.user!;
       if (userCredential.user != null) {
         if (userCredential.additionalUserInfo!.isNewUser) {
+
           List bid = [];
-          // ignore: use_build_context_synchronously
           await sendEmailVerification(context);
-          UserCollection _user = UserCollection(
-            id: user.uid,
-            cid: cid,
-            bid: bid,
-            email: user.email!,
-            name: user.displayName!,
-            photoUrl: user.photoURL!,
-            notificationsEnabled: "true",
-          );
-          await _firestore.collection('users').doc(user.uid).set(_user.toMap());
+          userModel = UserCollection(
+              id: user.uid,
+              cid: cid,
+              bid: [],
+              email: user.email!,
+              name: user.displayName!,
+              photoUrl: user.photoURL ?? "",
+              notificationsEnabled: "true",
+            );
+          await _supabaseClient.from('userscollection').insert({
+            'uid': user.uid,
+            'cid': cid,
+            'bid': [],
+            'email': user.email,
+            'name': user.displayName,
+            'photoUrl': user.photoURL ?? "",
+            'notificationsEnabled': "true",
+          });
         }
-      }
-    } on FirebaseAuthException catch (e) {
-      Utils.showSnackBar(e.message!); // Displaying the error message
+      }else {
+            userModel = await getUserData(userCredential.user!.uid).first;
+          }
+      return right(userModel);
+        }catch (e) {
+      return left(Failure(e.toString()));
     }
-  }
+}
 
-  // PHONE SIGN IN
-  Future<void> phoneSignIn(
-    BuildContext context,
-    String phoneNumber,
-  ) async {
-    TextEditingController codeController = TextEditingController();
-    if (kIsWeb) {
-      // !!! Works only on web !!!
-      ConfirmationResult result =
-          await _auth.signInWithPhoneNumber(phoneNumber);
-
-      // Diplay Dialog Box To accept OTP
-      showOTPDialog(
-        codeController: codeController,
-        context: context,
-        onPressed: () async {
-          PhoneAuthCredential credential = PhoneAuthProvider.credential(
-            verificationId: result.verificationId,
-            smsCode: codeController.text.trim(),
-          );
-
-          await _auth.signInWithCredential(credential);
-          // ignore: use_build_context_synchronously
-          Navigator.of(context).pop(); // Remove the dialog box
-          // ignore: use_build_context_synchronously
-          Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
-        },
-      );
-    } else {
-      // FOR ANDROID, IOS
-      await _auth.verifyPhoneNumber(
-        phoneNumber: phoneNumber,
-        //  Automatic handling of the SMS code
-        verificationCompleted: (PhoneAuthCredential credential) async {
-          // !!! works only on android !!!
-          await _auth.signInWithCredential(credential);
-        },
-        // Displays a message when verification fails
-        verificationFailed: (e) {
-          Utils.showSnackBar(e.message!);
-        },
-        // Displays a dialog box when OTP is sent
-        codeSent: ((String verificationId, int? resendToken) async {
-          showOTPDialog(
-            codeController: codeController,
-            context: context,
-            onPressed: () async {
-              PhoneAuthCredential credential = PhoneAuthProvider.credential(
-                verificationId: verificationId,
-                smsCode: codeController.text.trim(),
-              );
-
-              // !!! Works only on Android, iOS !!!
-              await _auth.signInWithCredential(credential);
-              UserCredential userCredential =
-                  await _auth.signInWithCredential(credential);
-              final user = userCredential.user!;
-              if (userCredential.user != null) {
-                if (userCredential.additionalUserInfo!.isNewUser) {
-                  List bid = [];
-                  // ignore: use_build_context_synchronously
-                  await sendEmailVerification(context);
-                  UserCollection _user = UserCollection(
-                    id: user.uid,
-                    cid: cid,
-                    bid: bid,
-                    email: user.email!,
-                    name: user.displayName!,
-                    photoUrl: user.photoURL!,
-                    notificationsEnabled: "true",
-                  );
-                  await _firestore
-                      .collection('users')
-                      .doc(user.uid)
-                      .set(_user.toMap());
-                }
-              }
-              // ignore: use_build_context_synchronously
-              Navigator.of(context).pop();
-              // ignore: use_build_context_synchronously
-              Navigator.pushNamedAndRemoveUntil(
-                  context, '/home', (route) => false); // Remove the dialog box
-            },
-          );
-        }),
-        codeAutoRetrievalTimeout: (String verificationId) {
-          // Auto-resolution timed out...
-        },
-      );
-    }
-  }
+  // // // FACEBOOK SIGN IN
+  // FutureEither<UserCollection> signInWithFacebook(BuildContext context) async {
+  //   try {
+      // final LoginResult loginResult = await FacebookAuth.instance.login();
+      // final OAuthCredential facebookAuthCredential =
+      //     FacebookAuthProvider.credential(loginResult.accessToken!.token);
+      // await _auth.signInWithCredential(facebookAuthCredential);
+      // UserCredential userCredential =
+      //     await _auth.signInWithCredential(facebookAuthCredential);
+      // final user = userCredential.user!;
+      // if (userCredential.user != null) {
+      //   if (userCredential.additionalUserInfo!.isNewUser) {
+      //     List bid = [];
+      //     await sendEmailVerification(context);
+      //     await _supabaseClient.from('userscollection').insert({
+      //       'uid': user.uid,
+      //       'cid': cid,
+      //       'bid': [],
+      //       'email': user.email,
+      //       'name': user.displayName,
+      //       'photoUrl': user.photoURL ?? "",
+      //       'notificationsEnabled': "true",
+      //     });
+      //   }
+      // }
+  //   } on FirebaseAuthException catch (e) {
+  //     Utils.showSnackBar(e.message!); // Displaying the error message
+  //   }
+  // }
 
   // SIGN OUT
   Future<void> signOut(BuildContext context) async {
@@ -360,8 +312,7 @@ class AuthRepository {
     try {
       deleteUser(user.uid);
       await _auth.currentUser!.delete();
-      // ignore: use_build_context_synchronously
-      Navigator.pushNamedAndRemoveUntil(context, '/start', (route) => false);
+      Routemaster.of(context).push('/');
       print('user deleted');
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(e.message!);
@@ -378,41 +329,36 @@ class AuthRepository {
       await FirebaseAuth.instance.currentUser!.updateDisplayName(
         name,
       );
-      _firestore.collection('users').doc(uid).update({
+      await _supabaseClient.from('userscollection').update({
         'name': name,
-      });
-      print(5);
-    } on FirebaseAuthException catch (e) {
-      Utils.showSnackBar(e.message!); // Displaying the error message
-    }
-  }
-
-// UPDATE EMAIL
-  Future<void> updateEmail(
-      BuildContext context, String newemail, String password) async {
-    var email = FirebaseAuth.instance.currentUser!.email.toString();
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email.toString(), password: password.toString());
-    try {
-      await FirebaseAuth.instance.currentUser!.updateEmail(
-        newemail,
-      );
-      await FirebaseAuth.instance.currentUser!.sendEmailVerification();
-      Utils.showSnackBar(
-          'Email updated successfully. Please verify your new email.');
-      await FirebaseAuth.instance.signOut();
+      }).eq('uid', uid);
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(e.message!); // Displaying the error message
     }
   }
 
   Future<void> deleteUser(String uid) async {
-    await FirebaseFirestore.instance.collection('users').doc(uid).delete();
+    await _auth.currentUser!.delete();
+    await _supabaseClient.from('userscollection').delete().eq('uid', uid);
     print('user deleted');
   }
 
   Stream<UserCollection> getUserData(String uid) {
-    return _users.doc(uid).snapshots().map((event) =>
-        UserCollection.fromMap(event.data() as Map<String, dynamic>));
+    Stream<UserCollection> user;
+    user = _supabaseClient
+        .from('userscollection')
+        .stream(primaryKey: ['uid'])
+        .eq('uid', uid)
+        .map((event) {
+          return UserCollection(
+              id: event.elementAt(0)['uid'],
+              bid: event.elementAt(0)['bid'],
+              cid: event.elementAt(0)['cid'],
+              notificationsEnabled: event.elementAt(0)['notificationsEnabled'],
+              email: event.elementAt(0)['email'],
+              name: event.elementAt(0)['name'],
+              photoUrl: event.elementAt(0)['photoUrl']);
+        });
+    return user;
   }
 }

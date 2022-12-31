@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:notesapp/theme/colors.dart';
-import 'package:flutter/services.dart';
 import 'package:notesapp/features/components/custom_appbar.dart';
 import 'package:notesapp/features/auth/components/custom_subtitle.dart';
 import 'package:notesapp/features/auth/components/custom_title.dart';

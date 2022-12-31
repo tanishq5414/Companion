@@ -48,7 +48,17 @@ class AuthController extends StateNotifier<bool> {
       pref.setStringList('cid', []);
     });
   }
-
+  void signInWithFacebook(context) async{
+    state = true;
+    final user = await _authRepository.signInWithFacebook(context);
+    state = false;
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    user.fold((l) => Utils.showSnackBar(l.message), (userModel) {
+      _ref.read(userProvider.notifier).update((state) => userModel);
+      pref.setString("email", userModel.email);
+      pref.setStringList('cid', []);
+    });
+  }
   void bookmarkNotes(BuildContext context, String id, String gid, bookmarks) {
     final user = _authRepository.bookmarkNotes(id, gid, bookmarks);
   }
@@ -76,11 +86,9 @@ class AuthController extends StateNotifier<bool> {
     final user = _authRepository.updateName(context, fullName, uid);
   }
 
-  void updateEmail(BuildContext context, newemail, password) {
-    final user = _authRepository.updateEmail(context, newemail, password);
-  }
 
   void deleteAccount(BuildContext context) async {
     final user = _authRepository.deleteAccount(context);
   }
+  
 }

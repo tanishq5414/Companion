@@ -40,7 +40,7 @@ dependencies:
   flutter_facebook_auth: ^4.1.2
   google_sign_in: ^5.2.4
   # provider: ^6.0.3
-  flutter_riverpod: ^2.0.2
+  flutter_riverpod:
   flutter_launcher_icons: ^0.10.0
   syncfusion_flutter_pdfviewer: ^20.2.50-beta
   flutter_windowmanager: ^0.2.0
@@ -48,6 +48,7 @@ dependencies:
   routemaster: ^1.0.1
   shared_preferences: ^2.0.15
   url_launcher: ^6.1.7
+  supabase_flutter:
 
 dev_dependencies:
   flutter_test:

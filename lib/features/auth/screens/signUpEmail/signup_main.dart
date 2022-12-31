@@ -1,16 +1,18 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notesapp/features/auth/controller/auth_controller.dart';
-import 'package:notesapp/theme/colors.dart';
-import 'package:notesapp/features/components/custom_appbar.dart';
+
 import 'package:notesapp/features/auth/components/custom_title.dart';
 import 'package:notesapp/features/auth/components/text_field.dart';
+import 'package:notesapp/features/auth/controller/auth_controller.dart';
 import 'package:notesapp/features/auth/repository/firebase_auth_methods.dart';
+import 'package:notesapp/features/components/custom_appbar.dart';
+import 'package:notesapp/theme/colors.dart';
+import 'package:routemaster/routemaster.dart';
 
 class SignupPage extends ConsumerStatefulWidget {
-  final String email;
-  final String password;
-  const SignupPage({super.key, required this.email, required this.password});
+  const SignupPage({super.key});
 
   @override
   ConsumerState<SignupPage> createState() => _SignupPageState();
@@ -29,14 +31,16 @@ class _SignupPageState extends ConsumerState<SignupPage> {
     super.dispose();
   }
 
-  void signUp() {
+  signUp(email,password,fullname) {
     ref
         .read(authControllerProvider.notifier)
-        .signUpwithEmail(context, widget.email, widget.password, fullNameController);
+        .signUpwithEmail(context, email, password, fullname);
   }
-
+  
   @override
   Widget build(BuildContext context) {
+  var params = RouteData.of(context).queryParameters;
+
     var size = MediaQuery.of(context).size;
     Color buttonColor;
     Color buttonTextColor;
@@ -113,7 +117,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                       ),
                       ElevatedButton(
                         style: loginButtonStyle,
-                        onPressed: signUp,
+                        onPressed: signUp(params['email'],params['password'],fullNameController.text),
                         child: Text(
                           'Create Account',
                           style: TextStyle(

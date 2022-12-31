@@ -17,8 +17,8 @@ class LoginMain extends ConsumerWidget {
     ref.read(authControllerProvider.notifier).signInWithGoogle(context);
   }
 
-  void signInWithFacebook(WidgetRef ref) {
-    ref.read(authControllerProvider);
+  void signInWithFacebook(BuildContext context, WidgetRef ref) {
+    ref.read(authControllerProvider.notifier).signInWithFacebook(context);
   }
 
   @override
@@ -106,6 +106,9 @@ class LoginMain extends ConsumerWidget {
                         height: size.height * 0.03,
                       ),
                       SizedBox(
+                        height: size.height * 0.04,
+                      ),
+                      SizedBox(
                         width: size.width / 1.29,
                         child: TextButton(
                             style: otherButtonStyle,
@@ -131,7 +134,7 @@ class LoginMain extends ConsumerWidget {
                                 ),
                               ],
                             ),
-                            onPressed: () => signInWithGoogle(context,ref)),
+                            onPressed: () => signInWithGoogle(context, ref)),
                       ),
                       SizedBox(
                         height: size.height * 0.01,
@@ -159,43 +162,7 @@ class LoginMain extends ConsumerWidget {
                                 ),
                               ],
                             ),
-                            onPressed: () => signInWithFacebook(ref)),
-                      ),
-                      SizedBox(
-                        height: size.height * 0.01,
-                      ),
-                      SizedBox(
-                        width: size.width / 1.29,
-                        child: TextButton(
-                          style: otherButtonStyle,
-                          // icon: const Icon(
-                          //   Icons.phone_iphone_rounded,
-                          //   color: appWhiteColor,
-                          //   size: 20,
-                          // ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Text(
-                                'Continue with ',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: appWhiteColor,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                'Phone',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: Colors.greenAccent,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                          onPressed: () {
-                            Routemaster.of(context).push('/phonelogin');
-                          },
-                        ),
+                            onPressed: () => signInWithFacebook(context, ref)),
                       ),
                       SizedBox(
                         height: size.height * 0.01,
@@ -209,7 +176,7 @@ class LoginMain extends ConsumerWidget {
                               width: size.width / 30,
                             ),
                             const Text(
-                              'Sign up for free',
+                              'Sign up for Lighthead\'s Account',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 12,
@@ -219,7 +186,8 @@ class LoginMain extends ConsumerWidget {
                           ],
                         ),
                         onPressed: () {
-                          Navigator.pushNamed(context, '/emailpage');
+                          // Navigator.pushNamed(context, '/emailpage');
+                          Routemaster.of(context).push('/emailpage');
                         },
                       ),
                       TextButton(
@@ -227,7 +195,7 @@ class LoginMain extends ConsumerWidget {
                             foregroundColor: Colors.transparent,
                           ),
                           onPressed: () {
-                            Navigator.pushNamed(context, '/login');
+                            Routemaster.of(context).push('/login');
                           },
                           child: const Text(
                             'Log in',

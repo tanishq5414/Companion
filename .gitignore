@@ -11,7 +11,7 @@
 .buildlog/
 .history
 .svn/
-
+apikeys.dart
 # IntelliJ related
 *.iml
 *.ipr

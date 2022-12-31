@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:notesapp/features/auth/screens/changeEmail/changeEmail.dart';
 import 'package:notesapp/features/auth/screens/loginEmail/forgot_password.dart';
-import 'package:notesapp/features/auth/screens/loginPhone/login_phone.dart';
+import 'package:notesapp/features/auth/screens/loginEmail/login_email.dart';
 import 'package:notesapp/features/auth/screens/login_main.dart';
 import 'package:notesapp/features/auth/screens/signUpEmail/signup_getemail.dart';
 import 'package:notesapp/features/auth/screens/signUpEmail/signup_getpassword.dart';
@@ -22,12 +21,9 @@ import 'package:routemaster/routemaster.dart';
 final loggedOutPages = RouteMap(
   routes: {
     '/': (_) => const MaterialPage(child: LoginMain()),
-    '/signup': (route) => MaterialPage(child: SignupPage(
-          email: route.pathParameters['email']!,
-          password: route.pathParameters['password']!,
-    )),
+    '/signup': (_) => const MaterialPage(child: SignupPage()),
+    '/login': (_) => const MaterialPage(child: LoginPage()),
     '/emailpage': (_) => const MaterialPage(child: EmailPage()),
-    '/phonelogin': (_) => const MaterialPage(child: PhoneLogin()),
     '/passwordpage/:email': (route) => MaterialPage(child: PasswordPage(
           email: route.pathParameters['email']!,
     )),
@@ -43,7 +39,6 @@ final loggedInPages = RouteMap(
     '/home': (_) => const MaterialPage(child: HomePage()),
     '/bookmarks': (_) => const MaterialPage(child: BookmarksPage()),
     '/pdfview': (_) => const MaterialPage(child: NotesViewPage()),
-    '/changeemail': (_) => const MaterialPage(child: ChangeEmailPage()),
     '/courseview': (_) => const MaterialPage(child: CourseViewPage()),
     '/editprofile': (_) => const MaterialPage(child: EditProfile()),
     '/error404': (_) => const MaterialPage(child: Error404()),

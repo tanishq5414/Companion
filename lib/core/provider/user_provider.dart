@@ -13,5 +13,6 @@ class UserProvider with ChangeNotifier{
           cid: [],
           bid: [],
           notificationsEnabled: '',
-          photoUrl: '');
+          photoUrl: '',
+          );
 }

@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:notesapp/apikeys.dart';
 import 'package:notesapp/core/error_text.dart';
 import 'package:notesapp/features/auth/controller/auth_controller.dart';
 import 'package:notesapp/modal/user_modal.dart';
@@ -13,10 +14,15 @@ import 'package:notesapp/theme/colors.dart';
 import 'package:notesapp/features/components/snack_bar.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await supabase.Supabase.initialize(
+    url: supabaseApiURL,
+    anonKey: supabaseApiPublicKey,
+  );
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var email = prefs.getString("email");
   runApp(

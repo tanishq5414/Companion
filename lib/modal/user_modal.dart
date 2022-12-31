@@ -19,9 +19,9 @@ class UserCollection {
     required this.cid,
     required this.notificationsEnabled,
     required this.email,
-    required this.photoUrl,
     required this.name,
-  }); 
+    required this.photoUrl
+  });
   UserCollection copyWith({
     String? id,
     List? bid,
@@ -37,32 +37,31 @@ class UserCollection {
       cid: cid ?? this.cid,
       notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
       email: email ?? this.email,
-      photoUrl: photoUrl ?? this.photoUrl,
       name: name ?? this.name,
+      photoUrl: photoUrl ?? this.photoUrl,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
+      'uid': id,
       'bid': bid,
       'cid': cid,
       'notificationsEnabled': notificationsEnabled,
       'email': email,
-      'photoUrl': photoUrl,
       'name': name,
     };
   }
 
   factory UserCollection.fromMap(Map<String, dynamic> map) {
     return UserCollection(
-      id: map['id'] as String,
+      id: map['uid'] as String,
       bid: List.from(map['bid'] as List),
       cid: List.from(map['cid'] as List),
       notificationsEnabled: map['notificationsEnabled'] as String,
       email: map['email'] as String,
-      photoUrl: map['photoUrl'] as String,
       name: map['name'] as String,
+      photoUrl: map['photoUrl'] as String,
     );
   }
 
@@ -73,7 +72,7 @@ class UserCollection {
 
   @override
   String toString() {
-    return 'UserCollection(id: $id, bid: $bid, cid: $cid, notificationsEnabled: $notificationsEnabled, email: $email, photoUrl: $photoUrl, name: $name)';
+    return 'UserCollection(id: $id, bid: $bid, cid: $cid, notificationsEnabled: $notificationsEnabled, email: $email, name: $name)';
   }
 
   @override
@@ -85,7 +84,6 @@ class UserCollection {
         listEquals(other.cid, cid) &&
         other.notificationsEnabled == notificationsEnabled &&
         other.email == email &&
-        other.photoUrl == photoUrl &&
         other.name == name;
   }
 
@@ -96,7 +94,6 @@ class UserCollection {
         cid.hashCode ^
         notificationsEnabled.hashCode ^
         email.hashCode ^
-        photoUrl.hashCode ^
         name.hashCode;
   }
 }
