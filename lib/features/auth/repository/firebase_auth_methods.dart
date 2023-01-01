@@ -47,7 +47,14 @@ class AuthRepository {
         _googleSignIn = googleSignIn;
 
   User get user => _auth.currentUser!;
-  var cid = [];
+  List<String> cid = [
+    "831069438",
+    "956350283",
+    "672399969",
+    "430135668",
+    "858411776",
+    "184726451"
+  ];
   Stream<User?> get authStateChange => _auth.authStateChanges();
 
   // EMAIL SIGN UP
@@ -70,12 +77,26 @@ class AuthRepository {
         name: fullName,
         photoUrl: 'yes',
         notificationsEnabled: 'true',
-        cid: [],
+        cid: [
+          "831069438",
+          "956350283",
+          "672399969",
+          "430135668",
+          "858411776",
+          "184726451"
+        ],
         bid: [],
       );
       final data = await _supabaseClient.from('userscollection').insert({
         "uid": user.uid,
-        "cid": [],
+        "cid": [
+          "831069438",
+          "956350283",
+          "672399969",
+          "430135668",
+          "858411776",
+          "184726451"
+        ],
         "bid": [],
         "email": "${user.email}",
         "name": fullName,
@@ -109,27 +130,27 @@ class AuthRepository {
 
   // Bookmark Notes
   Future<String> bookmarkNotes(String id, String gid, bookmarks) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var bid = prefs.getStringList('bid') ?? [];
-    getUserData(id);
+    var user = getUserData(id);
+
     String res = "Some error occurred";
     try {
-      if (bookmarks.contains(gid)) {
-        _supabaseClient.from('userscollection').update({
-          'bid': FieldValue.arrayRemove([gid])
-        }).eq('uid', id);
-        bid.remove(gid);
-        prefs.setStringList('bid', bid);
-      } else {
-        // else we need to add uid to the likes array
-        _supabaseClient.from('userscollection').update({
-          'bid': FieldValue.arrayUnion([gid])
-        }).eq('uid', id);
-        bid.add(gid);
-        if (kDebugMode) {
-          print(bid);
+      user.forEach((value) {
+        print(100);
+        print('aeiou ${value.bid}');
+        if (value.bid.contains(gid)) {
+          print(bookmarks);
+          print('tanishq');
+          _supabaseClient.from('userscollection').update({
+            'bid': FieldValue.arrayRemove([gid])
+          }).eq('uid', id);
+        } else {
+          print(bookmarks);
+          // else we need to add uid to the likes array
+          _supabaseClient.from('userscollection').update({
+            'bid': FieldValue.arrayUnion([gid])
+          }).eq('uid', id);
         }
-      }
+      });
       res = 'success';
     } catch (err) {
       res = err.toString();
@@ -301,7 +322,6 @@ class AuthRepository {
         .stream(primaryKey: ['uid'])
         .eq('uid', uid)
         .map((event) {
-          print(event);
           return UserCollection(
               id: event.elementAt(0)['uid'],
               bid: event.elementAt(0)['bid'],

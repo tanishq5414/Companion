@@ -5,7 +5,7 @@ import 'dart:convert';
 
 class GetCourses{
   final coursesDataJson =
-        'https://tanishq5414.github.io/apiNotesApp/coursesnumber.json';
+        'https://tanishq5414.github.io/apiNotesApp/csvjson.json';
   Future<List<Course>> getCourses() async {
     final response = await http.get(Uri.parse(coursesDataJson));
     if (response.statusCode == 200) {

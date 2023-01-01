@@ -9,19 +9,19 @@ class Course {
     Course({
         required this.cname,
         required this.cid,
-        // required this.gid,
+        required this.gid,
         // required this.gid,
     });
 
     String cname;
     int cid;
-    // int gid;
+    List gid;
     // Array gid;
 
     factory Course.fromJson(Map<String, dynamic> json) => Course(
         cname: json["cname"],
         cid: json["cid"],
-        // gid: json["gid"],
+        gid: json["gid"],
         // gid: json["gid"],
     );
 
@@ -30,6 +30,6 @@ class Course {
     Map<String, dynamic> toJson() => {
         "cname": cname,
         "cid": cid,
-        // "gid": gid,
+        "gid": gid,
     };
 }
