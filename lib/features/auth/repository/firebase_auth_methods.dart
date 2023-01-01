@@ -111,6 +111,9 @@ class AuthRepository {
       } else if (e.code == 'email-already-in-use') {
         Utils.showSnackBar('The account already exists for that email.');
       }
+      else{
+        Utils.showSnackBar('Some error occurred try again in some time if it still persists contact us');
+      }
     }
   }
 
@@ -135,16 +138,11 @@ class AuthRepository {
     String res = "Some error occurred";
     try {
       user.forEach((value) {
-        print(100);
-        print('aeiou ${value.bid}');
         if (value.bid.contains(gid)) {
-          print(bookmarks);
-          print('tanishq');
           _supabaseClient.from('userscollection').update({
             'bid': FieldValue.arrayRemove([gid])
           }).eq('uid', id);
         } else {
-          print(bookmarks);
           // else we need to add uid to the likes array
           _supabaseClient.from('userscollection').update({
             'bid': FieldValue.arrayUnion([gid])
@@ -170,7 +168,6 @@ class AuthRepository {
       password: password,
     );
     var user = userCredential.user!;
-    print(1);
     try {
       if (user.emailVerified == false) {
         await sendEmailVerification(context);
@@ -187,6 +184,7 @@ class AuthRepository {
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(e.message!);
     } catch (e) {
+      Utils.showSnackBar(e.toString());
       return left(Failure(e.toString()));
     }
     return left(Failure(e.toString()));
@@ -265,7 +263,6 @@ class AuthRepository {
       }
       return right(userModel);
     } catch (e) {
-      print(e);
       return left(Failure(e.toString()));
     }
   }
@@ -285,7 +282,6 @@ class AuthRepository {
       deleteUser(user.uid);
       await _auth.currentUser!.delete();
       Routemaster.of(context).push('/');
-      print('user deleted');
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(e.message!);
       // Displaying the error message
@@ -297,7 +293,6 @@ class AuthRepository {
 // UPDATE NAME
   Future<void> updateName(BuildContext context, String name, String uid) async {
     try {
-      print(4);
       await FirebaseAuth.instance.currentUser!.updateDisplayName(
         name,
       );
@@ -312,7 +307,6 @@ class AuthRepository {
   Future<void> deleteUser(String uid) async {
     await _auth.currentUser!.delete();
     await _supabaseClient.from('userscollection').delete().eq('uid', uid);
-    print('user deleted');
   }
 
   Stream<UserCollection> getUserData(String uid) {

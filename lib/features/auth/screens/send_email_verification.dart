@@ -24,11 +24,11 @@ class SendEmailVerification extends ConsumerWidget {
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: appAccentColor)),
+                        color: appWhiteColor)),
                 const Text('Please verify your email address',
                     style: TextStyle(
                         fontSize: 15,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w500,
                         color: appWhiteColor)),
                 SizedBox(
                   height: size.height * 0.3,
@@ -37,44 +37,44 @@ class SendEmailVerification extends ConsumerWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: appWhiteColor,
+                    shape: BoxShape.rectangle,
                   ),
-                  child: TextButton(
-                      onPressed: () {
-                        ref
-                            .read(authControllerProvider.notifier)
-                            .sendEmailVerification(context);
-                      },
-                      child: const Text(
-                        'Resend Email Verification',
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: appBackgroundColor),
-                      )),
+                  child: SizedBox(
+                    width: size.width * 0.8,
+                    child: TextButton(
+                        
+                        onPressed: () {
+                          Routemaster.of(context).push('/login');
+                        },
+                        child: const Text(
+                          'Login',
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: appBackgroundColor),
+                        )),
+                  ),
                 ),
                 SizedBox(
                   height: size.height * 0.01,
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: appWhiteColor,
-                  ),
-                  child: TextButton(
-                      onPressed: () {
-                        Routemaster.of(context).push('/login');
-                      },
-                      child: const Text(
-                        'Login',
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: appBackgroundColor),
-                      )),
-                ),
+                TextButton(
+                    onPressed: () {
+                      ref
+                          .read(authControllerProvider.notifier)
+                          .sendEmailVerification(context);
+                    },
+                    child: const Text(
+                      'Didnot recieve mail? Click to Resend',
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: appWhiteColor),
+                    )),
                 SizedBox(
                   height: size.height * 0.1,
                 ),
+                
               ],
             ),
           ),

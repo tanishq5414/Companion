@@ -80,17 +80,11 @@ class PasswordPage extends StatelessWidget {
                       style: loginButtonStyle,
                       onPressed: () {
                         if (passwordController.text.isNotEmpty) {
-                          print(email);
                           Routemaster.of(context)
                               .push('/signup', queryParameters: {
                             'email': email,
                             'password': passwordController.text,
                           });
-
-                          // Navigator.pushNamed(context, '/signup', arguments: {
-                          //   'email': email,
-                          //   'password': passwordController.text
-                          // });
                         }
                       },
                       child: Text(

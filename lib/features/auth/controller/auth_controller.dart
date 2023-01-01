@@ -82,5 +82,8 @@ class AuthController extends StateNotifier<bool> {
   void deleteAccount(BuildContext context) async {
     final user = _authRepository.deleteAccount(context);
   }
+  void resetPassword(BuildContext context, email) async {
+    final user = _authRepository.resetPassword(email: email);
+  }
   
 }

@@ -1,24 +1,27 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:notesapp/features/auth/controller/auth_controller.dart';
 import 'package:notesapp/theme/colors.dart';
 // import 'package:flutter/services.dart';
 import 'package:notesapp/features/components/custom_appbar.dart';
 import 'package:provider/provider.dart';
+import 'package:routemaster/routemaster.dart';
 
 import '../../repository/firebase_auth_methods.dart';
 import '../../components/custom_subtitle.dart';
 import '../../components/custom_title.dart';
 import '../../components/text_field.dart';
 
-class ForgotPasswordPage extends StatefulWidget {
+class ForgotPasswordPage extends ConsumerStatefulWidget {
   const ForgotPasswordPage({super.key});
 
   @override
-  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
+  ConsumerState<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
 }
 
-class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
   final emailController = TextEditingController();
   var buttonColor = appGreyColor;
   var buttonTextColor = appOtherGreyColor;
@@ -28,7 +31,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     void forgotPassword({
       required String email,
     }) {
-      context.read<AuthRepository>().resetPassword(email: email);
+      ref.read(authControllerProvider.notifier).resetPassword(context, email);
     }
 
     var size = MediaQuery.of(context).size;
@@ -83,7 +86,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   style: resetButtonStyle,
                   onPressed: () {
                     forgotPassword(email: emailController.text);
-                    Navigator.pop(context);
+                    Routemaster.of(context).push('/');
                   },
                   child: Text(
                     'Reset Password',

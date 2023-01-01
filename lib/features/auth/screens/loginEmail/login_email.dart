@@ -97,6 +97,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         child: CustomTextField(
                           inputController: passwordController,
                           size: size,
+                          obscureText: true,
                         )),
                     SizedBox(
                       height: size.height * 0.009,
