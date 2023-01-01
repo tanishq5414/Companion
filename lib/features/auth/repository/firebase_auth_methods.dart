@@ -110,9 +110,9 @@ class AuthRepository {
         Utils.showSnackBar('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
         Utils.showSnackBar('The account already exists for that email.');
-      }
-      else{
-        Utils.showSnackBar('Some error occurred try again in some time if it still persists contact us');
+      } else {
+        Utils.showSnackBar(
+            'Some error occurred try again in some time if it still persists contact us');
       }
     }
   }
@@ -178,16 +178,18 @@ class AuthRepository {
         return left(Failure('Please verify your email first'));
       } else {
         userModel = await getUserData(user.uid).first;
+        Routemaster.of(context).pop();
+        Routemaster.of(context).pop();
+        Routemaster.of(context).pop();
         Routemaster.of(context).push('/');
         return right(userModel);
       }
-    } on FirebaseAuthException catch (e) {
-      Utils.showSnackBar(e.message!);
+    } //wrong password exception
+    on FirebaseAuthException catch (e) {
+      throw e.message!;
     } catch (e) {
-      Utils.showSnackBar(e.toString());
-      return left(Failure(e.toString()));
+      return left(Failure('Some error occurred'));
     }
-    return left(Failure(e.toString()));
   }
 
   //RESET PASSWORD

@@ -1,9 +1,11 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:async';
-// ignore: depend_on_referenced_packages
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesapp/apikeys.dart';
 import 'package:notesapp/core/error_text.dart';
@@ -13,33 +15,28 @@ import 'package:notesapp/router.dart';
 import 'package:notesapp/theme/colors.dart';
 import 'package:notesapp/features/components/snack_bar.dart';
 import 'package:routemaster/routemaster.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
+import 'core/type_defs.dart';
+
 Future main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Firebase.initializeApp();
   await supabase.Supabase.initialize(
     url: supabaseApiURL,
     anonKey: supabaseApiPublicKey,
   );
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  var email = prefs.getString("email");
   runApp(
     DevicePreview(
       enabled: false,
-      builder: (context) => ProviderScope(
-          child: MyApp(
-        email: email,
-      )),
+      builder: (context) => const ProviderScope(child: MyApp()),
     ),
   );
 }
 
 class MyApp extends ConsumerStatefulWidget {
-  var email;
-
-  MyApp({required this.email, super.key});
+  const MyApp({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _MyAppState();
@@ -48,11 +45,12 @@ class MyApp extends ConsumerStatefulWidget {
 class _MyAppState extends ConsumerState<MyApp> {
   UserCollection? userModel;
 
-  void getData(WidgetRef ref, User data) async {
+  getData(WidgetRef ref, User data) async {
     userModel = await ref
         .watch(authControllerProvider.notifier)
         .getUserData(data.uid)
         .first;
+    FlutterNativeSplash.remove();
     ref.read(userProvider.notifier).update((state) => userModel);
     setState(() {});
   }
@@ -68,6 +66,10 @@ class _MyAppState extends ConsumerState<MyApp> {
               fontFamily: 'Montserrat',
               primaryColor: Colors.black,
               scaffoldBackgroundColor: appBackgroundColor,
+              textTheme: Theme.of(context).textTheme.apply(
+                    bodyColor: Colors.white,
+                    displayColor: Colors.white,
+                  ),
               textSelectionTheme: const TextSelectionThemeData(
                 cursorColor: appBlackColor,
                 selectionColor: appAccentColor,
@@ -80,11 +82,15 @@ class _MyAppState extends ConsumerState<MyApp> {
             routerDelegate: RoutemasterDelegate(
               routesBuilder: (context) {
                 if (data != null && data.emailVerified == true) {
-                  getData(ref, data);
+                  initialization() async {
+                    await getData(ref, data);
+                  }
+                  initialization();
                   if (userModel != null) {
                     return loggedInPages;
                   }
                 }
+                FlutterNativeSplash.remove();
                 return loggedOutPages;
               },
             ),

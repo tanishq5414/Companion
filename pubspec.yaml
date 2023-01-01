@@ -49,6 +49,7 @@ dependencies:
   shared_preferences: ^2.0.15
   url_launcher: ^6.1.7
   supabase_flutter:
+  flutter_native_splash: ^2.0.1+1
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +64,9 @@ dev_dependencies:
   #firebase database
   cloud_firestore: ^3.4.6
   flutter_app_name: ^0.1.0
+flutter_native_splash:
+  color: "#000000"
+  image: "assets/logo/logo.png"
 flutter_icons:
   android: true
   ios: true

@@ -41,28 +41,33 @@ class AuthController extends StateNotifier<bool> {
     state = true;
     final user = await _authRepository.signInWithGoogle(context);
     state = false;
-    SharedPreferences pref = await SharedPreferences.getInstance();
     user.fold((l) => Utils.showSnackBar(l.message), (userModel) {
       _ref.read(userProvider.notifier).update((state) => userModel);
-      pref.setString("email", userModel.email);
-      pref.setStringList('cid', []);
     });
   }
+
   void bookmarkNotes(BuildContext context, String id, String gid, bookmarks) {
     final user = _authRepository.bookmarkNotes(id, gid, bookmarks);
   }
+
   void updateUserCourses(BuildContext context, String uid, var cid) {
-    final user = _authRepository.updateUserCourses(uid,cid);
+    final user = _authRepository.updateUserCourses(uid, cid);
   }
 
-  void logInWithEmail(BuildContext context, String email, String password) async {
-    final user = _authRepository.loginWithEmail(
-        email:email, password: password, context: context);
+  void logInWithEmail(
+      BuildContext context, String email, String password) async {
+    state = true;
+    final user = await _authRepository.loginWithEmail(
+        email: email, password: password, context: context);
+    state = false;
+    user.fold((l) => Utils.showSnackBar(l.message), (r) => _ref.read(userProvider.notifier).update((state) => r));
     
   }
- void sendEmailVerification(BuildContext context) async {
+
+  void sendEmailVerification(BuildContext context) async {
     final user = _authRepository.sendEmailVerification(context);
   }
+
   void signUpwithEmail(BuildContext context, email, password, fullName) async {
     final user = _authRepository.signUpWithEmail(
         email: email, password: password, fullName: fullName, context: context);
@@ -78,12 +83,11 @@ class AuthController extends StateNotifier<bool> {
     final user = _authRepository.updateName(context, fullName, uid);
   }
 
-
   void deleteAccount(BuildContext context) async {
     final user = _authRepository.deleteAccount(context);
   }
+
   void resetPassword(BuildContext context, email) async {
     final user = _authRepository.resetPassword(email: email);
   }
-  
 }

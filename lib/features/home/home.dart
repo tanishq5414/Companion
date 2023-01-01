@@ -110,7 +110,7 @@ class HomePage extends ConsumerWidget {
                 courseBuilder(size, context, ref),
                 advertismentBuilder(size,context,ref),
                 SizedBox(
-                  height: size.height * 0.01,
+                  height: size.height * 0.07,
                 ),
                 Column(
                   children: [

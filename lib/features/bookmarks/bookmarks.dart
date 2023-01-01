@@ -38,7 +38,7 @@ List bookmarks = [];
             return bookmarks;
           },
           error: (error, stackTrace) => Text(error.toString()),
-          loading: () => CircularProgressIndicator());
+          loading: () => const CircularProgressIndicator());
       return bookmarks;
     }
 
@@ -116,7 +116,7 @@ List bookmarks = [];
                     left: size.width * 0.02,
                     right: size.width * 0.03),
                 child: GridView.builder(
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
@@ -151,7 +151,7 @@ class CustomBookmarkSearchDelegate extends SearchDelegate {
             print(BookmarkSearchList.length);
             query = '';
           },
-          icon: Icon(Icons.clear))
+          icon: const Icon(Icons.clear))
     ];
   }
 
@@ -161,7 +161,7 @@ class CustomBookmarkSearchDelegate extends SearchDelegate {
         onPressed: () {
           close(context, null);
         },
-        icon: Icon(Icons.arrow_back));
+        icon: const Icon(Icons.arrow_back));
   }
 
   @override
@@ -179,7 +179,7 @@ class CustomBookmarkSearchDelegate extends SearchDelegate {
           return ListTile(
             title: Text(
               result,
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
           );
         });
@@ -200,7 +200,7 @@ class CustomBookmarkSearchDelegate extends SearchDelegate {
           return ListTile(
             title: Text(
               result,
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
           );
         });

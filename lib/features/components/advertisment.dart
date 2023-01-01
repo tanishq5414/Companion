@@ -1,3 +1,5 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesapp/core/provider/advertisment_provider.dart';
@@ -24,6 +26,7 @@ ListView advertismentBuilder(Size size, context, WidgetRef ref) {
     _launchURL(String url) async {
       final uri = Uri.parse(url);
       if (await canLaunchUrl(uri)) {
+        // ignore: deprecated_member_use
         await launch(url);
       } else {
         throw 'Could not launch $url';

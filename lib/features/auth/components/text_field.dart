@@ -29,11 +29,8 @@ class CustomTextField extends StatelessWidget {
           padding: EdgeInsets.all(size.width * 0.03),
           child: Center(
             child: TextField(
-              textAlignVertical: TextAlignVertical.bottom,
-              // inputFormatters: [
-              //   FilteringTextInputFormatter.deny(RegExp(r"\s"))
-              // ],
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+              textAlignVertical: TextAlignVertical.center,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: Colors.black),
               cursorColor: Colors.black,
               cursorHeight: size.height * 0.03,
               controller: inputController,
