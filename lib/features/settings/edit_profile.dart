@@ -82,16 +82,16 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                     SizedBox(
                       height: size.height * 0.03,
                     ),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text(
-                        "Change photo",
-                        style: TextStyle(
-                            color: appWhiteColor,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
+                    // TextButton(
+                    //   onPressed: () {},
+                    //   child: const Text(
+                    //     "Change photo",
+                    //     style: TextStyle(
+                    //         color: appWhiteColor,
+                    //         fontSize: 10,
+                    //         fontWeight: FontWeight.w500),
+                    //   ),
+                    // ),
                     SizedBox(
                       height: size.height * 0.03,
                     ),
@@ -148,15 +148,7 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                       indent: size.width * 0.15,
                       endIndent: size.width * 0.15,
                     ),
-                    TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          'Change email',
-                          style: TextStyle(
-                              color: appWhiteColor,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500),
-                        ))
+                    
                   ],
                 ),
               ))),
