@@ -46,8 +46,8 @@ class AuthController extends StateNotifier<bool> {
     });
   }
 
-  void bookmarkNotes(BuildContext context, String id, String gid, bookmarks) {
-    final user = _authRepository.bookmarkNotes(id, gid, bookmarks);
+  void bookmarkNotes(BuildContext context, String id, bookmarks) {
+    final user = _authRepository.bookmarkNotes(id, bookmarks);
   }
 
   void updateUserCourses(BuildContext context, String uid, var cid) {

@@ -84,7 +84,9 @@ class _MyAppState extends ConsumerState<MyApp> {
                 if (data != null && data.emailVerified == true) {
                   initialization() async {
                     await getData(ref, data);
+                    FlutterNativeSplash.remove();
                   }
+
                   initialization();
                   if (userModel != null) {
                     return loggedInPages;

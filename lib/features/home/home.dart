@@ -5,6 +5,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:notesapp/core/provider/notes_provider.dart';
 import 'package:notesapp/features/auth/controller/auth_controller.dart';
 import 'package:notesapp/features/components/advertisment.dart';
+import 'package:notesapp/features/home/components.dart/recents_builder.dart';
 import 'package:notesapp/theme/colors.dart';
 import 'package:notesapp/features/components/heading.dart';
 import 'package:notesapp/features/components/notes_builder.dart';
@@ -37,6 +38,11 @@ class HomePage extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       shape: const CircleBorder(),
     );
+    void recentsNotes() {
+      
+
+
+    }
 
     return Container(
       color: appBackgroundColor,
@@ -66,10 +72,9 @@ class HomePage extends ConsumerWidget {
               actions: [
                 TextButton(
                   style: leadingStyle,
-                  child: LineIcon(LineIcons.bell, color: Colors.white),
-                  onPressed: () {
-                    ref.read(authControllerProvider.notifier).signOut(context);
-                  },
+                  child: LineIcon(Icons.add_circle_outline_sharp,
+                      color: Colors.white),
+                  onPressed: () {},
                 ),
                 TextButton(
                   style: leadingStyle,
@@ -108,7 +113,7 @@ class HomePage extends ConsumerWidget {
                       ),
                     ]),
                 courseBuilder(size, context, ref),
-                advertismentBuilder(size,context,ref),
+                advertismentBuilder(size, context, ref),
                 SizedBox(
                   height: size.height * 0.07,
                 ),
@@ -162,7 +167,7 @@ class HomePage extends ConsumerWidget {
                           ),
                           Consumer(
                               builder: (context, ref, child) =>
-                                  notesBuilder(size, notesData)),
+                                  recentsBuilder(size, notesData)),
                           SizedBox(
                             width: size.width * 0.03,
                           ),

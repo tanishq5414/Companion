@@ -4,6 +4,7 @@ import 'package:notesapp/core/provider/notes_provider.dart';
 import 'package:notesapp/features/auth/controller/auth_controller.dart';
 import 'package:notesapp/theme/colors.dart';
 import 'package:notesapp/features/home/home.dart';
+import 'package:routemaster/routemaster.dart';
 
 import '../bookmarks/bookmarks.dart';
 import '../search/search.dart';
@@ -35,7 +36,7 @@ class _AppBottomNavigatorState extends ConsumerState<AppBottomNavigator> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body:Stack(
+      body: Stack(
         children: [
           pages[selectedIndex],
           Align(
@@ -64,16 +65,25 @@ class _AppBottomNavigatorState extends ConsumerState<AppBottomNavigator> {
                   backgroundColor: Colors.transparent,
                   items: [
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.home, size: size.height * 0.04),
-                      label: 'Home',
-                    ),
+                        icon: Icon(Icons.home, size: size.height * 0.04),
+                        label: 'Home',
+                        tooltip: ''),
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.search, size: size.height * 0.04),
+
+                      icon: 
+                      GestureDetector(
+                          onDoubleTap: () =>
+                              Routemaster.of(context).push('/mainsearch'),
+                          onLongPress: () =>
+                              Routemaster.of(context).push('/mainsearch'),
+                          child: Icon(Icons.search, size: size.height * 0.04)),
                       label: 'Search',
+                      tooltip: '',
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(Icons.bookmark, size: size.height * 0.04),
                       label: 'Bookmarks',
+                      tooltip: '',
                     ),
                   ],
                   currentIndex: selectedIndex,

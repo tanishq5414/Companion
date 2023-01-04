@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notesapp/core/provider/notes_provider.dart';
 import 'package:notesapp/features/auth/controller/auth_controller.dart';
-import 'package:notesapp/modal/notes_modal.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 import '../../theme/colors.dart';
+
+var flag;
 
 /// Represents Homepage for Navigation
 class NotesViewPage extends ConsumerStatefulWidget {
@@ -17,44 +17,51 @@ class NotesViewPage extends ConsumerStatefulWidget {
 }
 
 class _NotesViewPageState extends ConsumerState<NotesViewPage> {
-  late var flag = false;
   @override
-  void initState() {
+  initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final notes = RouteData.of(context).queryParameters;
-      final user = ref.read(userProvider);
-      if (user!.bid.contains(notes['id'])) {
+      final user = ref.read(userProvider)!;
+      print(user.bid.contains(notes['id']));
+      if (user.bid.contains(notes['id'])) {
         flag = true;
+      } else {
+        flag = false;
       }
+      print('flag = $flag');
       // TODO: implement initState
       super.initState();
     });
   }
-  
 
   @override
   Widget build(BuildContext context) {
     final user = ref.read(userProvider)!;
+    var bid = user.bid;
     final size = MediaQuery.of(context).size;
     final notes = RouteData.of(context).queryParameters;
-
     void addbookmark() {
+      print(3);
+      print(notes['id']);
+      bid.add(notes['id']!);
+      print('bid = $bid');
       setState(() {
         ref
             .read(authControllerProvider.notifier)
-            .bookmarkNotes(context, user.id, notes['id']!, user.bid);
-        flag = !flag;
+            .bookmarkNotes(context, user.id, bid);
+        flag = true;
       });
     }
 
-    // void removebookmark() {
-    //   setState(() {
-    //     ref
-    //         .read(authControllerProvider.notifier)
-    //         .bookmarkNotes(context, user.id, notes['id']!, user.bid);
-    //     flag = false;
-    //   });
-    // }
+    void removebookmark() {
+      bid.remove(notes['id']!);
+        setState(() {
+          ref
+            .read(authControllerProvider.notifier)
+            .bookmarkNotes(context, user.id, bid);
+        flag = false;
+        });
+    }
 
     return Scaffold(
       backgroundColor: appBackgroundColor,
@@ -62,7 +69,7 @@ class _NotesViewPageState extends ConsumerState<NotesViewPage> {
         backgroundColor: appBackgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_outlined, color: appWhiteColor),
+          icon: const Icon(Icons.arrow_back, color: appWhiteColor),
           onPressed: () {
             Routemaster.of(context).pop();
           },
@@ -76,19 +83,18 @@ class _NotesViewPageState extends ConsumerState<NotesViewPage> {
               ? IconButton(
                   icon: const Icon(Icons.bookmark_border),
                   onPressed: () {
-                    print("{$flag} ${user.bid}");
+                    print(1);
                     addbookmark();
+                    print(2);
                   })
               : IconButton(
                   icon: const Icon(Icons.bookmark),
                   onPressed: () {
-                    print("{$flag} ${user.bid}");
-                    addbookmark();
+                    // print("{$flag} ${user.bid}");
+                    removebookmark();
                   },
                 ),
-          const SizedBox(
-            width: 10,
-          ),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.share)),
         ],
         centerTitle: false,
         // bottom: PreferredSize(

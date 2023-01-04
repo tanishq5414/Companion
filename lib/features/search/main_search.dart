@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:notesapp/core/provider/notes_provider.dart';
 import 'package:notesapp/modal/courses_modal.dart';
 import 'package:notesapp/modal/notes_modal.dart';
@@ -47,6 +46,7 @@ class _SearchState extends ConsumerState<MainSearchPage> {
           decoration: BoxDecoration(
               color: Colors.white, borderRadius: BorderRadius.circular(2)),
           child: TextField(
+            autofocus: true,
             style: TextStyle(color: appBlackColor),
             onChanged: (value) => onSearch(value),
             decoration: InputDecoration(
@@ -73,7 +73,7 @@ class _SearchState extends ConsumerState<MainSearchPage> {
                 itemBuilder: (context, index) {
                   return notesComponent(notes: foundedNotes[index]);
                 })
-            : Center(
+            : const Center(
                 child: Text(
                 "No notes found",
                 style: TextStyle(color: appWhiteColor,),

@@ -132,23 +132,14 @@ class AuthRepository {
   }
 
   // Bookmark Notes
-  Future<String> bookmarkNotes(String id, String gid, bookmarks) async {
+  Future<String> bookmarkNotes(String id, bookmarks) async {
     var user = getUserData(id);
-
+    bookmarks = bookmarks.toSet().toList();
     String res = "Some error occurred";
     try {
-      user.forEach((value) {
-        if (value.bid.contains(gid)) {
-          _supabaseClient.from('userscollection').update({
-            'bid': FieldValue.arrayRemove([gid])
-          }).eq('uid', id);
-        } else {
-          // else we need to add uid to the likes array
-          _supabaseClient.from('userscollection').update({
-            'bid': FieldValue.arrayUnion([gid])
-          }).eq('uid', id);
-        }
-      });
+      await _supabaseClient.from('userscollection').update({
+        'bid': bookmarks,
+      }).eq('uid', id); 
       res = 'success';
     } catch (err) {
       res = err.toString();

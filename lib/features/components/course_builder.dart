@@ -13,29 +13,23 @@ GridView courseBuilder(Size size, context, WidgetRef ref) {
   var allcourses = ref.read(coursesDataProvider);
   var usercourseslist = [];
   allcourses.when(
-      data: (courses) {
-        List<Course> allcourseslist = courses.map((e) => e).toList();
-        for (var i = 0; i < userslist.length; i++) {
-          for (var j = 0; j < allcourseslist.length; j++) {
-            // print('$j $i ${userslist[i]} ${allcourseslist[j].cid}');
-            // print(userslist[i] == allcourseslist[j].cid);
-            // print(j);
-
-            if (allcourseslist[j].cid == userslist[i]) {
-              // print(usercourseslist);
-              usercourseslist.add(allcourseslist[i]);
-            }
+    data: (courses) {
+      List<Course> allcourseslist = courses.map((e) => e).toList();
+      for (var i = 0; i < userslist.length; i++) {
+        for (var j = 0; j < allcourseslist.length; j++) {
+          if(userslist[i] == allcourseslist[j].cid){
+            usercourseslist.add(allcourseslist[j]);
           }
         }
-      },
-      error: ((error, stackTrace) => Text(error.toString())),
-      loading: () => const Center(
-            child: CircularProgressIndicator(
-              color: Colors.white,
-            ),
-          ),);
-  // print(usercourseslist);
-  // var user = ref.watch(userProvider)?.id;
+      }
+    },
+    error: ((error, stackTrace) => Text(error.toString())),
+    loading: () => const Center(
+      child: CircularProgressIndicator(
+        color: Colors.white,
+      ),
+    ),
+  );
   return GridView.builder(
       itemCount: usercourseslist.length,
       physics: const NeverScrollableScrollPhysics(),
@@ -46,8 +40,7 @@ GridView courseBuilder(Size size, context, WidgetRef ref) {
       ),
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        // print  (usercourses);
-        return CoursePreview(
-            size, usercourseslist[index].cname, usercourseslist[index].cid.toString());
+        return CoursePreview(size, usercourseslist[index].cname,
+            usercourseslist[index].cid.toString());
       });
 }
