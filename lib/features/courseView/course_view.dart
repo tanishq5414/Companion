@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesapp/core/provider/courses_provider.dart';
 import 'package:notesapp/core/provider/notes_provider.dart';
 import 'package:notesapp/features/auth/controller/auth_controller.dart';
-import 'package:notesapp/features/courseView/courselistfilter.dart';
 import 'package:notesapp/theme/colors.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -59,9 +58,6 @@ class CourseViewPage extends ConsumerWidget {
                 child: ListView.builder(
                     itemCount: notes.length,
                     itemBuilder: (context, index) {
-                      print(user!.bid.contains(notes[index].id.toString()));
-                      print(user.bid.toString());
-                      print(notes[index].id.toString());
                       return Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -92,7 +88,7 @@ class CourseViewPage extends ConsumerWidget {
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              user.bid.contains(notes[index].id.toString())
+                              user!.bid.contains(notes[index].id.toString())
                                   ? IconButton(
                                       onPressed: () {},
                                       icon: Icon(

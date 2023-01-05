@@ -53,6 +53,9 @@ class AuthController extends StateNotifier<bool> {
   void updateUserCourses(BuildContext context, String uid, var cid) {
     final user = _authRepository.updateUserCourses(uid, cid);
   }
+  void incrementNotesOpened(BuildContext context, String uid , String notesid) {
+    final user = _authRepository.incrementnotesopened(uid , notesid);
+  }
 
   void logInWithEmail(
       BuildContext context, String email, String password) async {

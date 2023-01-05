@@ -139,7 +139,7 @@ class AuthRepository {
     try {
       await _supabaseClient.from('userscollection').update({
         'bid': bookmarks,
-      }).eq('uid', id); 
+      }).eq('uid', id);
       res = 'success';
     } catch (err) {
       res = err.toString();
@@ -181,6 +181,33 @@ class AuthRepository {
     } catch (e) {
       return left(Failure('Some error occurred'));
     }
+  }
+
+  incrementnotesopened(String uid, String notesid) async {
+    var data = await _supabaseClient
+        .from('notesdata')
+        .select('times_opened')
+        .eq('id', notesid)
+        .execute();
+    print('count = ${data.data}');
+    print(data.data);
+    if (data.data == []) {
+      print('tanishq');
+      await _supabaseClient.from('notesdata').insert({
+        'id': notesid,
+        'times_opened': 1,
+      });
+      print(1);
+      return;
+    }
+    var notesopened = data.data[0]['times_opened'];
+    print('data = ${notesopened}');
+    print(1);
+    await _supabaseClient.from('notesdata').update({
+      'id': notesid,
+      'times_opened': notesopened + 1,
+    }).eq(notesid, 'id');
+    print(2);
   }
 
   //RESET PASSWORD

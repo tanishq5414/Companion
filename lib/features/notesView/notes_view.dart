@@ -1,3 +1,4 @@
+import 'package:advance_pdf_viewer2/advance_pdf_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesapp/features/auth/controller/auth_controller.dart';
@@ -17,20 +18,38 @@ class NotesViewPage extends ConsumerStatefulWidget {
 }
 
 class _NotesViewPageState extends ConsumerState<NotesViewPage> {
+  bool _isLoading = true;
+  late PDFDocument document;
+  changePDF(url) async {
+    setState(() => _isLoading = true);
+    PDFDocument document = await PDFDocument.fromURL(
+      url,
+      cacheManager: CacheManager(
+        Config(
+          'pdfCache',
+          stalePeriod: const Duration(days: 2),
+          maxNrOfCacheObjects: 30,
+        ),
+      ),
+    );
+    setState(() => _isLoading = false);
+    return document;
+  }
+
   @override
   initState() {
+    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final notes = RouteData.of(context).queryParameters;
+      print(notes['wdlink']);
+      changePDF(notes['wdlink'])
+          .then((value) => setState(() => document = value));
       final user = ref.read(userProvider)!;
-      print(user.bid.contains(notes['id']));
       if (user.bid.contains(notes['id'])) {
         flag = true;
       } else {
         flag = false;
       }
-      print('flag = $flag');
-      // TODO: implement initState
-      super.initState();
     });
   }
 
@@ -39,12 +58,9 @@ class _NotesViewPageState extends ConsumerState<NotesViewPage> {
     final user = ref.read(userProvider)!;
     var bid = user.bid;
     final size = MediaQuery.of(context).size;
-    final notes = RouteData.of(context).queryParameters;
+    var notes = RouteData.of(context).queryParameters;
     void addbookmark() {
-      print(3);
-      print(notes['id']);
       bid.add(notes['id']!);
-      print('bid = $bid');
       setState(() {
         ref
             .read(authControllerProvider.notifier)
@@ -55,12 +71,12 @@ class _NotesViewPageState extends ConsumerState<NotesViewPage> {
 
     void removebookmark() {
       bid.remove(notes['id']!);
-        setState(() {
-          ref
+      setState(() {
+        ref
             .read(authControllerProvider.notifier)
             .bookmarkNotes(context, user.id, bid);
         flag = false;
-        });
+      });
     }
 
     return Scaffold(
@@ -83,9 +99,7 @@ class _NotesViewPageState extends ConsumerState<NotesViewPage> {
               ? IconButton(
                   icon: const Icon(Icons.bookmark_border),
                   onPressed: () {
-                    print(1);
                     addbookmark();
-                    print(2);
                   })
               : IconButton(
                   icon: const Icon(Icons.bookmark),
@@ -122,9 +136,24 @@ class _NotesViewPageState extends ConsumerState<NotesViewPage> {
         // ),
       ),
       body: SizedBox(
-        child: SfPdfViewer.network(
-          notes['wdlink']!,
-        ),
+        height: size.height * 0.9,
+
+        child: _isLoading
+            ? const Center(
+                child: CircularProgressIndicator(
+                  color: appAccentColor,
+                ),
+              )
+            : PDFViewer(
+                document: document,
+                lazyLoad: false,
+                showPicker: false,
+                zoomSteps: 1,
+                indicatorPosition: IndicatorPosition.bottomLeft,
+                enableSwipeNavigation: true,
+                scrollDirection: Axis.vertical,
+                pickerButtonColor: appAccentColor,
+              ),
       ),
     );
   }

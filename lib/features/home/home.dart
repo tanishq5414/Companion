@@ -5,7 +5,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:notesapp/core/provider/notes_provider.dart';
 import 'package:notesapp/features/auth/controller/auth_controller.dart';
 import 'package:notesapp/features/components/advertisment.dart';
-import 'package:notesapp/features/home/components.dart/recents_builder.dart';
+import 'package:notesapp/features/home/components/recents_builder.dart';
 import 'package:notesapp/theme/colors.dart';
 import 'package:notesapp/features/components/heading.dart';
 import 'package:notesapp/features/components/notes_builder.dart';
@@ -153,7 +153,7 @@ class HomePage extends ConsumerWidget {
                   children: [
                     Padding(
                       padding: EdgeInsets.only(left: size.width * 0.02),
-                      child: const TextHeading(heading: 'Recently added'),
+                      child: const TextHeading(heading: 'Latest notes'),
                     ),
                     SizedBox(
                       height: size.height * 0.03,
@@ -183,7 +183,7 @@ class HomePage extends ConsumerWidget {
                   children: [
                     Padding(
                       padding: EdgeInsets.only(left: size.width * 0.02),
-                      child: const TextHeading(heading: 'Your bookmarks'),
+                      child: const TextHeading(heading: 'Most popular'),
                     ),
                     SizedBox(
                       height: size.height * 0.03,

@@ -1,11 +1,14 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:notesapp/features/auth/controller/auth_controller.dart';
+import 'package:notesapp/features/notesView/notes_view.dart';
 
 import 'package:notesapp/theme/colors.dart';
 import 'package:routemaster/routemaster.dart';
 
-class NotesPreview extends StatefulWidget {
+class NotesPreview extends ConsumerStatefulWidget {
   const NotesPreview(
       {super.key,
       required this.id,
@@ -27,13 +30,14 @@ class NotesPreview extends StatefulWidget {
   final String unit;
   final String wdlink;
   @override
-  State<NotesPreview> createState() => _NotesPreviewState();
+  ConsumerState<NotesPreview> createState() => _NotesPreviewState();
 }
 
-class _NotesPreviewState extends State<NotesPreview> {
+class _NotesPreviewState extends ConsumerState<NotesPreview> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var user = ref.read(userProvider)!;
     return Padding(
       padding: EdgeInsets.only(
           left: size.width * 0.015,
@@ -91,7 +95,7 @@ class _NotesPreviewState extends State<NotesPreview> {
                         padding: EdgeInsets.zero,
                       ),
                       onPressed: () {
-                        print(1);
+                        // ref.read(authControllerProvider.notifier).incrementNotesOpened(context, user.id, widget.id.toString());
                         Routemaster.of(context)
                             .push('/pdfview', queryParameters: {
                           'id': widget.id.toString(),
@@ -104,7 +108,6 @@ class _NotesPreviewState extends State<NotesPreview> {
                           'unit': widget.unit,
                           'wdlink': widget.wdlink,
                         });
-                        
                       },
                       child: Container(
                         decoration: BoxDecoration(
