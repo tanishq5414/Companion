@@ -75,7 +75,7 @@ class AuthRepository {
         id: user.uid,
         email: user.email!,
         name: fullName,
-        photoUrl: 'yes',
+        photoUrl: 'https://firebasestorage.googleapis.com/v0/b/notesapp-7d858.appspot.com/o/profile-icon-png-910.png?alt=media&token=b73a6765-518b-437f-9c7d-80ba8a801275',
         notificationsEnabled: 'true',
         cid: [
           "831069438",
@@ -101,7 +101,7 @@ class AuthRepository {
         "email": "${user.email}",
         "name": fullName,
         "notificationsEnabled": "true",
-        "photoUrl": "yes"
+        "photoUrl": "https://firebasestorage.googleapis.com/v0/b/notesapp-7d858.appspot.com/o/profile-icon-png-910.png?alt=media&token=b73a6765-518b-437f-9c7d-80ba8a801275"
       });
       await sendEmailVerification(context);
       Routemaster.of(context).push('/sendverification');

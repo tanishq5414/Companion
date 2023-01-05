@@ -42,9 +42,9 @@ class SendEmailVerification extends ConsumerWidget {
                   child: SizedBox(
                     width: size.width * 0.8,
                     child: TextButton(
-                        
                         onPressed: () {
-                          Routemaster.of(context).push('/login');
+                          Routemaster.of(context).popUntil((routeData) => false);
+                          Routemaster.of(context).push('/');
                         },
                         child: const Text(
                           'Login',

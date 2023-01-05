@@ -5,6 +5,7 @@ import 'package:notesapp/features/auth/controller/auth_controller.dart';
 import 'package:notesapp/features/components/notes_preview.dart';
 import 'package:notesapp/features/search/search.dart';
 import 'package:notesapp/features/settings/components/profiledisplay.dart';
+import 'package:notesapp/modal/notes_modal.dart';
 
 import 'package:notesapp/theme/colors.dart';
 import 'package:routemaster/routemaster.dart';
@@ -19,9 +20,9 @@ class BookmarksPage extends ConsumerWidget {
     var size = MediaQuery.of(context).size;
     final user = ref.watch(userProvider);
     final allnotes = ref.read(notesDataProvider);
-    var allnoteslist;
+    List<Notes> allnoteslist;
     var userbookmarklist = user?.bid ?? [''];
-List bookmarks = [];
+    List bookmarks = [];
 
     // print(userbookmarklist);
     List getBookmarks() {
@@ -29,12 +30,15 @@ List bookmarks = [];
           data: (notes) {
             allnoteslist = notes;
             // print(allnoteslist);
-            for (var i = 0; i < allnoteslist.length; i++) {
-              // print(userbookmarklist);
-              if (userbookmarklist.contains(allnoteslist[i].id.toString())) {
-                bookmarks.add(allnoteslist[i]);
+            for (var i = 0; i < userbookmarklist.length; i++) {
+              for (var j = 0; j < allnoteslist.length; j++) {
+                if (userbookmarklist[i].toString() ==
+                    allnoteslist[j].id.toString()) {
+                  bookmarks.add(allnoteslist[j]);
+                }
               }
             }
+            bookmarks= new List.from(bookmarks.reversed);
             return bookmarks;
           },
           error: (error, stackTrace) => Text(error.toString()),
@@ -42,7 +46,9 @@ List bookmarks = [];
       return bookmarks;
     }
 
+
     var bookmarkslist = getBookmarks();
+
     for (var i = 0; i < bookmarks.length; i++) {
       BookmarkSearchList.add(bookmarks[i].name);
       BookmarkSearchList.add(bookmarks[i].course);
@@ -116,9 +122,10 @@ List bookmarks = [];
                     left: size.width * 0.02,
                     right: size.width * 0.03),
                 child: GridView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       mainAxisSpacing: 5,
                     ),
