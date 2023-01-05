@@ -1,4 +1,4 @@
-// ignore_for_file: depend_on_referenced_packages
+// ignore_for_file: depend_on_referenced_packages, unused_import, use_build_context_synchronously, unused_local_variable, deprecated_member_use
 
 import 'dart:math';
 
@@ -33,7 +33,6 @@ final authRepositoryProvider = Provider(
 
 class AuthRepository {
   final supabase.SupabaseClient _supabaseClient;
-  final FirebaseFirestore _firestore;
   final FirebaseAuth _auth;
   final GoogleSignIn _googleSignIn;
   AuthRepository({
@@ -42,7 +41,6 @@ class AuthRepository {
     required GoogleSignIn googleSignIn,
     required FirebaseFirestore firestore,
   })  : _auth = auth,
-        _firestore = firestore,
         _supabaseClient = supabaseClient,
         _googleSignIn = googleSignIn;
 
@@ -64,45 +62,11 @@ class AuthRepository {
     required String fullName,
     required BuildContext context,
   }) async {
-    late UserCollection userModel;
     try {
       final result = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      var user = result.user!;
-      userModel = UserCollection(
-        id: user.uid,
-        email: user.email!,
-        name: fullName,
-        photoUrl: 'https://firebasestorage.googleapis.com/v0/b/notesapp-7d858.appspot.com/o/profile-icon-png-910.png?alt=media&token=b73a6765-518b-437f-9c7d-80ba8a801275',
-        notificationsEnabled: 'true',
-        cid: [
-          "831069438",
-          "956350283",
-          "672399969",
-          "430135668",
-          "858411776",
-          "184726451"
-        ],
-        bid: [],
-      );
-      final data = await _supabaseClient.from('userscollection').insert({
-        "uid": user.uid,
-        "cid": [
-          "831069438",
-          "956350283",
-          "672399969",
-          "430135668",
-          "858411776",
-          "184726451"
-        ],
-        "bid": [],
-        "email": "${user.email}",
-        "name": fullName,
-        "notificationsEnabled": "true",
-        "photoUrl": "https://firebasestorage.googleapis.com/v0/b/notesapp-7d858.appspot.com/o/profile-icon-png-910.png?alt=media&token=b73a6765-518b-437f-9c7d-80ba8a801275"
-      });
       await sendEmailVerification(context);
       Routemaster.of(context).push('/sendverification');
     } on FirebaseAuthException catch (e) {
@@ -180,31 +144,25 @@ class AuthRepository {
     }
   }
 
-  incrementnotesopened(String uid, String notesid) async {
-    var data = await _supabaseClient
-        .from('notesdata')
-        .select('times_opened')
-        .eq('id', notesid)
-        .execute();
-    print('count = ${data.data}');
-    print(data.data);
-    if (data.data == []) {
-      print('tanishq');
+  incrementnotesopened(String uid, String notesid, String notesname, String course, String unit) async {
+    var data =
+        await _supabaseClient.from('notesdata').select('*').eq('id', notesid);
+    // print(data.length.toString());
+    if (data.length == '0' || data.length == 0) {
       await _supabaseClient.from('notesdata').insert({
         'id': notesid,
         'times_opened': 1,
+        'notesname': notesname,
+        'course': course,
+        'unit': unit,
       });
-      print(1);
       return;
+    } else {
+      var timesopened = data[0]['times_opened'];
+      await _supabaseClient.from('notesdata').update({
+        'times_opened': timesopened + 1,
+      }).eq('id', notesid);
     }
-    var notesopened = data.data[0]['times_opened'];
-    print('data = ${notesopened}');
-    print(1);
-    await _supabaseClient.from('notesdata').update({
-      'id': notesid,
-      'times_opened': notesopened + 1,
-    }).eq(notesid, 'id');
-    print(2);
   }
 
   //RESET PASSWORD

@@ -1,11 +1,13 @@
 //flutter screen with a search bar
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notesapp/features/components/advertisment.dart';
-import 'package:notesapp/theme/colors.dart';
-import 'package:notesapp/features/components/custom_appbar.dart';
 import 'package:routemaster/routemaster.dart';
 
+import 'package:notesapp/features/components/advertisment.dart';
+import 'package:notesapp/features/components/custom_appbar.dart';
+import 'package:notesapp/theme/colors.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({Key? key}) : super(key: key);

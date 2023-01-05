@@ -17,8 +17,6 @@ import 'package:notesapp/features/components/snack_bar.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
-import 'core/type_defs.dart';
-
 Future main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);

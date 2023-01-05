@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesapp/core/provider/courses_provider.dart';
 import 'package:notesapp/features/auth/controller/auth_controller.dart';
 import '../../modal/courses_modal.dart';
-import '../../modal/user_modal.dart';
 import 'course_preview.dart';
 
 List<Course> usercourses = [];

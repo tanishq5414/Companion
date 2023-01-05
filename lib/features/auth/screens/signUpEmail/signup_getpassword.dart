@@ -1,10 +1,12 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
-import 'package:notesapp/features/auth/screens/signUpEmail/signup_getemail.dart';
-import 'package:notesapp/theme/colors.dart';
-import 'package:notesapp/features/components/custom_appbar.dart';
+import 'package:routemaster/routemaster.dart';
+
 import 'package:notesapp/features/auth/components/custom_title.dart';
 import 'package:notesapp/features/auth/components/text_field.dart';
-import 'package:routemaster/routemaster.dart';
+import 'package:notesapp/features/components/custom_appbar.dart';
+import 'package:notesapp/theme/colors.dart';
 
 class PasswordPage extends StatelessWidget {
   late String email;

@@ -6,10 +6,8 @@ import 'package:notesapp/features/auth/controller/auth_controller.dart';
 import 'package:notesapp/theme/colors.dart';
 // import 'package:flutter/services.dart';
 import 'package:notesapp/features/components/custom_appbar.dart';
-import 'package:provider/provider.dart';
 import 'package:routemaster/routemaster.dart';
 
-import '../../repository/firebase_auth_methods.dart';
 import '../../components/custom_subtitle.dart';
 import '../../components/custom_title.dart';
 import '../../components/text_field.dart';

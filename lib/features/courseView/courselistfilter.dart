@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, unused_import, prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesapp/core/provider/courses_provider.dart';
@@ -13,7 +15,7 @@ import '../../modal/courses_modal.dart';
 List<String> CoursesSearchList = [];
 
 class CourseListFilterPage extends ConsumerStatefulWidget {
-  CourseListFilterPage({super.key});
+  const CourseListFilterPage({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -64,17 +66,16 @@ class _CourseListFilterPageState extends ConsumerState<CourseListFilterPage> {
               return ListView.builder(
                 itemCount: courseList.length,
                 itemBuilder: (context, index) {
-                  bool _isSelected =
+                  bool isSelected =
                       usercourseslist.contains(courseList[index].cid);
                   return CheckboxListTile(
                     activeColor: Colors.white,
                     checkColor: Colors.black,
                     title: Text(courseList[index].cname,
                         style: TextStyle(fontSize: 15, color: Colors.white)),
-                    value: _isSelected,
+                    value: isSelected,
                     onChanged: (bool? value) {
                       setState(() {
-                        print(value);
                         if (value == true &&
                             usercourseslist.contains(courseList[index].cid) ==
                                 false &&
@@ -119,7 +120,7 @@ class _CourseListFilterPageState extends ConsumerState<CourseListFilterPage> {
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: appBackgroundColor,
+                          backgroundColor: appBackgroundColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -154,7 +155,6 @@ class CustomSearchDelegate extends SearchDelegate {
     return [
       IconButton(
           onPressed: () {
-            print(CoursesSearchList.length);
             query = '';
           },
           icon: Icon(Icons.clear))

@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, prefer_is_empty
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,6 +12,7 @@ class MainSearchPage extends ConsumerStatefulWidget {
   const MainSearchPage({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _SearchState createState() => _SearchState();
 }
 
@@ -20,6 +21,7 @@ class _SearchState extends ConsumerState<MainSearchPage> {
   List<Notes> _notes = [];
   @override
   void initState() {
+    // ignore: todo
     // TODO: implement initState
     super.initState();
     _notes = ref.read(notesDataProvider).value as List<Notes>;
@@ -49,12 +51,12 @@ class _SearchState extends ConsumerState<MainSearchPage> {
               color: Colors.white, borderRadius: BorderRadius.circular(2)),
           child: TextField(
             autofocus: true,
-            style: TextStyle(color: appBlackColor),
+            style: const TextStyle(color: appBlackColor),
             onChanged: (value) => onSearch(value),
             decoration: InputDecoration(
                 filled: true,
                 fillColor: appWhiteColor,
-                contentPadding: EdgeInsets.all(0),
+                contentPadding: const EdgeInsets.all(0),
                 prefixIcon: Icon(
                   Icons.search,
                   color: Colors.grey.shade500,
@@ -62,7 +64,7 @@ class _SearchState extends ConsumerState<MainSearchPage> {
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(2),
                     borderSide: BorderSide.none),
-                hintStyle: TextStyle(fontSize: 14, color: appGreyColor),
+                hintStyle: const TextStyle(fontSize: 14, color: appGreyColor),
                 hintText: "Search notes, courses, etc..."),
           ),
         ),
@@ -98,8 +100,8 @@ class _SearchState extends ConsumerState<MainSearchPage> {
         'wdlink': notes.wdlink,
       }),
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20),
-        padding: EdgeInsets.only(top: 10, bottom: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.only(top: 10, bottom: 10),
         child: Row(
           children: [
             Container(
@@ -111,11 +113,11 @@ class _SearchState extends ConsumerState<MainSearchPage> {
               child: Center(
                 child: Text(
                   notes.name.substring(0, 1).toUpperCase(),
-                  style: TextStyle(color: appBlackColor, fontSize: 20),
+                  style: const TextStyle(color: appBlackColor, fontSize: 20),
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 20,
             ),
             Column(
@@ -123,13 +125,13 @@ class _SearchState extends ConsumerState<MainSearchPage> {
               children: [
                 Text(
                   notes.name,
-                  style: TextStyle(color: appWhiteColor, fontSize: 16),
+                  style: const TextStyle(color: appWhiteColor, fontSize: 16),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Text(notes.course,
-                  style: TextStyle(color: appAccentColor, fontSize: 14),
+                  style: const TextStyle(color: appAccentColor, fontSize: 14),
                 ),
               ],
             )

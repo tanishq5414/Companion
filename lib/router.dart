@@ -42,11 +42,11 @@ final loggedInPages = RouteMap(
     '/home': (_) => const MaterialPage(child: HomePage()),
     '/bookmarks': (_) => const MaterialPage(child: BookmarksPage()),
     '/sendverification': (_) => const MaterialPage(child: SendEmailVerification()),
-    '/pdfview': (_) => MaterialPage(child: NotesViewPage()),
+    '/pdfview': (_) => const MaterialPage(child: NotesViewPage()),
     '/courseview': (_) => const MaterialPage(child: CourseViewPage()),
     '/editprofile': (_) => const MaterialPage(child: EditProfile()),
     '/error404': (_) => const MaterialPage(child: Error404()),
     '/mainsearch': (_) => const MaterialPage(child: MainSearchPage()),
-    '/courselistfilter': (_) => MaterialPage(child: CourseListFilterPage()),
+    '/courselistfilter': (_) => const MaterialPage(child: CourseListFilterPage()),
   },
 );

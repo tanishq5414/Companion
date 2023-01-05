@@ -1,14 +1,14 @@
+// ignore_for_file: non_constant_identifier_names, unnecessary_new, unused_local_variable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesapp/core/provider/notes_provider.dart';
 import 'package:notesapp/features/auth/controller/auth_controller.dart';
 import 'package:notesapp/features/components/notes_preview.dart';
-import 'package:notesapp/features/search/search.dart';
 import 'package:notesapp/features/settings/components/profiledisplay.dart';
 import 'package:notesapp/modal/notes_modal.dart';
 
 import 'package:notesapp/theme/colors.dart';
-import 'package:routemaster/routemaster.dart';
 
 List<String> BookmarkSearchList = [];
 
@@ -90,7 +90,6 @@ class BookmarksPage extends ConsumerWidget {
                 height: size.height * 0.05,
                 width: size.width * 0.9,
                 margin: EdgeInsets.symmetric(horizontal: size.width * 0.035),
-                // padding: EdgeInsets.symmetric(horizontal: size.width * 0.035),
                 decoration: BoxDecoration(
                   color: appBackgroundColor,
                   borderRadius: BorderRadius.circular(2),
@@ -155,7 +154,6 @@ class CustomBookmarkSearchDelegate extends SearchDelegate {
     return [
       IconButton(
           onPressed: () {
-            print(BookmarkSearchList.length);
             query = '';
           },
           icon: const Icon(Icons.clear))

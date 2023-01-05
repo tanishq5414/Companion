@@ -78,7 +78,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                       SizedBox(
                         height: size.height * 0.03,
                       ),
-                      CustomHeading(title: 'Enter your Name'),
+                      const CustomHeading(title: 'Enter your Name'),
                       SizedBox(
                         height: size.height * 0.02,
                       ),

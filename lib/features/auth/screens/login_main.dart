@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesapp/features/auth/controller/auth_controller.dart';
 import 'package:notesapp/theme/colors.dart';
-import 'package:notesapp/features/auth/repository/firebase_auth_methods.dart';
 // import 'package:provider/provider.dart';
-import 'package:riverpod/riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 
 // File Info:
@@ -40,20 +38,6 @@ class LoginMain extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(40)),
-      ),
-      side: const BorderSide(
-        color: Colors.white,
-        width: 2,
-      ),
-    );
-    final ButtonStyle otherButtonStyle1 = ElevatedButton.styleFrom(
-      foregroundColor: Colors.transparent,
-      alignment: Alignment.centerLeft,
-      backgroundColor: Colors.transparent,
-      minimumSize: Size(size.width / 3, size.height / 18.89),
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       side: const BorderSide(
         color: Colors.white,

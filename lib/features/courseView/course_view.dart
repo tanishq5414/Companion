@@ -1,8 +1,11 @@
+// ignore_for_file: unnecessary_string_interpolations
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesapp/core/provider/courses_provider.dart';
 import 'package:notesapp/core/provider/notes_provider.dart';
 import 'package:notesapp/features/auth/controller/auth_controller.dart';
+import 'package:notesapp/modal/notes_modal.dart';
 import 'package:notesapp/theme/colors.dart';
 import 'package:routemaster/routemaster.dart';
 
@@ -19,10 +22,10 @@ class CourseViewPage extends ConsumerWidget {
     var courseName = params['name'];
     var courseData = ref.watch(coursesDataProvider);
     var notesData = ref.watch(notesDataProvider);
-    var user = ref.watch(userProvider);
+    var user = ref.watch(userProvider)!;
     getnotes(List gids) {
       //get notes for the course gid
-      var notes = [];
+      List<Notes> notes = [];
       for (var i = 0; i < gids.length; i++) {
         notesData.when(
             data: ((data) {
@@ -52,7 +55,7 @@ class CourseViewPage extends ConsumerWidget {
               var course = data
                   .firstWhere((element) => element.cid.toString() == courseId);
               var gid = course.gid;
-              var notes = getnotes(gid);
+              List<Notes> notes = getnotes(gid);
               return Container(
                 margin: EdgeInsets.all(size.width * 0.04),
                 child: ListView.builder(
@@ -63,18 +66,29 @@ class CourseViewPage extends ConsumerWidget {
                             borderRadius: BorderRadius.circular(10),
                             border: Border.all(color: appWhiteColor, width: 1)),
                         child: ListTile(
-                          onTap: () => Routemaster.of(context)
-                              .push('/pdfview', queryParameters: {
-                            'id': notes[index].id.toString(),
-                            'name': notes[index].name,
-                            'year': notes[index].year,
-                            'branch': notes[index].branch,
-                            'course': notes[index].course,
-                            'semester': notes[index].semester,
-                            'version': notes[index].version,
-                            'unit': notes[index].unit,
-                            'wdlink': notes[index].wdlink,
-                          }),
+                          onTap: () {
+                            ref
+                                .read(authControllerProvider.notifier)
+                                .incrementNotesOpened(
+                                    context,
+                                    user.id,
+                                    notes[index].id.toString(),
+                                    notes[index].name,
+                                    notes[index].course,
+                                    notes[index].unit);
+                            Routemaster.of(context)
+                                .push('/pdfview', queryParameters: {
+                              'id': notes[index].id.toString(),
+                              'name': notes[index].name,
+                              'year': notes[index].year,
+                              'branch': notes[index].branch,
+                              'course': notes[index].course,
+                              'semester': notes[index].semester,
+                              'version': notes[index].version,
+                              'unit': notes[index].unit,
+                              'wdlink': notes[index].wdlink,
+                            });
+                          },
                           title: Text(notes[index].name.toString(),
                               style: const TextStyle(
                                   color: appWhiteColor,
@@ -88,10 +102,10 @@ class CourseViewPage extends ConsumerWidget {
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              user!.bid.contains(notes[index].id.toString())
+                              user.bid.contains(notes[index].id.toString())
                                   ? IconButton(
                                       onPressed: () {},
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.bookmark,
                                         color: appGreyColor,
                                       ),

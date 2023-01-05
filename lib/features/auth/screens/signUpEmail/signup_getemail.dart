@@ -54,7 +54,7 @@ class _EmailPageState extends State<EmailPage> {
                     SizedBox(
                       height: size.height * 0.03,
                     ),
-                    CustomHeading(title: 'Enter your Email'),
+                    const CustomHeading(title: 'Enter your Email'),
                     SizedBox(
                       height: size.height * 0.01,
                     ),

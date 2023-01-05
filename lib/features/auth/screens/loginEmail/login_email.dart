@@ -6,10 +6,8 @@ import 'package:notesapp/theme/colors.dart';
 import 'package:notesapp/features/components/custom_appbar.dart';
 import 'package:notesapp/features/auth/components/custom_title.dart';
 import 'package:notesapp/features/auth/components/text_field.dart';
-import 'package:provider/provider.dart';
 import 'package:routemaster/routemaster.dart';
 
-import '../../repository/firebase_auth_methods.dart';
 
 // FILE INFO:
 // This file displays the login page for email and signup

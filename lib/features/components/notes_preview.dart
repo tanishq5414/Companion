@@ -3,10 +3,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesapp/features/auth/controller/auth_controller.dart';
-import 'package:notesapp/features/notesView/notes_view.dart';
+import 'package:routemaster/routemaster.dart';
 
 import 'package:notesapp/theme/colors.dart';
-import 'package:routemaster/routemaster.dart';
 
 class NotesPreview extends ConsumerStatefulWidget {
   const NotesPreview(
@@ -95,7 +94,11 @@ class _NotesPreviewState extends ConsumerState<NotesPreview> {
                         padding: EdgeInsets.zero,
                       ),
                       onPressed: () {
-                        // ref.read(authControllerProvider.notifier).incrementNotesOpened(context, user.id, widget.id.toString());
+                        ref
+                            .read(authControllerProvider.notifier)
+                            .incrementNotesOpened(
+                                context, user.id, widget.id.toString(), widget.name, widget.course, widget.unit,);
+                        
                         Routemaster.of(context)
                             .push('/pdfview', queryParameters: {
                           'id': widget.id.toString(),

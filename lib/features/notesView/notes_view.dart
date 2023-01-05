@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import, prefer_typing_uninitialized_variables
+
 import 'package:advance_pdf_viewer2/advance_pdf_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,7 +43,6 @@ class _NotesViewPageState extends ConsumerState<NotesViewPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final notes = RouteData.of(context).queryParameters;
-      print(notes['wdlink']);
       changePDF(notes['wdlink'])
           .then((value) => setState(() => document = value));
       final user = ref.read(userProvider)!;

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notesapp/core/provider/notes_provider.dart';
-import 'package:notesapp/features/auth/controller/auth_controller.dart';
 import 'package:notesapp/theme/colors.dart';
 import 'package:notesapp/features/home/home.dart';
 import 'package:routemaster/routemaster.dart';
@@ -25,6 +23,7 @@ class _AppBottomNavigatorState extends ConsumerState<AppBottomNavigator> {
   ];
   @override
   // void initState() {
+  // ignore: todo
   //   // TODO: implement initState
   //   super.initState();
   //   // final notesData = ref.watch(notesDataProvider);
@@ -59,8 +58,8 @@ class _AppBottomNavigatorState extends ConsumerState<AppBottomNavigator> {
                   unselectedItemColor: Colors.grey[600],
                   showSelectedLabels: true,
                   showUnselectedLabels: true,
-                  selectedLabelStyle: TextStyle(fontSize: 10),
-                  unselectedLabelStyle: TextStyle(fontSize: 10),
+                  selectedLabelStyle: const TextStyle(fontSize: 10),
+                  unselectedLabelStyle: const TextStyle(fontSize: 10),
                   elevation: 35,
                   backgroundColor: Colors.transparent,
                   items: [
