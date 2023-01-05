@@ -78,8 +78,6 @@ class AuthController extends StateNotifier<bool> {
 
   void signOut(BuildContext context) async {
     final user = _authRepository.signOut(context);
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.remove("email");
   }
 
   void updateName(BuildContext context, fullName, uid) async {

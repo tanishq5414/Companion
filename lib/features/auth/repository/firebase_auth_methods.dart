@@ -168,11 +168,8 @@ class AuthRepository {
 
         return left(Failure('Please verify your email first'));
       } else {
-        userModel = await getUserData(user.uid).first;
-        Routemaster.of(context).pop();
-        Routemaster.of(context).pop();
-        Routemaster.of(context).pop();
         Routemaster.of(context).push('/');
+        userModel = await getUserData(user.uid).first;
         return right(userModel);
       }
     } //wrong password exception
