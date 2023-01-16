@@ -52,6 +52,8 @@ dependencies:
   flutter_native_splash: ^2.0.1+1
   flutter_cached_pdfview: ^0.4.1
   advance_pdf_viewer2: any
+  google_mobile_ads: ^2.3.0
+  file_picker: ^5.2.5
 
 dev_dependencies:
   flutter_test:

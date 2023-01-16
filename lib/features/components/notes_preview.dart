@@ -19,7 +19,7 @@ class NotesPreview extends ConsumerStatefulWidget {
       required this.version,
       required this.unit,
       required this.wdlink});
-  final int id;
+  final String id;
   final String name;
   final String year;
   final String branch;

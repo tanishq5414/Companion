@@ -4,18 +4,22 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class GetNotes {
-  final notesDataJson =
-        'https://tanishq5414.github.io/apiNotesApp/notes.json';
+  final notesDataJson = 'http://10.0.2.2:3000/api/v1/getFiles';
   Future<List<Notes>> getNotes() async {
-    final notesData = await http.get(Uri.parse(notesDataJson));
-    if (notesData.statusCode == 200) {
-      final List jsonResponse = json.decode(notesData.body);
-      return jsonResponse.map((notes) => Notes.fromJson(notes)).toList();
+    final response = await http.get(Uri.parse(notesDataJson));
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      // print(jsonResponse);
+      List<Notes> notes = [];
+      for (var item in jsonResponse['files']) {
+        notes.add(Notes.fromJson(item));
+      }
+      print(notes);
+      return notes;
     } else {
-      throw Exception('Failed to load notes from API');
+      throw Exception('Failed to load courses from API');
     }
   }
 }
 
 final notesProvider = Provider<GetNotes>((ref) => GetNotes());
-

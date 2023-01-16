@@ -18,7 +18,7 @@ class Notes {
     required this.unit,
     required this.wdlink,
   });
-  int id;
+  String id;
   String name;
   String year;
   String branch;
@@ -29,28 +29,28 @@ class Notes {
   String wdlink;
 
   factory Notes.fromJson(Map<String, dynamic> json) => Notes(
-        id: json["id"],
+        id: json["g_id"],
         name: json["name"],
-        year: json["year"],
+        year: json["year"].toString(),
         branch: json["branch"],
         course: json["course"],
-        semester: json["semester"],
-        version: json["version"],
-        unit: json["unit"],
+        semester: json["semester"].toString(),
+        version: json["version"].toString(),
+        unit: json["unit"].toString(),
         wdlink: json["wdlink"],
       );
 
   String? get imageUrl => null;
 
   Map<String, dynamic> toJson() => {
-        "id": id, 
+        "g_id": id, 
         "name": name,
-        "year": year,
+        "year": year.toString(),
         "branch": branch,
         "course": course,
-        "semester": semester,
-        "version": version,
-        "unit": unit,
+        "semester": semester.toString(),
+        "version": version.toString(),
+        "unit": unit.toString(),
         "wdlink": wdlink,
       };
 }

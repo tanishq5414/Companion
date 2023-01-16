@@ -76,7 +76,9 @@ class HomePage extends ConsumerWidget {
                   style: leadingStyle,
                   child: LineIcon(Icons.add_circle_outline_sharp,
                       color: Colors.white),
-                  onPressed: () {},
+                  onPressed: () {
+                    Routemaster.of(context).push('/addnotes');
+                  },
                 ),
                 TextButton(
                   style: leadingStyle,

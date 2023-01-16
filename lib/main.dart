@@ -7,6 +7,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:notesapp/apikeys.dart';
 import 'package:notesapp/core/error_text.dart';
 import 'package:notesapp/features/auth/controller/auth_controller.dart';
@@ -21,6 +22,7 @@ Future main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Firebase.initializeApp();
+  MobileAds.instance.initialize();
   await supabase.Supabase.initialize(
     url: supabaseApiURL,
     anonKey: supabaseApiPublicKey,

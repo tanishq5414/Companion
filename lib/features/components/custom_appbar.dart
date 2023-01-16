@@ -2,13 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:routemaster/routemaster.dart';
 
 import '../../theme/colors.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final title ;
+  final title;
   final List<Widget>? actions;
-  CustomAppBar({Key? key,required this.title, this.actions}) : super(key: key);
+  CustomAppBar({Key? key, required this.title, this.actions}) : super(key: key);
   @override
   Size get preferredSize => const Size.fromHeight(50);
 
@@ -18,15 +19,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: appBackgroundColor,
       elevation: 0,
       leading: IconButton(
-        icon: const Icon(
-          LineIcons.arrowLeft,
-          color: appWhiteColor,
-          size: 15,
-        ),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
+          icon: const Icon(
+            LineIcons.arrowLeft,
+            color: appWhiteColor,
+            size: 15,
+          ),
+          onPressed: () {
+            Routemaster.of(context).pop();
+          }),
       title: Text(
         title,
         style: const TextStyle(

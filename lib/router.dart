@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notesapp/features/admin/addnotes.dart';
 import 'package:notesapp/features/auth/screens/loginEmail/forgot_password.dart';
 import 'package:notesapp/features/auth/screens/loginEmail/login_email.dart';
 import 'package:notesapp/features/auth/screens/login_main.dart';
@@ -18,6 +19,7 @@ import 'package:notesapp/features/settings/edit_profile.dart';
 import 'package:notesapp/features/settings/settings.dart';
 import 'package:routemaster/routemaster.dart';
 
+import 'features/admin/addnotesdata.dart';
 import 'features/auth/screens/send_email_verification.dart';
 
 final loggedOutPages = RouteMap(
@@ -43,6 +45,8 @@ final loggedInPages = RouteMap(
     '/bookmarks': (_) => const MaterialPage(child: BookmarksPage()),
     '/sendverification': (_) => const MaterialPage(child: SendEmailVerification()),
     '/pdfview': (_) => const MaterialPage(child: NotesViewPage()),
+    '/addnotes': (_) => MaterialPage(child: AddNotes()),
+    // '/addnotesdata': (_) => MaterialPage(child: AddNotesData()),
     '/courseview': (_) => const MaterialPage(child: CourseViewPage()),
     '/editprofile': (_) => const MaterialPage(child: EditProfile()),
     '/error404': (_) => const MaterialPage(child: Error404()),
