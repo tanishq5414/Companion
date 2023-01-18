@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:notesapp/core/provider/notes_provider.dart';
+import 'package:notesapp/features/dynamicLinks/firebase_dynamic_links.dart';
 import 'package:notesapp/theme/colors.dart';
 import 'package:notesapp/features/home/home.dart';
 import 'package:routemaster/routemaster.dart';
@@ -28,6 +30,13 @@ class _AppBottomNavigatorState extends ConsumerState<AppBottomNavigator> {
   //   super.initState();
   //   // final notesData = ref.watch(notesDataProvider);
   // }
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // final notesData = ref.read(notesDataProvider);
+    FirebaseDynamicLinkService.initDynamicLink(context,ref);
+
+  }
 
   @override
   Widget build(BuildContext context) {

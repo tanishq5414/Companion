@@ -1,5 +1,6 @@
 // ignore_for_file: unused_element, unused_import, unused_local_variable
 
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:line_icons/line_icon.dart';
@@ -7,6 +8,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:notesapp/core/provider/notes_provider.dart';
 import 'package:notesapp/features/auth/controller/auth_controller.dart';
 import 'package:notesapp/features/components/advertisment.dart';
+import 'package:notesapp/features/dynamicLinks/firebase_dynamic_links.dart';
 import 'package:notesapp/features/home/components/recents_builder.dart';
 import 'package:notesapp/theme/colors.dart';
 import 'package:notesapp/features/components/heading.dart';
@@ -15,9 +17,18 @@ import 'package:routemaster/routemaster.dart';
 import '../components/course_builder.dart';
 import '../components/subheading.dart';
 
-class HomePage extends ConsumerWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
+  @override
+  ConsumerState<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends ConsumerState<HomePage> {
+  @override
+  void initState() {
+     super.initState();
+  }
   String greeting() {
     var hour = DateTime.now().hour;
     if (hour < 12) {
@@ -30,7 +41,7 @@ class HomePage extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, ref) {
+  Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     final notesData = ref.watch(notesDataProvider);
     final user = ref.watch(userProvider)!;

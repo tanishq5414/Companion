@@ -14,7 +14,6 @@ class GetNotes {
       for (var item in jsonResponse['files']) {
         notes.add(Notes.fromJson(item));
       }
-      print(notes);
       return notes;
     } else {
       throw Exception('Failed to load courses from API');

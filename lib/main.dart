@@ -1,6 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'dart:async';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:device_preview/device_preview.dart';
@@ -18,10 +19,13 @@ import 'package:notesapp/features/components/snack_bar.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
+import 'features/dynamicLinks/firebase_dynamic_links.dart';
+
 Future main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Firebase.initializeApp();
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   MobileAds.instance.initialize();
   await supabase.Supabase.initialize(
     url: supabaseApiURL,

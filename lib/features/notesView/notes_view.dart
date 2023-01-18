@@ -4,6 +4,7 @@ import 'package:advance_pdf_viewer2/advance_pdf_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesapp/features/auth/controller/auth_controller.dart';
+import 'package:notesapp/features/dynamicLinks/firebase_dynamic_links.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
@@ -80,6 +81,13 @@ class _NotesViewPageState extends ConsumerState<NotesViewPage> {
       });
     }
 
+    void createShareLink() async {
+      print(1);
+      await FirebaseDynamicLinkService.createDynamicLink(
+          true, notes['id']!);
+      // print(deeplink);
+    }
+
     return Scaffold(
       backgroundColor: appBackgroundColor,
       appBar: AppBar(
@@ -109,7 +117,11 @@ class _NotesViewPageState extends ConsumerState<NotesViewPage> {
                     removebookmark();
                   },
                 ),
-          IconButton(onPressed: () {}, icon: const Icon(Icons.share)),
+          IconButton(
+              onPressed: () {
+                createShareLink();
+              },
+              icon: const Icon(Icons.share)),
         ],
         centerTitle: false,
         // bottom: PreferredSize(
@@ -138,7 +150,6 @@ class _NotesViewPageState extends ConsumerState<NotesViewPage> {
       ),
       body: SizedBox(
         height: size.height * 0.9,
-
         child: _isLoading
             ? const Center(
                 child: CircularProgressIndicator(
