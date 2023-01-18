@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notesapp/core/provider/notes_provider.dart';
 import 'package:notesapp/features/dynamicLinks/firebase_dynamic_links.dart';
 import 'package:notesapp/theme/colors.dart';
 import 'package:notesapp/features/home/home.dart';
 import 'package:routemaster/routemaster.dart';
-
+import 'package:flutter_octicons/flutter_octicons.dart';
 import '../bookmarks/bookmarks.dart';
 import '../search/search.dart';
 
@@ -24,16 +23,8 @@ class _AppBottomNavigatorState extends ConsumerState<AppBottomNavigator> {
     const BookmarksPage(),
   ];
   @override
-  // void initState() {
-  // ignore: todo
-  //   // TODO: implement initState
-  //   super.initState();
-  //   // final notesData = ref.watch(notesDataProvider);
-  // }
   void initState() {
-    // TODO: implement initState
     super.initState();
-    // final notesData = ref.read(notesDataProvider);
     FirebaseDynamicLinkService.initDynamicLink(context,ref);
 
   }
@@ -51,53 +42,63 @@ class _AppBottomNavigatorState extends ConsumerState<AppBottomNavigator> {
             alignment: Alignment.bottomCenter,
             child: Container(
               height: size.height * 0.12,
+              width: size.width,
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                     colors: [
                       //begin color
-                      Colors.black,
-                      //end color
                       Colors.transparent,
+                      //end color
+                      Color.fromARGB(255, 0, 0, 0),
                     ]),
               ),
-              child: BottomNavigationBar(
-                  selectedItemColor: appWhiteColor,
-                  unselectedItemColor: Colors.grey[600],
-                  showSelectedLabels: true,
-                  showUnselectedLabels: true,
-                  selectedLabelStyle: const TextStyle(fontSize: 10),
-                  unselectedLabelStyle: const TextStyle(fontSize: 10),
-                  elevation: 35,
-                  backgroundColor: Colors.transparent,
-                  items: [
-                    BottomNavigationBarItem(
-                        icon: Icon(Icons.home, size: size.height * 0.04),
-                        label: 'Home',
-                        tooltip: ''),
-                    BottomNavigationBarItem(
-
-                      icon: 
-                      GestureDetector(
-                          onDoubleTap: () =>
-                              Routemaster.of(context).push('/mainsearch'),
-                          onLongPress: () =>
-                              Routemaster.of(context).push('/mainsearch'),
-                          child: Icon(Icons.search, size: size.height * 0.04)),
-                      label: 'Search',
-                      tooltip: '',
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.bookmark, size: size.height * 0.04),
-                      label: 'Bookmarks',
-                      tooltip: '',
-                    ),
-                  ],
-                  currentIndex: selectedIndex,
-                  onTap: (index) => setState(() {
-                        selectedIndex = index;
-                      })),
+              child: Container(
+                margin: EdgeInsets.fromLTRB(size.width*0.06, 0, size.width*0.08,0),
+                color: Colors.transparent,
+                child: BottomNavigationBar(
+                    selectedItemColor: appWhiteColor,
+                    unselectedItemColor: Colors.grey[600],
+                    showSelectedLabels: true,
+                    showUnselectedLabels: true,
+                    selectedLabelStyle: const TextStyle(fontSize: 10),
+                    unselectedLabelStyle: const TextStyle(fontSize: 10),
+                    elevation: 35,
+                    backgroundColor: Colors.transparent,
+                    items: [
+                      BottomNavigationBarItem(
+                          icon: (selectedIndex == 0)
+                              ? Container(margin: EdgeInsets.fromLTRB(0,0,0,size.height* 0.008),child: Icon(OctIcons.home_fill_24, size: size.height * 0.04))
+                              : Container(margin: EdgeInsets.fromLTRB(0,0,0,size.height* 0.008),child: Icon(OctIcons.home_24, size: size.height * 0.04)),
+                          label: 'Home',
+                          tooltip: ''),
+                      BottomNavigationBarItem(
+                        icon: 
+                        GestureDetector(
+                            onDoubleTap: () =>
+                                Routemaster.of(context).push('/mainsearch'),
+                            onLongPress: () =>
+                                Routemaster.of(context).push('/mainsearch'),
+                            child: (selectedIndex == 1)
+                              ? Container(margin: EdgeInsets.fromLTRB(0,0,0,size.height* 0.008),child: Icon(OctIcons.search_24, size: size.height * 0.04))
+                              : Container(margin: EdgeInsets.fromLTRB(0,0,0,size.height* 0.008),child: Icon(OctIcons.search_24, size: size.height * 0.04)),),
+                        label: 'Search',
+                        tooltip: '',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: (selectedIndex == 2)
+                              ? Container(margin: EdgeInsets.fromLTRB(0,0,0,size.height* 0.008),child: Icon(OctIcons.bookmark_fill_24, size: size.height * 0.04))
+                              : Container(margin: EdgeInsets.fromLTRB(0,0,0,size.height* 0.008),child: Icon(OctIcons.bookmark_24, size: size.height * 0.04)),
+                        label: 'Bookmarks',
+                        tooltip: '',
+                      ),
+                    ],
+                    currentIndex: selectedIndex,
+                    onTap: (index) => setState(() {
+                          selectedIndex = index;
+                        })),
+              ),
             ),
           )
         ],

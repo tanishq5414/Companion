@@ -2,6 +2,7 @@
 
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_octicons/flutter_octicons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:line_icons/line_icons.dart';
@@ -85,7 +86,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               actions: [
                 TextButton(
                   style: leadingStyle,
-                  child: LineIcon(Icons.add_circle_outline_sharp,
+                  child: Icon(OctIcons.plus_circle_24,
                       color: Colors.white),
                   onPressed: () {
                     Routemaster.of(context).push('/addnotes');
@@ -93,7 +94,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                 ),
                 TextButton(
                   style: leadingStyle,
-                  child: const Icon(Icons.settings, color: Colors.white),
+                  child: const Icon(OctIcons.gear_24, color: Colors.white),
                   onPressed: () => Routemaster.of(context).push('/settings'),
                 )
               ],
@@ -118,7 +119,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                             left: size.width * 0.04, right: size.width * 0.04),
                         child: InkWell(
                           child: const Icon(
-                            Icons.filter_list,
+                            OctIcons.filter_24,
                             color: Colors.white,
                           ),
                           onTap: () {

@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import, prefer_is_empty
 
 import 'package:flutter/material.dart';
+import 'package:flutter_octicons/flutter_octicons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesapp/core/provider/notes_provider.dart';
 import 'package:notesapp/modal/courses_modal.dart';
@@ -58,7 +59,8 @@ class _SearchState extends ConsumerState<MainSearchPage> {
                 fillColor: appWhiteColor,
                 contentPadding: const EdgeInsets.all(0),
                 prefixIcon: Icon(
-                  Icons.search,
+                  OctIcons.search_24,
+                  size: 20,
                   color: Colors.grey.shade500,
                 ),
                 border: OutlineInputBorder(

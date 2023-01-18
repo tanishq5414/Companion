@@ -86,35 +86,35 @@ class BookmarksPage extends ConsumerWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                height: size.height * 0.05,
-                width: size.width * 0.9,
-                margin: EdgeInsets.symmetric(horizontal: size.width * 0.035),
-                decoration: BoxDecoration(
-                  color: appBackgroundColor,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-                child: InkWell(
-                  onTap: () {
-                    showSearch(
-                      context: context,
-                      delegate: CustomBookmarkSearchDelegate(),
-                    );
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text('Search in bookmarks',
-                          style: TextStyle(
-                              color: appGreyColor,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold)),
-                      Spacer(),
-                      Icon(Icons.search, color: appGreyColor),
-                    ],
-                  ),
-                ),
-              ),
+              // Container(
+              //   height: size.height * 0.05,
+              //   width: size.width * 0.9,
+              //   margin: EdgeInsets.symmetric(horizontal: size.width * 0.035),
+              //   decoration: BoxDecoration(
+              //     color: appBackgroundColor,
+              //     borderRadius: BorderRadius.circular(2),
+              //   ),
+              //   child: InkWell(
+              //     onTap: () {
+              //       showSearch(
+              //         context: context,
+              //         delegate: CustomBookmarkSearchDelegate(),
+              //       );
+              //     },
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //       children: const [
+              //         Text('Search in bookmarks',
+              //             style: TextStyle(
+              //                 color: appGreyColor,
+              //                 fontSize: 15,
+              //                 fontWeight: FontWeight.bold)),
+              //         Spacer(),
+              //         Icon(Icons.search, color: appGreyColor),
+              //       ],
+              //     ),
+              //   ),
+              // ),
               Padding(
                 padding: EdgeInsets.only(
                     top: size.height * 0.05,

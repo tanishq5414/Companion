@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_string_interpolations
 
 import 'package:flutter/material.dart';
+import 'package:flutter_octicons/flutter_octicons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesapp/core/provider/courses_provider.dart';
 import 'package:notesapp/core/provider/notes_provider.dart';
@@ -103,13 +104,10 @@ class CourseViewPage extends ConsumerWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               user.bid.contains(notes[index].id.toString())
-                                  ? IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(
-                                        Icons.bookmark,
+                                  ? Icon(
+                                        OctIcons.bookmark_fill_24,
                                         color: appGreyColor,
-                                      ),
-                                    )
+                                      )
                                   : Container(),
                             ],
                           ),

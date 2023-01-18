@@ -40,16 +40,16 @@ class _CourseListFilterPageState extends ConsumerState<CourseListFilterPage> {
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Course List Filter',
-        actions: [
-          IconButton(
-              onPressed: () {
-                showSearch(
-                  context: context,
-                  delegate: CustomSearchDelegate(),
-                );
-              },
-              icon: const Icon(Icons.search))
-        ],
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {
+        //         showSearch(
+        //           context: context,
+        //           delegate: CustomSearchDelegate(),
+        //         );
+        //       },
+        //       icon: const Icon(Icons.search))
+        // ],
       ),
       body: Stack(
         children: [
@@ -69,6 +69,7 @@ class _CourseListFilterPageState extends ConsumerState<CourseListFilterPage> {
                   bool isSelected =
                       usercourseslist.contains(courseList[index].cid);
                   return CheckboxListTile(
+                    
                     activeColor: Colors.white,
                     checkColor: Colors.black,
                     title: Text(courseList[index].cname,

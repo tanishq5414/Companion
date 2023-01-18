@@ -56,6 +56,7 @@ dependencies:
   firebase_dynamic_links: ^4.3.11
   firebase_analytics: ^9.3.8
   share_plus: ^6.3.0
+  flutter_octicons: ^0.21.0
 
 dev_dependencies:
   flutter_test:

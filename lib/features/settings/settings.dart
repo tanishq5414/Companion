@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_octicons/flutter_octicons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesapp/features/auth/controller/auth_controller.dart';
 import 'package:notesapp/theme/colors.dart';
@@ -86,7 +87,7 @@ class SettingsPage extends ConsumerWidget {
                             ],
                           ),
                           Spacer(),
-                          const Icon(Icons.arrow_forward_ios_rounded,
+                          const Icon(OctIcons.chevron_right_24,
                               color: appWhiteColor),
                         ],
                       ),
@@ -96,18 +97,19 @@ class SettingsPage extends ConsumerWidget {
                     title: 'Customize',
                     subtitle: 'Change the accent color',
                     trailing: Icon(
-                      Icons.color_lens,
+                      OctIcons.paintbrush_16,
                       color: appAccentColor,
+                      size: 17,
                     ),
                   ),
-                  DisplayTile(
-                    title: 'Notifications',
-                    subtitle: 'Turn on/off notifications',
-                    trailing: Icon(
-                      Icons.notifications_none,
-                      color: appAccentColor,
-                    ),
-                  ),
+                  // DisplayTile(
+                  //   title: 'Notifications',
+                  //   subtitle: 'Turn on/off notifications',
+                  //   trailing: Icon(
+                  //     Icons.notifications_none,
+                  //     color: appAccentColor,
+                  //   ),
+                  // ),
                   SizedBox(
                     height: size.height * 0.02,
                   ),

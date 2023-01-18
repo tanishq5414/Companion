@@ -2,6 +2,7 @@
 
 import 'package:advance_pdf_viewer2/advance_pdf_viewer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_octicons/flutter_octicons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notesapp/features/auth/controller/auth_controller.dart';
 import 'package:notesapp/features/dynamicLinks/firebase_dynamic_links.dart';
@@ -94,24 +95,25 @@ class _NotesViewPageState extends ConsumerState<NotesViewPage> {
         backgroundColor: appBackgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: appWhiteColor),
+          icon: const Icon(OctIcons.arrow_left_24, color: appWhiteColor, size: 15,),
           onPressed: () {
             Routemaster.of(context).pop();
           },
         ),
         title: Text(
           notes['name']!,
-          style: const TextStyle(color: appWhiteColor),
+          style: const TextStyle(color: appWhiteColor,fontSize: 15),
         ),
+        
         actions: [
           flag == false
               ? IconButton(
-                  icon: const Icon(Icons.bookmark_border),
+                  icon: const Icon(OctIcons.bookmark_24),
                   onPressed: () {
                     addbookmark();
                   })
               : IconButton(
-                  icon: const Icon(Icons.bookmark),
+                  icon: const Icon(OctIcons.bookmark_fill_24),
                   onPressed: () {
                     // print("{$flag} ${user.bid}");
                     removebookmark();
@@ -121,9 +123,9 @@ class _NotesViewPageState extends ConsumerState<NotesViewPage> {
               onPressed: () {
                 createShareLink();
               },
-              icon: const Icon(Icons.share)),
+              icon: const Icon(OctIcons.share_24)),
         ],
-        centerTitle: false,
+        centerTitle: true,
         // bottom: PreferredSize(
         //   preferredSize: Size.fromHeight(size.width * 0.1),
         //   child: Padding(
