@@ -4,8 +4,6 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_octicons/flutter_octicons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:line_icons/line_icon.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:notesapp/core/provider/notes_provider.dart';
 import 'package:notesapp/features/auth/controller/auth_controller.dart';
 import 'package:notesapp/features/components/advertisment.dart';
@@ -86,15 +84,15 @@ class _HomePageState extends ConsumerState<HomePage> {
               actions: [
                 TextButton(
                   style: leadingStyle,
-                  child: Icon(OctIcons.plus_circle_24,
-                      color: Colors.white),
+                  child: const Icon(OctIcons.plus_circle_16,
+                      color: Colors.white, size: 20,),
                   onPressed: () {
                     Routemaster.of(context).push('/addnotes');
                   },
                 ),
                 TextButton(
                   style: leadingStyle,
-                  child: const Icon(OctIcons.gear_24, color: Colors.white),
+                  child: const Icon(OctIcons.gear_16, color: Colors.white, size: 20,),
                   onPressed: () => Routemaster.of(context).push('/settings'),
                 )
               ],
@@ -119,8 +117,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                             left: size.width * 0.04, right: size.width * 0.04),
                         child: InkWell(
                           child: const Icon(
-                            OctIcons.filter_24,
+                            OctIcons.filter_16,
                             color: Colors.white,
+                            size: 20,
                           ),
                           onTap: () {
                             Routemaster.of(context).push('/courselistfilter');
@@ -129,7 +128,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       ),
                     ]),
                 courseBuilder(size, context, ref),
-                advertismentBuilder(size, context, ref),
+                // advertismentBuilder(size, context, ref),
                 SizedBox(
                   height: size.height * 0.07,
                 ),

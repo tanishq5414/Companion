@@ -19,7 +19,6 @@ class CoursePreview extends StatefulWidget {
 class _CoursePreviewState extends State<CoursePreview> {
   @override
   Widget build(BuildContext context) {
-    // final appAccentColor = Theme.of(context).accentColor;
     return Padding(
       padding: EdgeInsets.only(
           left: widget.size.width * 0.015,
@@ -80,6 +79,7 @@ class _CoursePreviewState extends State<CoursePreview> {
                                   widget.size.width, widget.size.height * 0.1),
                               backgroundColor: Colors.transparent,
                               shape: const RoundedRectangleBorder(
+
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(2)),
                               ),

@@ -78,7 +78,7 @@ class SearchBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: const [
-            Icon(OctIcons.search_24, color: appGreyColor),
+            Icon(OctIcons.search_16, color: appGreyColor),
             Spacer(),
             Center(child: Text('Search notes, courses, etc.', style: TextStyle(color: appGreyColor, fontSize: 15, fontWeight: FontWeight.bold))),
             Spacer(),

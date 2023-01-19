@@ -59,7 +59,7 @@ class _SearchState extends ConsumerState<MainSearchPage> {
                 fillColor: appWhiteColor,
                 contentPadding: const EdgeInsets.all(0),
                 prefixIcon: Icon(
-                  OctIcons.search_24,
+                  OctIcons.search_16,
                   size: 20,
                   color: Colors.grey.shade500,
                 ),

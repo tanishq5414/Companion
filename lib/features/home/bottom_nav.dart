@@ -15,7 +15,11 @@ class AppBottomNavigator extends ConsumerStatefulWidget {
   ConsumerState<AppBottomNavigator> createState() => _AppBottomNavigatorState();
 }
 
-class _AppBottomNavigatorState extends ConsumerState<AppBottomNavigator> {
+class _AppBottomNavigatorState extends ConsumerState<AppBottomNavigator>
+    with SingleTickerProviderStateMixin {
+  late double _scale;
+  late AnimationController _controller;
+  @override
   int selectedIndex = 0;
   final pages = [
     const HomePage(),
@@ -24,13 +28,29 @@ class _AppBottomNavigatorState extends ConsumerState<AppBottomNavigator> {
   ];
   @override
   void initState() {
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 100,
+      ),
+      lowerBound: 0.0,
+      upperBound: 0.5,
+    )..addListener(() {
+        setState(() {});
+      });
     super.initState();
-    FirebaseDynamicLinkService.initDynamicLink(context,ref);
-
+    FirebaseDynamicLinkService.initDynamicLink(context, ref);
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+  
+  @override
   Widget build(BuildContext context) {
+    _scale = 1 - _controller.value;
     // var isLoading = ref.read(authControllerProvider);
     final size = MediaQuery.of(context).size;
     return Scaffold(
@@ -55,7 +75,8 @@ class _AppBottomNavigatorState extends ConsumerState<AppBottomNavigator> {
                     ]),
               ),
               child: Container(
-                margin: EdgeInsets.fromLTRB(size.width*0.06, 0, size.width*0.08,0),
+                margin: EdgeInsets.fromLTRB(
+                    size.width * 0.04, 0, size.width * 0.04, 0),
                 color: Colors.transparent,
                 child: BottomNavigationBar(
                     selectedItemColor: appWhiteColor,
@@ -69,27 +90,51 @@ class _AppBottomNavigatorState extends ConsumerState<AppBottomNavigator> {
                     items: [
                       BottomNavigationBarItem(
                           icon: (selectedIndex == 0)
-                              ? Container(margin: EdgeInsets.fromLTRB(0,0,0,size.height* 0.008),child: Icon(OctIcons.home_fill_24, size: size.height * 0.04))
-                              : Container(margin: EdgeInsets.fromLTRB(0,0,0,size.height* 0.008),child: Icon(OctIcons.home_24, size: size.height * 0.04)),
+                              ? Container(
+                                  margin: EdgeInsets.fromLTRB(
+                                      0, 0, 0, size.height * 0.005),
+                                  child: Icon(OctIcons.home_fill_24,
+                                      size: size.height * 0.035))
+                              : Container(
+                                  margin: EdgeInsets.fromLTRB(
+                                      0, 0, 0, size.height * 0.005),
+                                  child: Icon(OctIcons.home_16,
+                                      size: size.height * 0.035)),
                           label: 'Home',
                           tooltip: ''),
                       BottomNavigationBarItem(
-                        icon: 
-                        GestureDetector(
-                            onDoubleTap: () =>
-                                Routemaster.of(context).push('/mainsearch'),
-                            onLongPress: () =>
-                                Routemaster.of(context).push('/mainsearch'),
-                            child: (selectedIndex == 1)
-                              ? Container(margin: EdgeInsets.fromLTRB(0,0,0,size.height* 0.008),child: Icon(OctIcons.search_24, size: size.height * 0.04))
-                              : Container(margin: EdgeInsets.fromLTRB(0,0,0,size.height* 0.008),child: Icon(OctIcons.search_24, size: size.height * 0.04)),),
+                        icon: GestureDetector(
+                          onDoubleTap: () =>
+                              Routemaster.of(context).push('/mainsearch'),
+                          onLongPress: () =>
+                              Routemaster.of(context).push('/mainsearch'),
+                          child: (selectedIndex == 1)
+                              ? Container(
+                                  margin: EdgeInsets.fromLTRB(
+                                      0, 0, 0, size.height * 0.005),
+                                  child: Icon(OctIcons.search_16,
+                                      size: size.height * 0.035))
+                              : Container(
+                                    margin: EdgeInsets.fromLTRB(
+                                        0, 0, 0, size.height * 0.005),
+                                    child: Icon(OctIcons.search_16,
+                                        size: size.height * 0.035)),
+                        ),
                         label: 'Search',
                         tooltip: '',
                       ),
                       BottomNavigationBarItem(
                         icon: (selectedIndex == 2)
-                              ? Container(margin: EdgeInsets.fromLTRB(0,0,0,size.height* 0.008),child: Icon(OctIcons.bookmark_fill_24, size: size.height * 0.04))
-                              : Container(margin: EdgeInsets.fromLTRB(0,0,0,size.height* 0.008),child: Icon(OctIcons.bookmark_24, size: size.height * 0.04)),
+                            ? Container(
+                                margin: EdgeInsets.fromLTRB(
+                                    0, 0, 0, size.height * 0.005),
+                                child: Icon(OctIcons.bookmark_fill_24,
+                                    size: size.height * 0.035))
+                            : Container(
+                                margin: EdgeInsets.fromLTRB(
+                                    0, 0, 0, size.height * 0.005),
+                                child: Icon(OctIcons.bookmark_16,
+                                    size: size.height * 0.035)),
                         label: 'Bookmarks',
                         tooltip: '',
                       ),
@@ -104,5 +149,16 @@ class _AppBottomNavigatorState extends ConsumerState<AppBottomNavigator> {
         ],
       ),
     );
+    
+  }
+
+  void _tapDown(TapDownDetails details) {
+    _controller.forward();
+  }
+
+  void _tapUp(TapUpDetails details) {
+    _controller.reverse();
   }
 }
+
+

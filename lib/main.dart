@@ -66,7 +66,12 @@ class _MyAppState extends ConsumerState<MyApp> {
           error: (error, stackTrace) => ErrorText(error: error.toString()),
           data: (data) => MaterialApp.router(
             debugShowCheckedModeBanner: false,
+            
             theme: ThemeData(
+              splashFactory: NoSplash.splashFactory,
+              highlightColor: Colors.transparent ,
+              splashColor: Colors.transparent,
+              hoverColor: Colors.transparent,
               fontFamily: 'Montserrat',
               primaryColor: Colors.black,
               scaffoldBackgroundColor: appBackgroundColor,

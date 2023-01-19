@@ -87,7 +87,7 @@ class SettingsPage extends ConsumerWidget {
                             ],
                           ),
                           Spacer(),
-                          const Icon(OctIcons.chevron_right_24,
+                          const Icon(OctIcons.chevron_right_16,
                               color: appWhiteColor),
                         ],
                       ),

@@ -95,7 +95,7 @@ class _NotesViewPageState extends ConsumerState<NotesViewPage> {
         backgroundColor: appBackgroundColor,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(OctIcons.arrow_left_24, color: appWhiteColor, size: 15,),
+          icon: const Icon(OctIcons.arrow_left_16, color: appWhiteColor, size: 15,),
           onPressed: () {
             Routemaster.of(context).pop();
           },
@@ -108,7 +108,7 @@ class _NotesViewPageState extends ConsumerState<NotesViewPage> {
         actions: [
           flag == false
               ? IconButton(
-                  icon: const Icon(OctIcons.bookmark_24),
+                  icon: const Icon(OctIcons.bookmark_16),
                   onPressed: () {
                     addbookmark();
                   })
@@ -123,7 +123,7 @@ class _NotesViewPageState extends ConsumerState<NotesViewPage> {
               onPressed: () {
                 createShareLink();
               },
-              icon: const Icon(OctIcons.share_24)),
+              icon: const Icon(OctIcons.share_16)),
         ],
         centerTitle: true,
         // bottom: PreferredSize(

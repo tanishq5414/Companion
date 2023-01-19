@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_octicons/flutter_octicons.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:routemaster/routemaster.dart';
 
 import '../../theme/colors.dart';
@@ -21,7 +20,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       leading: IconButton(
           icon: const Icon(
-            OctIcons.arrow_left_24,
+            OctIcons.arrow_left_16,
             color: appWhiteColor,
             size: 15,
           ),
