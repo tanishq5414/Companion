@@ -46,3 +46,7 @@ apikeys.dart
 firebase_options.dart
 api_urls.dart
 /lib/features/admin/services/api_urls.dart
+courses_api.dart
+notes_api.dart
+supabase_api_keys.dart
+server_api_urls.dart

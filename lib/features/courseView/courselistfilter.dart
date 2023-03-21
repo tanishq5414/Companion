@@ -56,31 +56,34 @@ class _CourseListFilterPageState extends ConsumerState<CourseListFilterPage> {
                 }
               }
               courseListFinal = selectedCourses + unselectedCourses;
-              return ListView.builder(
-                itemCount: courseListFinal.length,
-                itemBuilder: (context, index) {
-                  bool isSelected =
-                      usercourseslist.contains(courseListFinal[index].cid);
-                  return CheckboxListTile(
-                    activeColor: Colors.white,
-                    checkColor: Colors.black,
-                    title: Text(courseListFinal[index].cname,
-                        style: TextStyle(fontSize: 15, color: Colors.white)),
-                    value: isSelected,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        if (value == true &&
-                            usercourseslist.contains(courseListFinal[index].cid) ==
-                                false &&
-                            usercourseslist.length < 6) {
-                          usercourseslist.add(courseListFinal[index].cid);
-                        } else {
-                          usercourseslist.remove(courseListFinal[index].cid);
-                        }
-                      });
-                    },
-                  );
-                },
+              return Padding(
+                padding: EdgeInsets.only(bottom: size.height * 0.1),
+                child: ListView.builder(
+                  itemCount: courseListFinal.length,
+                  itemBuilder: (context, index) {
+                    bool isSelected =
+                        usercourseslist.contains(courseListFinal[index].cid);
+                    return CheckboxListTile(
+                      activeColor: Colors.white,
+                      checkColor: Colors.black,
+                      title: Text(courseListFinal[index].cname,
+                          style: TextStyle(fontSize: 15, color: Colors.white)),
+                      value: isSelected,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          if (value == true &&
+                              usercourseslist.contains(courseListFinal[index].cid) ==
+                                  false &&
+                              usercourseslist.length < 6) {
+                            usercourseslist.add(courseListFinal[index].cid);
+                          } else {
+                            usercourseslist.remove(courseListFinal[index].cid);
+                          }
+                        });
+                      },
+                    );
+                  },
+                ),
               );
             },
             error: (err, s) => Text(err.toString()),
