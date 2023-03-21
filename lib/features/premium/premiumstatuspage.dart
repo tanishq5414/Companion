@@ -38,7 +38,7 @@ class PremiumStatus extends ConsumerWidget {
             title: (user.isPremiumUser)
                 ? const Text('You are a Premium User')
                 : const Text('Get Premium Access'),
-            subtitle: Text(user.id, style: const TextStyle(fontSize: 12, color: appGreyColor)),
+            subtitle: Text('billing id: '+ user.id, style: const TextStyle(fontSize: 12, color: appGreyColor, overflow: TextOverflow.ellipsis)),
             trailing: const Icon(Icons.arrow_forward_ios),
             onTap: () {},
           ),
