@@ -4,6 +4,7 @@ import 'package:companion_rebuild/features/auth/components/custom_title.dart';
 import 'package:companion_rebuild/features/auth/components/text_field.dart';
 import 'package:companion_rebuild/features/auth/controller/auth_controller.dart';
 import 'package:companion_rebuild/features/components/custom_appbar.dart';
+import 'package:companion_rebuild/features/components/snack_bar.dart';
 import 'package:companion_rebuild/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -63,7 +64,7 @@ class _SignupPageState extends ConsumerState<SignupPage> {
       child: SafeArea(
         child: Scaffold(
           appBar: CustomAppBar(title: 'Create account'),
-          resizeToAvoidBottomInset: false,
+          resizeToAvoidBottomInset: true,
           body: Padding(
             padding: EdgeInsets.only(
                 left: size.width * 0.025, right: size.width * 0.025),
@@ -116,8 +117,12 @@ class _SignupPageState extends ConsumerState<SignupPage> {
                       ElevatedButton(
                         style: loginButtonStyle,
                         onPressed: () {
-                          signUp(params['email'], params['password'],
-                              fullNameController.text);
+                          if (fullNameController.text.isNotEmpty) {
+                            signUp(params['email'], params['password'],
+                                fullNameController.text);
+                          }else{
+                            Utils.showSnackBar('Please enter your name');
+                          }
                         },
                         child: Text(
                           'Create Account',

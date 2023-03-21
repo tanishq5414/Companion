@@ -3,6 +3,7 @@
 import 'package:companion_rebuild/features/auth/components/custom_title.dart';
 import 'package:companion_rebuild/features/auth/components/text_field.dart';
 import 'package:companion_rebuild/features/components/custom_appbar.dart';
+import 'package:companion_rebuild/features/components/snack_bar.dart';
 import 'package:companion_rebuild/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
@@ -88,6 +89,9 @@ class PasswordPage extends StatelessWidget {
                             'email': email,
                             'password': passwordController.text,
                           });
+                        }
+                        else{
+                          Utils.showSnackBar('Please enter a password');
                         }
                       },
                       child: Text(
