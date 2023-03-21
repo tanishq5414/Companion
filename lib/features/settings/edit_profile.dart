@@ -1,14 +1,15 @@
 // ignore_for_file: unused_import
 
+import 'package:companion_rebuild/features/auth/controller/auth_controller.dart';
+import 'package:companion_rebuild/features/components/custom_appbar.dart';
+import 'package:companion_rebuild/theme/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notesapp/features/auth/controller/auth_controller.dart';
-import 'package:notesapp/theme/colors.dart';
-import 'package:notesapp/features/components/custom_appbar.dart';
-import 'package:notesapp/features/settings/components/profiledisplay.dart';
-import 'package:notesapp/features/auth/repository/firebase_auth_methods.dart';
 import 'package:routemaster/routemaster.dart';
+import 'package:zoom_tap_animation/zoom_tap_animation.dart';
+
+import 'components/profiledisplay.dart';
 
 class EditProfile extends ConsumerStatefulWidget {
   const EditProfile({super.key});
@@ -48,23 +49,25 @@ class _EditProfileState extends ConsumerState<EditProfile> {
               appBar: CustomAppBar(
                 title: 'Edit profile',
                 actions: [
-                  TextButton(
-                      onPressed: () {
-                        if (name != nameController.text) {
-                          ref
-                              .read(authControllerProvider.notifier)
-                              .updateName(context, nameController.text,user.id);
-                          Routemaster.of(context).pop();
-                          Routemaster.of(context).pop();
-                        }
-                      },
-                      child: Text(
-                        'Save',
-                        style: TextStyle(
-                            color: saveColor,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500),
-                      )),
+                  ZoomTapAnimation(
+                    child: TextButton(
+                        onPressed: () {
+                          if (name != nameController.text) {
+                            ref
+                                .read(authControllerProvider.notifier)
+                                .updateName(context, nameController.text,user.id);
+                            Routemaster.of(context).pop();
+                            Routemaster.of(context).pop();
+                          }
+                        },
+                        child: Text(
+                          'Save',
+                          style: TextStyle(
+                              color: saveColor,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500),
+                        )),
+                  ),
                 ],
               ),
               body: SingleChildScrollView(
@@ -95,22 +98,24 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                     SizedBox(
                       height: size.height * 0.03,
                     ),
-                    TextFormField(
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      textAlign: TextAlign.center,
-                      cursorColor: appAccentColor,
-                      onTap: () => nameController.selection = TextSelection(
-                          baseOffset: 0,
-                          extentOffset: nameController.value.text.length),
-                      cursorWidth: 1,
-                      cursorHeight: 25,
-                      controller: nameController,
-                      style: const TextStyle(
-                          color: appWhiteColor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
+                    ZoomTapAnimation(
+                      child: TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        textAlign: TextAlign.center,
+                        cursorColor: appAccentColor,
+                        onTap: () => nameController.selection = TextSelection(
+                            baseOffset: 0,
+                            extentOffset: nameController.value.text.length),
+                        cursorWidth: 1,
+                        cursorHeight: 25,
+                        controller: nameController,
+                        style: const TextStyle(
+                            color: appWhiteColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                        ),
                       ),
                     ),
                     Divider(

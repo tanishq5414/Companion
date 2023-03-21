@@ -1,9 +1,11 @@
+import 'package:companion_rebuild/features/auth/controller/auth_controller.dart';
+import 'package:companion_rebuild/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notesapp/features/auth/controller/auth_controller.dart';
-import 'package:notesapp/theme/colors.dart';
+
 // import 'package:provider/provider.dart';
 import 'package:routemaster/routemaster.dart';
+import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 // File Info:
 // This displays the user main login screen gives user the sign in methods (Google, Facebook, Phone, Email)
@@ -22,7 +24,7 @@ class LoginMain extends ConsumerWidget {
     final ButtonStyle signUpButtonStyle = ElevatedButton.styleFrom(
       backgroundColor: appWhiteColor,
       foregroundColor: Colors.transparent,
-      minimumSize: Size(size.width / 1.29, size.height / 18.89),
+      minimumSize: Size(size.width / 1.29, size.height / 16),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(100)),
@@ -34,7 +36,7 @@ class LoginMain extends ConsumerWidget {
       foregroundColor: Colors.transparent,
       alignment: Alignment.centerLeft,
       backgroundColor: Colors.transparent,
-      minimumSize: Size(size.width / 1.29, size.height / 18.89),
+      minimumSize: Size(size.width / 1.29, size.height / 16),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(40)),
@@ -49,15 +51,9 @@ class LoginMain extends ConsumerWidget {
       color: Colors.transparent,
       child: Stack(
         children: [
-          Image.asset(
-            "assets/pictures/background2.png",
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            fit: BoxFit.cover,
-          ),
           SafeArea(
             child: Scaffold(
-              backgroundColor: Colors.transparent,
+              backgroundColor: appBackgroundColor,
               body: Center(
                 child: SizedBox(
                   height: size.height,
@@ -92,84 +88,88 @@ class LoginMain extends ConsumerWidget {
                             color: Colors.white,
                           )),
                       SizedBox(
-                        height: size.height * 0.04,
+                        height: size.height * 0.07,
                       ),
                       SizedBox(
-                        height: size.height * 0.04,
+                        width: size.width * 0.85,
+                        child: ZoomTapAnimation(
+                          child: TextButton(
+                              style: otherButtonStyle,
+                              // icon: LineIcon.googlePlus(
+                              //   color: appWhiteColor,
+                              // ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Text(
+                                    'Continue with ',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        color: appWhiteColor,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    'Google',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                              onPressed: () => signInWithGoogle(context, ref)),
+                        ),
                       ),
                       SizedBox(
-                        height: size.height * 0.04,
+                        height: size.height * 0.015,
                       ),
                       SizedBox(
-                        width: size.width / 1.29,
-                        child: TextButton(
-                            style: otherButtonStyle,
-                            // icon: LineIcon.googlePlus(
-                            //   color: appWhiteColor,
-                            // ),
+                        width: size.width * 0.85,
+                        child: ZoomTapAnimation(
+                          child: ElevatedButton(
+                            style: signUpButtonStyle,
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Text(
-                                  'Continue with ',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: appWhiteColor,
-                                      fontWeight: FontWeight.bold),
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                  width: size.width * 0.05,
                                 ),
-                                Text(
-                                  'Google',
+                                const Text(
+                                  'Sign up for LightHeads Account',
                                   style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.red,
-                                      fontWeight: FontWeight.bold),
+                                    color: Colors.black,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ],
                             ),
-                            onPressed: () => signInWithGoogle(context, ref)),
+                            onPressed: () {
+                              // Navigator.pushNamed(context, '/emailpage');
+                              Routemaster.of(context).push('/emailpage');
+                            },
+                          ),
+                        ),
                       ),
                       SizedBox(
                         height: size.height * 0.01,
                       ),
-                      
-                      
-                      ElevatedButton(
-                        style: signUpButtonStyle,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(
-                              width: size.width / 30,
+                      ZoomTapAnimation(
+                        child: TextButton(
+                            style: TextButton.styleFrom(
+                              foregroundColor: Colors.transparent,
                             ),
-                            const Text(
-                              'Sign up for LightHeads Account',
+                            onPressed: () {
+                              Routemaster.of(context).push('/login');
+                            },
+                            child: const Text(
+                              'Log in',
                               style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        onPressed: () {
-                          // Navigator.pushNamed(context, '/emailpage');
-                          Routemaster.of(context).push('/emailpage');
-                        },
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold),
+                            )),
                       ),
-                      TextButton(
-                          style: TextButton.styleFrom(
-                            foregroundColor: Colors.transparent,
-                          ),
-                          onPressed: () {
-                            Routemaster.of(context).push('/login');
-                          },
-                          child: const Text(
-                            'Log in',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold),
-                          )),
                       SizedBox(
                         height: size.height * 0.05,
                       )

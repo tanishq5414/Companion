@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_octicons/flutter_octicons.dart';
 import 'package:routemaster/routemaster.dart';
+import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 import '../../theme/colors.dart';
 
@@ -17,16 +18,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: appBackgroundColor,
-      elevation: 0,
-      leading: IconButton(
-          icon: const Icon(
-            OctIcons.arrow_left_16,
-            color: appWhiteColor,
-            size: 15,
-          ),
-          onPressed: () {
-            Routemaster.of(context).pop();
-          }),
+      elevation: 10,
+      leading: ZoomTapAnimation(
+        child: IconButton(
+            icon: const Icon(
+              OctIcons.arrow_left_16,
+              color: appWhiteColor,
+              size: 15,
+            ),
+            onPressed: () {
+              Routemaster.of(context).history.back();
+            }),
+      ),
       title: Text(
         title,
         style: const TextStyle(

@@ -1,5 +1,5 @@
+import 'package:companion_rebuild/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:notesapp/theme/colors.dart';
 
 //create an error 404 not found page
 class Error404 extends StatelessWidget {

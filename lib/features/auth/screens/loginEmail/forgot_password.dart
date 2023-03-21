@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:companion_rebuild/features/auth/controller/auth_controller.dart';
+import 'package:companion_rebuild/features/components/custom_appbar.dart';
+import 'package:companion_rebuild/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notesapp/features/auth/controller/auth_controller.dart';
-import 'package:notesapp/theme/colors.dart';
 // import 'package:flutter/services.dart';
-import 'package:notesapp/features/components/custom_appbar.dart';
 import 'package:routemaster/routemaster.dart';
 
 import '../../components/custom_subtitle.dart';
@@ -49,54 +49,56 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
       ),
       elevation: 0,
     );
-    return Scaffold(
-        appBar: CustomAppBar(
-          title: 'Forgot password',
-        ),
-        body: Padding(
-          padding: EdgeInsets.only(
-              left: size.width * 0.025, right: size.width * 0.025),
-          child: Center(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: size.height * 0.03,
-                ),
-                CustomHeading(title: 'Enter your email'),
-                SizedBox(
-                  height: size.height * 0.01,
-                ),
-                CustomTextField(
-                  size: size,
-                  // inputTextColor: inputTextColor,
-                  inputController: emailController,
-                ),
-                SizedBox(
-                  height: size.height * 0.01,
-                ),
-                CustomSubtitle(
-                  text: 'We will send you a link to reset your password',
-                ),
-                SizedBox(
-                  height: size.height * 0.04,
-                ),
-                ElevatedButton(
-                  style: resetButtonStyle,
-                  onPressed: () {
-                    forgotPassword(email: emailController.text);
-                    Routemaster.of(context).push('/');
-                  },
-                  child: Text(
-                    'Reset Password',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: buttonTextColor,
+    return SafeArea(
+      child: Scaffold(
+          appBar: CustomAppBar(
+            title: 'Forgot password',
+          ),
+          body: Padding(
+            padding: EdgeInsets.only(
+                left: size.width * 0.025, right: size.width * 0.025),
+            child: Center(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: size.height * 0.03,
+                  ),
+                  CustomHeading(title: 'Enter your email'),
+                  SizedBox(
+                    height: size.height * 0.01,
+                  ),
+                  CustomTextField(
+                    size: size,
+                    // inputTextColor: inputTextColor,
+                    inputController: emailController,
+                  ),
+                  SizedBox(
+                    height: size.height * 0.01,
+                  ),
+                  CustomSubtitle(
+                    text: 'We will send you a link to reset your password',
+                  ),
+                  SizedBox(
+                    height: size.height * 0.04,
+                  ),
+                  ElevatedButton(
+                    style: resetButtonStyle,
+                    onPressed: () {
+                      forgotPassword(email: emailController.text);
+                      Routemaster.of(context).push('/');
+                    },
+                    child: Text(
+                      'Reset Password',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: buttonTextColor,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ));
+          )),
+    );
   }
 }

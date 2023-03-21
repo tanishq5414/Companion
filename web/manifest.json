@@ -1,6 +1,6 @@
 {
-    "name": "notesapp",
-    "short_name": "notesapp",
+    "name": "companion_rebuild",
+    "short_name": "companion_rebuild",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

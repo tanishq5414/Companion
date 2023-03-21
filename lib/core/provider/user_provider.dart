@@ -14,5 +14,8 @@ class UserProvider with ChangeNotifier{
           bid: [],
           notificationsEnabled: '',
           photoUrl: '',
+          isAdmin: false,
+          isPremiumUser: false,
+          recentlyAccessed: [],
           );
 }

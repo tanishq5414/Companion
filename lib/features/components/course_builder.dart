@@ -1,13 +1,15 @@
+import 'package:companion_rebuild/core/provider/courses_provider.dart';
+import 'package:companion_rebuild/features/auth/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notesapp/core/provider/courses_provider.dart';
-import 'package:notesapp/features/auth/controller/auth_controller.dart';
+
 import '../../modal/courses_modal.dart';
 import 'course_preview.dart';
 
 List<Course> usercourses = [];
 GridView courseBuilder(Size size, context, WidgetRef ref) {
   final user = ref.watch(userProvider)!;
+  print(user);
   var userslist = user.cid;
   var allcourses = ref.read(coursesDataProvider);
   var usercourseslist = [];
@@ -16,7 +18,7 @@ GridView courseBuilder(Size size, context, WidgetRef ref) {
       List<Course> allcourseslist = courses.map((e) => e).toList();
       for (var i = 0; i < userslist.length; i++) {
         for (var j = 0; j < allcourseslist.length; j++) {
-          if(userslist[i] == allcourseslist[j].cid){
+          if (userslist[i] == allcourseslist[j].cid) {
             usercourseslist.add(allcourseslist[j]);
           }
         }

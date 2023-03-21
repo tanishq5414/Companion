@@ -1,14 +1,14 @@
 //flutter screen with a search bar
 // ignore_for_file: unused_import
 
+import 'package:companion_rebuild/features/components/advertisment.dart';
+import 'package:companion_rebuild/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_octicons/flutter_octicons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
+import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
-import 'package:notesapp/features/components/advertisment.dart';
-import 'package:notesapp/features/components/custom_appbar.dart';
-import 'package:notesapp/theme/colors.dart';
 
 class SearchPage extends ConsumerStatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -21,6 +21,7 @@ class _SearchPageState extends ConsumerState<SearchPage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Container(
+      margin: EdgeInsets.only(top: size.height * 0.03),
       color: appBackgroundColor,
       child: SafeArea(
         child: Scaffold(
@@ -36,18 +37,21 @@ class _SearchPageState extends ConsumerState<SearchPage> {
                 )),
           ),
           body: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: size.height * 0.05),
-                const SearchBar(),
-                SizedBox(height: size.height * 0.05),
-                Padding(
-                  padding: EdgeInsets.all(size.width * 0.05),
-                  child: advertismentBuilder(size, context, ref),
-                ),
-
-                // SearchResults(),
-              ],
+            child: Padding(
+              padding: EdgeInsets.only(left: size.width * 0.02, right: size.width * 0.02),
+              child: Column(
+                children: [
+                  SizedBox(height: size.height * 0.05),
+                  const SearchBar(),
+                  SizedBox(height: size.height * 0.05),
+                  Padding(
+                    padding: EdgeInsets.all(size.width * 0.05),
+                    child: advertismentBuilder(size, context, ref),
+                  ),
+                    
+                  // SearchResults(),
+                ],
+              ),
             ),
           ),
         ),
@@ -75,14 +79,16 @@ class SearchBar extends StatelessWidget {
         onTap: () {
           Routemaster.of(context).push('/mainsearch');
         },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
-            Icon(OctIcons.search_16, color: appGreyColor),
-            Spacer(),
-            Center(child: Text('Search notes, courses, etc.', style: TextStyle(color: appGreyColor, fontSize: 15, fontWeight: FontWeight.bold))),
-            Spacer(),
-          ],
+        child: ZoomTapAnimation(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: const [
+              Icon(OctIcons.search_16, color: appGreyColor),
+              Spacer(),
+              Center(child: Text('Search notes, courses, etc.', style: TextStyle(color: appGreyColor, fontSize: 15, fontWeight: FontWeight.bold))),
+              Spacer(),
+            ],
+          ),
         ),
       ),
     );

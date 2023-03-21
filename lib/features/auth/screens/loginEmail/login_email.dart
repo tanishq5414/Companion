@@ -1,13 +1,13 @@
 // ignore_for_file: file_names, unused_local_variable
+import 'package:companion_rebuild/features/auth/components/custom_title.dart';
+import 'package:companion_rebuild/features/auth/components/text_field.dart';
+import 'package:companion_rebuild/features/auth/controller/auth_controller.dart';
+import 'package:companion_rebuild/features/components/custom_appbar.dart';
+import 'package:companion_rebuild/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notesapp/features/auth/controller/auth_controller.dart';
-import 'package:notesapp/theme/colors.dart';
-import 'package:notesapp/features/components/custom_appbar.dart';
-import 'package:notesapp/features/auth/components/custom_title.dart';
-import 'package:notesapp/features/auth/components/text_field.dart';
-import 'package:routemaster/routemaster.dart';
 
+import 'package:routemaster/routemaster.dart';
 
 // FILE INFO:
 // This file displays the login page for email and signup
@@ -24,6 +24,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   //Controllers for storing email and Password
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +62,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     void loginUser(String email, String password) {
       ref
           .read(authControllerProvider.notifier)
-          .logInWithEmail(context, email, password);
+          .logInWithEmail(context, email, password, ref);
     }
-    void forgotpassword(){
+
+    void forgotpassword() {
       Routemaster.of(context).push('/forgotpassword');
     }
 
@@ -105,8 +112,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ),
                     ElevatedButton(
                       style: loginButtonStyle,
-                      onPressed: (){
-                        loginUser(emailController.text, passwordController.text);
+                      onPressed: () {
+                        print(2);
+                        loginUser(
+                            emailController.text, passwordController.text);
                       },
                       child: Text(
                         'Log in',

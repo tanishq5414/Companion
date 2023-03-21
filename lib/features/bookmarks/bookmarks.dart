@@ -1,14 +1,16 @@
 // ignore_for_file: non_constant_identifier_names, unnecessary_new, unused_local_variable
 
+import 'package:companion_rebuild/core/provider/notes_provider.dart';
+import 'package:companion_rebuild/features/auth/controller/auth_controller.dart';
+import 'package:companion_rebuild/features/components/notes_preview.dart';
+import 'package:companion_rebuild/features/settings/components/profiledisplay.dart';
+import 'package:companion_rebuild/modal/notes_modal.dart';
+import 'package:companion_rebuild/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notesapp/core/provider/notes_provider.dart';
-import 'package:notesapp/features/auth/controller/auth_controller.dart';
-import 'package:notesapp/features/components/notes_preview.dart';
-import 'package:notesapp/features/settings/components/profiledisplay.dart';
-import 'package:notesapp/modal/notes_modal.dart';
+import 'package:routemaster/routemaster.dart';
+import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
-import 'package:notesapp/theme/colors.dart';
 
 List<String> BookmarkSearchList = [];
 
@@ -54,96 +56,106 @@ class BookmarksPage extends ConsumerWidget {
       BookmarkSearchList.add(bookmarks[i].course);
       BookmarkSearchList.add(bookmarks[i].unit);
     }
-    return SafeArea(
-      child: Scaffold(
+    return Container(
+      margin: EdgeInsets.only(top: size.height * 0.03),
+      color: appBackgroundColor,
+      child: SafeArea(
+        child: Scaffold(
           body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) => [
-          SliverAppBar(
-            automaticallyImplyLeading: false,
-            backgroundColor: appBackgroundColor,
-            elevation: 0,
-            title: const Text(
-              'Your Bookmarks',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 23,
+          headerSliverBuilder: (context, innerBoxIsScrolled) => [
+            SliverAppBar(
+              automaticallyImplyLeading: false,
+              backgroundColor: appBackgroundColor,
+              elevation: 0,
+              title: const Text(
+                'Your Bookmarks',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 23,
+                ),
               ),
+              toolbarHeight: 120,
+              leading: ZoomTapAnimation(
+                onTap: () {
+                  Routemaster.of(context).push('/editprofile');
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    left: size.width * 0.04,
+                  ),
+                  child: ProfileAvatar(
+                      image: user!.photoUrl,
+                      firstlettername: user.name[0],
+                      rad: 20,
+                      width: 2),
+                ),
+              ),
+              leadingWidth: 55,
             ),
-            toolbarHeight: 120,
-            leading: Padding(
-              padding: EdgeInsets.only(
-                left: size.width * 0.04,
-              ),
-              child: ProfileAvatar(
-                  image: user!.photoUrl,
-                  firstlettername: user.name[0],
-                  rad: 22,
-                  width: 1),
+          ],
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                // Container(
+                //   height: size.height * 0.05,
+                //   width: size.width * 0.9,
+                //   margin: EdgeInsets.symmetric(horizontal: size.width * 0.035),
+                //   decoration: BoxDecoration(
+                //     color: appBackgroundColor,
+                //     borderRadius: BorderRadius.circular(2),
+                //   ),
+                //   child: InkWell(
+                //     onTap: () {
+                //       showSearch(
+                //         context: context,
+                //         delegate: CustomBookmarkSearchDelegate(),
+                //       );
+                //     },
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //       children: const [
+                //         Text('Search in bookmarks',
+                //             style: TextStyle(
+                //                 color: appGreyColor,
+                //                 fontSize: 15,
+                //                 fontWeight: FontWeight.bold)),
+                //         Spacer(),
+                //         Icon(Icons.search, color: appGreyColor),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: size.height * 0.05,
+                      left: size.width * 0.05,
+                      right: size.width * 0.05),
+                  child: GridView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 5,
+                      ),
+                      itemCount: bookmarks.length,
+                      itemBuilder: (context, index) => NotesPreview(
+                          id: bookmarks[index].id,
+                          name: bookmarks[index].name,
+                          year: bookmarks[index].year,
+                          branch: bookmarks[index].branch,
+                          course: bookmarks[index].course,
+                          semester: bookmarks[index].semester,
+                          version: bookmarks[index].version,
+                          unit: bookmarks[index].unit,
+                          wdlink: bookmarks[index].wdlink,
+                          pressable: true,)),
+                ),
+              ],
             ),
-            leadingWidth: 55,
           ),
-        ],
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              // Container(
-              //   height: size.height * 0.05,
-              //   width: size.width * 0.9,
-              //   margin: EdgeInsets.symmetric(horizontal: size.width * 0.035),
-              //   decoration: BoxDecoration(
-              //     color: appBackgroundColor,
-              //     borderRadius: BorderRadius.circular(2),
-              //   ),
-              //   child: InkWell(
-              //     onTap: () {
-              //       showSearch(
-              //         context: context,
-              //         delegate: CustomBookmarkSearchDelegate(),
-              //       );
-              //     },
-              //     child: Row(
-              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //       children: const [
-              //         Text('Search in bookmarks',
-              //             style: TextStyle(
-              //                 color: appGreyColor,
-              //                 fontSize: 15,
-              //                 fontWeight: FontWeight.bold)),
-              //         Spacer(),
-              //         Icon(Icons.search, color: appGreyColor),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-              Padding(
-                padding: EdgeInsets.only(
-                    top: size.height * 0.05,
-                    left: size.width * 0.02,
-                    right: size.width * 0.03),
-                child: GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 5,
-                    ),
-                    itemCount: bookmarks.length,
-                    itemBuilder: (context, index) => NotesPreview(
-                        id: bookmarks[index].id,
-                        name: bookmarks[index].name,
-                        year: bookmarks[index].year,
-                        branch: bookmarks[index].branch,
-                        course: bookmarks[index].course,
-                        semester: bookmarks[index].semester,
-                        version: bookmarks[index].version,
-                        unit: bookmarks[index].unit,
-                        wdlink: bookmarks[index].wdlink)),
-              ),
-            ],
-          ),
-        ),
-      )),
+              )),
+      ),
     );
   }
 }

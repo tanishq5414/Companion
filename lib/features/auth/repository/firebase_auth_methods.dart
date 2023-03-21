@@ -2,20 +2,22 @@
 
 import 'dart:math';
 
+import 'package:companion_rebuild/core/failure.dart';
+import 'package:companion_rebuild/core/provider/firebase_providers.dart';
+import 'package:companion_rebuild/core/type_defs.dart';
+import 'package:companion_rebuild/features/auth/controller/auth_controller.dart';
+import 'package:companion_rebuild/features/components/snack_bar.dart';
+import 'package:companion_rebuild/modal/user_modal.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:http/http.dart';
-import 'package:notesapp/core/failure.dart';
-import 'package:notesapp/core/provider/firebase_providers.dart';
-import 'package:notesapp/core/type_defs.dart';
-import 'package:notesapp/modal/user_modal.dart';
-import 'package:notesapp/features/components/snack_bar.dart';
+
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,7 +29,6 @@ final authRepositoryProvider = Provider(
     supabaseClient: ref.read(supabaseProvider),
     auth: ref.read(authProvider),
     googleSignIn: ref.read(googleSignInProvider),
-    firestore: ref.read(firestoreProvider),
   ),
 );
 
@@ -39,7 +40,6 @@ class AuthRepository {
     required supabase.SupabaseClient supabaseClient,
     required FirebaseAuth auth,
     required GoogleSignIn googleSignIn,
-    required FirebaseFirestore firestore,
   })  : _auth = auth,
         _supabaseClient = supabaseClient,
         _googleSignIn = googleSignIn;
@@ -69,6 +69,18 @@ class AuthRepository {
       );
       await sendEmailVerification(context);
       Routemaster.of(context).push('/sendverification');
+      await _supabaseClient.from('userscollection').insert({
+        'uid': result.user!.uid,
+        'cid': cid,
+        'bid': [],
+        'email': user.email,
+        'name': fullName,
+        'photoUrl': user.photoURL ?? "",
+        'notificationsEnabled': "true",
+        'isAdmin': false,
+        'isPremiumUser': true,
+        'recentlyAccessed': [],
+      });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         Utils.showSnackBar('The password provided is too weak.');
@@ -112,42 +124,68 @@ class AuthRepository {
   }
 
   // EMAIL LOGIN
-  FutureEither<UserCollection> loginWithEmail({
-    required String email,
-    required String password,
-    required BuildContext context,
-  }) async {
+  FutureEither<UserCollection> loginWithEmail(
+      {required String email,
+      required String password,
+      required BuildContext context,
+      required WidgetRef ref}) async {
     late UserCollection userModel;
-    var userCredential = await _auth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    var user = userCredential.user!;
     try {
+      var userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      var user = userCredential.user!;
       if (user.emailVerified == false) {
         await sendEmailVerification(context);
         Routemaster.of(context).push('/sendverification');
         Utils.showSnackBar(
             'Please verify your email first. Verification link sent to $email');
-
         return left(Failure('Please verify your email first'));
       } else {
-        Routemaster.of(context).push('/');
-        userModel = await getUserData(user.uid).first;
+        Routemaster.of(context).popUntil((routeData) => false);
+        userModel = await ref
+            .watch(authControllerProvider.notifier)
+            .getUserData(
+              user.uid,
+            )
+            .first;
         return right(userModel);
       }
     } //wrong password exception
     on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        Utils.showSnackBar('No user found for the email provided.');
+      } else if (e.code == 'wrong-password') {
+        Utils.showSnackBar('Password is incorrect.');
+      } else {
+        Utils.showSnackBar(
+            'Some error occurred try again in some time if it still persists contact us');
+      }
+      print(e.message);
       throw e.message!;
-    } catch (e) {
-      return left(Failure('Some error occurred'));
     }
   }
 
-  incrementnotesopened(String uid, String notesid, String notesname, String course, String unit) async {
-    var data =
-        await _supabaseClient.from('notesdata').select('*').eq('id', notesid);
-    // print(data.length.toString());
+  incrementnotesopened(String uid, String notesid, String notesname,
+      String course, String unit) async {
+    List data1 = await _supabaseClient
+        .from('userscollection')
+        .select('recentlyAccessed')
+        .eq('uid', uid);
+    List data2 = data1[0]['recentlyAccessed'];
+    data2.add(notesid);
+    if (data2.length > 30) {
+      data2 = data2.sublist(data2.length - 30, data2.length);
+    }
+    await _supabaseClient.from('userscollection').update({
+      'recentlyAccessed': data2,
+    }).eq('uid', uid);
+
+    var data = await _supabaseClient
+        .from('notesdata')
+        .select('times_opened')
+        .eq('id', notesid);
     if (data.length == '0' || data.length == 0) {
       await _supabaseClient.from('notesdata').insert({
         'id': notesid,
@@ -221,6 +259,9 @@ class AuthRepository {
               name: user.displayName!,
               photoUrl: user.photoURL ?? "",
               notificationsEnabled: "true",
+              isAdmin: false,
+              isPremiumUser: true,
+              recentlyAccessed: [],
             );
             await _supabaseClient.from('userscollection').insert({
               'uid': user.uid,
@@ -230,6 +271,9 @@ class AuthRepository {
               'name': user.displayName,
               'photoUrl': user.photoURL ?? "",
               'notificationsEnabled': "true",
+              'isAdmin': false,
+              'isPremiumUser': true,
+              'recentlyAccessed': [],
             });
           } else {
             userModel = await getUserData(userCredential.user!.uid).first;
@@ -242,10 +286,28 @@ class AuthRepository {
     }
   }
 
+  // Change Password
+  Future<void> changePassword({
+    required String oldPassword,
+    required String newPassword,
+  }) async {
+    try {
+      User? user = _auth.currentUser;
+      AuthCredential credential = EmailAuthProvider.credential(
+          email: user!.email!, password: oldPassword);
+      await user.reauthenticateWithCredential(credential);
+      await user.updatePassword(newPassword);
+      Utils.showSnackBar('Password Changed Successfully');
+    } on FirebaseAuthException catch (e) {
+      Utils.showSnackBar(e.message!);
+    }
+  }
+
   // SIGN OUT
   Future<void> signOut(BuildContext context) async {
     try {
       await _auth.signOut();
+      Routemaster.of(context).push('/');
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(e.message!); // Displaying the error message
     }
@@ -256,7 +318,7 @@ class AuthRepository {
     try {
       deleteUser(user.uid);
       await _auth.currentUser!.delete();
-      Routemaster.of(context).push('/');
+      Routemaster.of(context).popUntil((routeData) => false);
     } on FirebaseAuthException catch (e) {
       Utils.showSnackBar(e.message!);
       // Displaying the error message
@@ -298,7 +360,10 @@ class AuthRepository {
               notificationsEnabled: event.elementAt(0)['notificationsEnabled'],
               email: event.elementAt(0)['email'],
               name: event.elementAt(0)['name'],
-              photoUrl: event.elementAt(0)['photoUrl']);
+              photoUrl: event.elementAt(0)['photoUrl'],
+              isAdmin: event.elementAt(0)['isAdmin'],
+              isPremiumUser: event.elementAt(0)['isPremiumUser'],
+              recentlyAccessed: event.elementAt(0)['recentlyAccessed']);
         });
     return user;
   }

@@ -1,12 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:companion_rebuild/features/auth/controller/auth_controller.dart';
+import 'package:companion_rebuild/features/settings/components/profiledisplay.dart';
+import 'package:companion_rebuild/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_octicons/flutter_octicons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notesapp/features/auth/controller/auth_controller.dart';
-import 'package:notesapp/theme/colors.dart';
-import 'package:notesapp/features/settings/components/profiledisplay.dart';
 import 'package:routemaster/routemaster.dart';
+import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 
 import '../components/custom_appbar.dart';
@@ -47,61 +48,63 @@ class SettingsPage extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.only(bottom: size.width * 0.07),
-                    child: InkWell(
-                      onTap: () {
-                        Routemaster.of(context).push('/editprofile');
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ProfileAvatar(
-                            image: user?.photoUrl.toString() ?? "null",
-                            firstlettername: firstlettername,
-                            rad: 38,
-                            width: size.width*0.2,
-                          ),
-                          SizedBox(
-                            width: size.width * 0.05,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                name,
-                                style: const TextStyle(
-                                  color: appWhiteColor,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              SizedBox(
-                                height: size.height * 0.01,
-                              ),
-                              const Text('Edit Profile',
-                                  style: TextStyle(
-                                    fontSize: 10,
+                  ZoomTapAnimation(
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: size.width * 0.07),
+                      child: InkWell(
+                        onTap: () {
+                          Routemaster.of(context).push('/editprofile');
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ProfileAvatar(
+                              image: user?.photoUrl.toString() ?? "null",
+                              firstlettername: firstlettername,
+                              rad: 38,
+                              width: size.width*0.2,
+                            ),
+                            SizedBox(
+                              width: size.width * 0.05,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  name,
+                                  style: const TextStyle(
                                     color: appWhiteColor,
-                                  )),
-                            ],
-                          ),
-                          Spacer(),
-                          const Icon(OctIcons.chevron_right_16,
-                              color: appWhiteColor),
-                        ],
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: size.height * 0.01,
+                                ),
+                                const Text('Edit Profile',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      color: appWhiteColor,
+                                    )),
+                              ],
+                            ),
+                            Spacer(),
+                            const Icon(OctIcons.chevron_right_16,
+                                color: appWhiteColor),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                  DisplayTile(
-                    title: 'Customize',
-                    subtitle: 'Change the accent color',
-                    trailing: Icon(
-                      OctIcons.paintbrush_16,
-                      color: appAccentColor,
-                      size: 17,
-                    ),
-                  ),
+                  // DisplayTile(
+                  //   title: 'Customize',
+                  //   subtitle: 'Change the accent color',
+                  //   trailing: Icon(
+                  //     OctIcons.paintbrush_16,
+                  //     color: appAccentColor,
+                  //     size: 17,
+                  //   ),
+                  // ),
                   // DisplayTile(
                   //   title: 'Notifications',
                   //   subtitle: 'Turn on/off notifications',
@@ -120,14 +123,14 @@ class SettingsPage extends ConsumerWidget {
                     title: 'Premium plan',
                     subtitle: 'View your plan',
                     onpressed: () {
-                      Routemaster.of(context).push('/premium');
+                      Routemaster.of(context).push('/premiumstatus');
                     },
                   ),
                   DisplayTile(
                     title: 'Email',
                     subtitle: email,
                     onpressed: () {
-                      Routemaster.of(context).push('/changeemail');
+                      // Routemaster.of(context).push('/changeemail');
                     },
                   ),
                   DisplayTile(
@@ -144,10 +147,7 @@ class SettingsPage extends ConsumerWidget {
                   DisplayTile(
                     title: 'Version',
                     subtitle: '1.0.0',
-                    onpressed: () {
-                      Routemaster.of(context).push('/about');
-
-                    },
+                    onpressed: () {},
                   ),
                   DisplayTile(
                     title: 'Privacy policy',
@@ -167,12 +167,12 @@ class SettingsPage extends ConsumerWidget {
                       signOut();
                     },
                   ),
-                  DisplayTile(
-                      title: 'Delete Account',
-                      subtitle: 'This action is irreversible',
-                      onpressed: () {
-                        deleteAccount();
-                      }),
+                  // DisplayTile(
+                  //     title: 'Delete Account',
+                  //     subtitle: 'This action is irreversible',
+                  //     onpressed: () {
+                  //       deleteAccount();
+                  //     }),
                 ],
               ),
             ),

@@ -1,13 +1,14 @@
 // ignore_for_file: unused_import, prefer_is_empty
 
+import 'package:companion_rebuild/core/provider/notes_provider.dart';
+import 'package:companion_rebuild/modal/notes_modal.dart';
+import 'package:companion_rebuild/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_octicons/flutter_octicons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notesapp/core/provider/notes_provider.dart';
-import 'package:notesapp/modal/courses_modal.dart';
-import 'package:notesapp/modal/notes_modal.dart';
-import 'package:notesapp/theme/colors.dart';
+
 import 'package:routemaster/routemaster.dart';
+import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class MainSearchPage extends ConsumerStatefulWidget {
   const MainSearchPage({Key? key}) : super(key: key);
@@ -35,55 +36,70 @@ class _SearchState extends ConsumerState<MainSearchPage> {
     setState(() {
       _notes = ref.read(notesDataProvider).value as List<Notes>;
       foundedNotes = _notes
-          .where((notes) => notes.name.toLowerCase().contains(search) | notes.course.toLowerCase().contains(search))
+          .where((notes) =>
+              notes.name.toLowerCase().contains(search) |
+              notes.course.toLowerCase().contains(search))
           .toList();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: appBackgroundColor,
-        title: Container(
-          height: 38,
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(2)),
-          child: TextField(
-            autofocus: true,
-            style: const TextStyle(color: appBlackColor),
-            onChanged: (value) => onSearch(value),
-            decoration: InputDecoration(
-                filled: true,
-                fillColor: appWhiteColor,
-                contentPadding: const EdgeInsets.all(0),
-                prefixIcon: Icon(
-                  OctIcons.search_16,
-                  size: 20,
-                  color: Colors.grey.shade500,
-                ),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(2),
-                    borderSide: BorderSide.none),
-                hintStyle: const TextStyle(fontSize: 14, color: appGreyColor),
-                hintText: "Search notes, courses, etc..."),
+    final size = MediaQuery.of(context).size;
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 30),
+        child: Scaffold(
+          appBar: AppBar(
+            leading: ZoomTapAnimation(
+                child: IconButton(
+                    icon: const Icon(OctIcons.arrow_left_16, size: 15,),
+                    onPressed: () => Routemaster.of(context).history.back())),
+            elevation: 0,
+            backgroundColor: appBackgroundColor,
+            title: Container(
+              height: 50,
+              decoration: BoxDecoration(
+                  color: appWhiteColor, borderRadius: BorderRadius.circular(2)),
+              child: TextField(
+                autofocus: true,
+                style: const TextStyle(color: appBlackColor),
+                onChanged: (value) => onSearch(value.toLowerCase()),
+                decoration: InputDecoration(
+                    filled: true,
+                    fillColor: appWhiteColor,
+                    contentPadding: const EdgeInsets.all(0),
+                    prefixIcon: const Icon(
+                      OctIcons.search_16,
+                      size: 20,
+                      color: appGreyColor,
+                    ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5),
+                        borderSide: BorderSide.none),
+                    hintStyle: const TextStyle(fontSize: 14, color: appGreyColor),
+                    hintText: "Search notes, courses, etc..."),
+              ),
+            ),
+          ),
+          body: Container(
+            margin: EdgeInsets.only(top: size.width * 0.05),
+            color: appBackgroundColor,
+            child: foundedNotes.length > 0
+                ? ListView.builder(
+                    itemCount: foundedNotes.length>15?15:foundedNotes.length,
+                    itemBuilder: (context, index) {
+                      return notesComponent(notes: foundedNotes[index]);
+                    })
+                : const Center(
+                    child: Text(
+                    "No notes found",
+                    style: TextStyle(
+                      color: appWhiteColor,
+                    ),
+                  )),
           ),
         ),
-      ),
-      body: Container(
-        color: appBackgroundColor,
-        child: foundedNotes.length > 0
-            ? ListView.builder(
-                itemCount: foundedNotes.length,
-                itemBuilder: (context, index) {
-                  return notesComponent(notes: foundedNotes[index]);
-                })
-            : const Center(
-                child: Text(
-                "No notes found",
-                style: TextStyle(color: appWhiteColor,),
-              )),
       ),
     );
   }
@@ -106,37 +122,26 @@ class _SearchState extends ConsumerState<MainSearchPage> {
         padding: const EdgeInsets.only(top: 10, bottom: 10),
         child: Row(
           children: [
-            Container(
-              height: 50,
-              width: 50,
-              decoration: BoxDecoration(
-                  color: appWhiteColor,
-                  borderRadius: BorderRadius.circular(10)),
-              child: Center(
-                child: Text(
-                  notes.name.substring(0, 1).toUpperCase(),
-                  style: const TextStyle(color: appBlackColor, fontSize: 20),
-                ),
+            ZoomTapAnimation(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    notes.name,
+                    style: const TextStyle(color: appWhiteColor, fontSize: 16),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    notes.course,
+                    style: const TextStyle(color: appGreyColor, fontSize: 14),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(
-              width: 20,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  notes.name,
-                  style: const TextStyle(color: appWhiteColor, fontSize: 16),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Text(notes.course,
-                  style: const TextStyle(color: appAccentColor, fontSize: 14),
-                ),
-              ],
-            )
+            Spacer(),
+            Text('${notes.unit} Unit', style: const TextStyle(color: appGreyColor, fontSize: 14),),
           ],
         ),
       ),

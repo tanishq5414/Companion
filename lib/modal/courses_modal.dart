@@ -19,8 +19,8 @@ class Course {
     // Array gid;
 
     factory Course.fromJson(Map<String, dynamic> json) => Course(
-        cname: json["cname"],
         cid: json["cid"],
+        cname: json["cname"],
         gid: json["gid"],
         // gid: json["gid"],
     );

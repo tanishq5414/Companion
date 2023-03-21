@@ -13,6 +13,10 @@ class UserCollection {
   final String email;
   final String photoUrl;
   final String name;
+  final bool isAdmin;
+  final bool isPremiumUser;
+  final List recentlyAccessed;
+
   UserCollection({
     required this.id,
     required this.bid,
@@ -20,7 +24,10 @@ class UserCollection {
     required this.notificationsEnabled,
     required this.email,
     required this.name,
-    required this.photoUrl
+    required this.photoUrl,
+    required this.isAdmin,
+    required this.isPremiumUser,
+    required this.recentlyAccessed,
   });
   UserCollection copyWith({
     String? id,
@@ -30,6 +37,9 @@ class UserCollection {
     String? email,
     String? photoUrl,
     String? name,
+    bool? isAdmin,
+    bool? isPremiumUser,
+    List? recentlyAccessed,
   }) {
     return UserCollection(
       id: id ?? this.id,
@@ -39,6 +49,9 @@ class UserCollection {
       email: email ?? this.email,
       name: name ?? this.name,
       photoUrl: photoUrl ?? this.photoUrl,
+      isAdmin: isAdmin ?? this.isAdmin,
+      isPremiumUser: isPremiumUser ?? this.isPremiumUser,
+      recentlyAccessed: recentlyAccessed ?? this.recentlyAccessed,
     );
   }
 
@@ -50,6 +63,10 @@ class UserCollection {
       'notificationsEnabled': notificationsEnabled,
       'email': email,
       'name': name,
+      'photoUrl': photoUrl,
+      'isAdmin': isAdmin,
+      'isPremiumUser': isPremiumUser,
+      'recentlyAccessed': recentlyAccessed,
     };
   }
 
@@ -62,6 +79,9 @@ class UserCollection {
       email: map['email'] as String,
       name: map['name'] as String,
       photoUrl: map['photoUrl'] as String,
+      isAdmin: map['isAdmin'] as bool,
+      isPremiumUser: map['isPremiumUser'] as bool,
+      recentlyAccessed: List.from(map['recentlyAccessed'] as List),
     );
   }
 

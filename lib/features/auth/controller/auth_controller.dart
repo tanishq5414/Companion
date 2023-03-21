@@ -1,11 +1,13 @@
 // ignore_for_file: unused_import, unused_local_variable
 
+import 'package:companion_rebuild/features/auth/repository/firebase_auth_methods.dart';
+import 'package:companion_rebuild/modal/user_modal.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notesapp/features/auth/repository/firebase_auth_methods.dart';
-import 'package:notesapp/modal/user_modal.dart';
+
 import 'package:flutter/material.dart';
+import 'package:routemaster/routemaster.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../components/snack_bar.dart';
 
@@ -34,7 +36,7 @@ class AuthController extends StateNotifier<bool> {
       : _authRepository = authRepository,
         _ref = ref,
         super(false);
-  Stream<UserCollection> getUserData(String uid) {
+  Stream getUserData(String uid) {
     return _authRepository.getUserData(uid);
   }
 
@@ -55,31 +57,57 @@ class AuthController extends StateNotifier<bool> {
   void updateUserCourses(BuildContext context, String uid, var cid) {
     final user = _authRepository.updateUserCourses(uid, cid);
   }
-  void incrementNotesOpened(BuildContext context, String uid , String notesid, String notesname, String course, String unit) {
-    final user = _authRepository.incrementnotesopened(uid , notesid, notesname, course , unit);
+
+  void incrementNotesOpened(BuildContext context, String uid, String notesid,
+      String notesname, String course, String unit) {
+    final user = _authRepository.incrementnotesopened(
+        uid, notesid, notesname, course, unit);
+    var a = _ref.read(userProvider.notifier).state;
+    a!.recentlyAccessed.add(notesid);
+    _ref.read(userProvider.notifier).update((state) => a);
   }
 
-  void logInWithEmail(
-      BuildContext context, String email, String password) async {
+  void logInWithEmail(BuildContext context, String email, String password,
+      WidgetRef ref) async {
+    print(1);
     state = true;
     final user = await _authRepository.loginWithEmail(
-        email: email, password: password, context: context);
+        email: email, password: password, context: context, ref: ref);
+    user.fold((l) => Utils.showSnackBar(l.message),
+        (r) => _ref.read(userProvider.notifier).update((state) => r));
     state = false;
-    user.fold((l) => Utils.showSnackBar(l.message), (r) => _ref.read(userProvider.notifier).update((state) => r));
-    
+  }
+
+  void changePassword(
+      BuildContext context, String newpassword, String oldpassword) async {
+    state = true;
+    final user = _authRepository.changePassword(
+      oldPassword: oldpassword,
+      newPassword: newpassword,
+    );
+    state = false;
   }
 
   void sendEmailVerification(BuildContext context) async {
+    state = true;
     final user = _authRepository.sendEmailVerification(context);
+    state = false;
   }
 
   void signUpwithEmail(BuildContext context, email, password, fullName) async {
+    state = true;
     final user = _authRepository.signUpWithEmail(
         email: email, password: password, fullName: fullName, context: context);
+    state = false;
   }
 
   void signOut(BuildContext context) async {
-    final user = _authRepository.signOut(context);
+    state = true;
+    final user = await _authRepository.signOut(
+      context,
+    );
+    _ref.read(userProvider.notifier).state = null;
+    state = false;
   }
 
   void updateName(BuildContext context, fullName, uid) async {
@@ -87,7 +115,10 @@ class AuthController extends StateNotifier<bool> {
   }
 
   void deleteAccount(BuildContext context) async {
-    final user = _authRepository.deleteAccount(context);
+    state = true;
+    final user = await _authRepository.deleteAccount(context);
+    _ref.read(userProvider.notifier).state = null;
+    state = false;
   }
 
   void resetPassword(BuildContext context, email) async {

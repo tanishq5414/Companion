@@ -1,14 +1,12 @@
 // ignore_for_file: unused_import
 
+import 'package:companion_rebuild/features/auth/components/custom_title.dart';
+import 'package:companion_rebuild/features/auth/components/text_field.dart';
+import 'package:companion_rebuild/features/auth/controller/auth_controller.dart';
+import 'package:companion_rebuild/features/components/custom_appbar.dart';
+import 'package:companion_rebuild/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:notesapp/features/auth/components/custom_title.dart';
-import 'package:notesapp/features/auth/components/text_field.dart';
-import 'package:notesapp/features/auth/controller/auth_controller.dart';
-import 'package:notesapp/features/auth/repository/firebase_auth_methods.dart';
-import 'package:notesapp/features/components/custom_appbar.dart';
-import 'package:notesapp/theme/colors.dart';
 import 'package:routemaster/routemaster.dart';
 
 class SignupPage extends ConsumerStatefulWidget {

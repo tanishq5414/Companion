@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import '../../../theme/colors.dart';
@@ -27,11 +28,12 @@ class ProfileAvatar extends StatelessWidget {
           backgroundColor: appBackgroundColor,
           radius: rad.toDouble() - 2,
           foregroundImage: (image != "null" || image!='') ? NetworkImage(image) : null,
-          backgroundImage: NetworkImage(image),
-          child: Text(firstlettername[0],
+          backgroundImage: (image!="null" || image!='')? NetworkImage(image): null,
+          child: AutoSizeText(firstlettername[0],
+              maxLines: 1,
               style: const TextStyle(
                 color: appAccentColor,
-                fontSize: 30,
+                fontSize: 20,
               )),
         ),
       ),

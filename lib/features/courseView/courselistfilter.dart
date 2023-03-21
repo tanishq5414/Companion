@@ -1,15 +1,14 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names, unused_import, prefer_typing_uninitialized_variables
 
+import 'package:companion_rebuild/core/provider/courses_provider.dart';
+import 'package:companion_rebuild/features/auth/controller/auth_controller.dart';
+import 'package:companion_rebuild/features/components/custom_appbar.dart';
+import 'package:companion_rebuild/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notesapp/core/provider/courses_provider.dart';
-import 'package:notesapp/features/auth/controller/auth_controller.dart';
-import 'package:notesapp/features/auth/repository/firebase_auth_methods.dart';
-import 'package:notesapp/features/components/course_builder.dart';
 
-import 'package:notesapp/theme/colors.dart';
-import 'package:notesapp/features/components/custom_appbar.dart';
 import 'package:routemaster/routemaster.dart';
+import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 import '../../modal/courses_modal.dart';
 
 List<String> CoursesSearchList = [];
@@ -23,7 +22,7 @@ class CourseListFilterPage extends ConsumerStatefulWidget {
 }
 
 class _CourseListFilterPageState extends ConsumerState<CourseListFilterPage> {
-  late var usercourseslist;
+  late List usercourseslist;
   @override
   void initState() {
     var user = ref.read(userProvider)!;
@@ -35,55 +34,48 @@ class _CourseListFilterPageState extends ConsumerState<CourseListFilterPage> {
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider)!;
     final courses = ref.read(coursesDataProvider);
-    // print(courses);
+    List<Course> selectedCourses = [];
+    List<Course> unselectedCourses = [];
+    List<Course> courseListFinal = [];
     var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Course List Filter',
-        // actions: [
-        //   IconButton(
-        //       onPressed: () {
-        //         showSearch(
-        //           context: context,
-        //           delegate: CustomSearchDelegate(),
-        //         );
-        //       },
-        //       icon: const Icon(Icons.search))
-        // ],
       ),
       body: Stack(
         children: [
           courses.when(
             data: (courses) {
               List<Course> courseList = courses.map((e) => e).toList();
-              for (int i = 0; i < courseList.length; i++) {
-                if (CoursesSearchList.contains(
-                    courseList[i].cname.toString())) {
+              courseList.sort((a, b) => a.cname.compareTo(b.cname));
+              for (var course in courseList) {
+                if (usercourseslist.contains(course.cid)) {
+                  selectedCourses.add(course);
                 } else {
-                  CoursesSearchList.add(courseList[i].cname.toString());
+                  unselectedCourses.add(course);
                 }
               }
+              courseListFinal = selectedCourses + unselectedCourses;
               return ListView.builder(
-                itemCount: courseList.length,
+                itemCount: courseListFinal.length,
                 itemBuilder: (context, index) {
                   bool isSelected =
-                      usercourseslist.contains(courseList[index].cid);
+                      usercourseslist.contains(courseListFinal[index].cid);
                   return CheckboxListTile(
-                    
                     activeColor: Colors.white,
                     checkColor: Colors.black,
-                    title: Text(courseList[index].cname,
+                    title: Text(courseListFinal[index].cname,
                         style: TextStyle(fontSize: 15, color: Colors.white)),
                     value: isSelected,
                     onChanged: (bool? value) {
                       setState(() {
                         if (value == true &&
-                            usercourseslist.contains(courseList[index].cid) ==
+                            usercourseslist.contains(courseListFinal[index].cid) ==
                                 false &&
                             usercourseslist.length < 6) {
-                          usercourseslist.add(courseList[index].cid);
+                          usercourseslist.add(courseListFinal[index].cid);
                         } else {
-                          usercourseslist.remove(courseList[index].cid);
+                          usercourseslist.remove(courseListFinal[index].cid);
                         }
                       });
                     },
@@ -119,23 +111,27 @@ class _CourseListFilterPageState extends ConsumerState<CourseListFilterPage> {
                       const SizedBox(
                         width: 10,
                       ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: appBackgroundColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                      ZoomTapAnimation(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            splashFactory: NoSplash.splashFactory,
+                            backgroundColor: appBackgroundColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
-                        ),
-                        onPressed: () {
-                          ref
-                              .read(authControllerProvider.notifier)
-                              .updateUserCourses(
-                                  context, user.id, usercourseslist);
-                          Routemaster.of(context).pop();
-                        },
-                        child: const Text(
-                          'Save',
-                          style: TextStyle(color: appAccentColor, fontSize: 15),
+                          onPressed: () {
+                            ref
+                                .read(authControllerProvider.notifier)
+                                .updateUserCourses(
+                                    context, user.id, usercourseslist);
+                            Routemaster.of(context).pop();
+                          },
+                          child: const Text(
+                            'Save',
+                            style:
+                                TextStyle(color: appAccentColor, fontSize: 15),
+                          ),
                         ),
                       ),
                     ],

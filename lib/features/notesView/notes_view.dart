@@ -1,13 +1,15 @@
 // ignore_for_file: unused_import, prefer_typing_uninitialized_variables
 
 import 'package:advance_pdf_viewer2/advance_pdf_viewer.dart';
+import 'package:companion_rebuild/features/auth/controller/auth_controller.dart';
+import 'package:companion_rebuild/features/components/dynamicLinks/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_octicons/flutter_octicons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:notesapp/features/auth/controller/auth_controller.dart';
-import 'package:notesapp/features/dynamicLinks/firebase_dynamic_links.dart';
+// import 'package:notesapp/features/dynamicLinks/firebase_dynamic_links.dart';
 import 'package:routemaster/routemaster.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:zoom_tap_animation/zoom_tap_animation.dart';
+// import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 import '../../theme/colors.dart';
 
@@ -83,7 +85,6 @@ class _NotesViewPageState extends ConsumerState<NotesViewPage> {
     }
 
     void createShareLink() async {
-      print(1);
       await FirebaseDynamicLinkService.createDynamicLink(
           true, notes['id']!);
       // print(deeplink);
@@ -94,11 +95,13 @@ class _NotesViewPageState extends ConsumerState<NotesViewPage> {
       appBar: AppBar(
         backgroundColor: appBackgroundColor,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(OctIcons.arrow_left_16, color: appWhiteColor, size: 15,),
-          onPressed: () {
-            Routemaster.of(context).pop();
-          },
+        leading: ZoomTapAnimation(
+          child: IconButton(
+            icon: const Icon(OctIcons.arrow_left_16, color: appWhiteColor, size: 15,),
+            onPressed: () {
+              Routemaster.of(context).history.back();
+            },
+          ),
         ),
         title: Text(
           notes['name']!,
@@ -107,23 +110,29 @@ class _NotesViewPageState extends ConsumerState<NotesViewPage> {
         
         actions: [
           flag == false
-              ? IconButton(
-                  icon: const Icon(OctIcons.bookmark_16),
-                  onPressed: () {
-                    addbookmark();
-                  })
-              : IconButton(
-                  icon: const Icon(OctIcons.bookmark_fill_24),
-                  onPressed: () {
-                    // print("{$flag} ${user.bid}");
-                    removebookmark();
-                  },
-                ),
-          IconButton(
-              onPressed: () {
-                createShareLink();
-              },
-              icon: const Icon(OctIcons.share_16)),
+              ? ZoomTapAnimation(
+                child: IconButton(
+                    icon: const Icon(OctIcons.bookmark_16),
+                    onPressed: () {
+                      addbookmark();
+                    }),
+              )
+              : ZoomTapAnimation(
+                child: IconButton(
+                    icon: const Icon(OctIcons.bookmark_fill_24),
+                    onPressed: () {
+                      // print("{$flag} ${user.bid}");
+                      removebookmark();
+                    },
+                  ),
+              ),
+          ZoomTapAnimation(
+            child: IconButton(
+                onPressed: () {
+                  createShareLink();
+                },
+                icon: const Icon(OctIcons.share_16)),
+          ),
         ],
         centerTitle: true,
         // bottom: PreferredSize(
