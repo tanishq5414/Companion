@@ -46,12 +46,12 @@ class AuthRepository {
 
   User get user => _auth.currentUser!;
   List<String> cid = [
-    "831069438",
-    "956350283",
-    "672399969",
-    "430135668",
     "858411776",
-    "184726451"
+    "198294998",
+    "789059098",
+    "350606284",
+    "534108627",
+    "518695126"
   ];
   Stream<User?> get authStateChange => _auth.authStateChanges();
 
