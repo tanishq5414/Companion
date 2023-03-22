@@ -77,6 +77,7 @@ class _AddNotesDetailsState extends ConsumerState<AddNotesDetails> {
                         color: appGreyColor,
                       ),
                       child: DropdownSearch<String>(
+                        
                         onChanged: (value) => branch = value!,
                         items: const [
                           "CSE",
@@ -95,7 +96,7 @@ class _AddNotesDetailsState extends ConsumerState<AddNotesDetails> {
                         popupProps: PopupPropsMultiSelection.modalBottomSheet(
                           isFilterOnline: true,
                           showSelectedItems: true,
-                          showSearchBox: true,
+                          showSearchBox: false,
                           title: const Padding(
                             padding: EdgeInsets.all(8.0),
                             child: Text('Search for Branch',
@@ -104,7 +105,7 @@ class _AddNotesDetailsState extends ConsumerState<AddNotesDetails> {
                           itemBuilder: (context, item, isSelected) {
                             return Padding(
                               padding: EdgeInsets.fromLTRB(
-                                  size.width * 0.1, size.width * 0.1, 0, 0),
+                                  size.width * 0.1, size.width * 0.05, 0, size.width * 0.05),
                               child: Text(
                                 item,
                                 style: TextStyle(
@@ -134,9 +135,10 @@ class _AddNotesDetailsState extends ConsumerState<AddNotesDetails> {
                         onChanged: (value) => year = value!,
                         items: const ["1", "2", "3", "4"],
                         popupProps: PopupPropsMultiSelection.modalBottomSheet(
+                          
                           isFilterOnline: true,
                           showSelectedItems: true,
-                          showSearchBox: true,
+                          showSearchBox: false,
                           title: const Padding(
                             padding: EdgeInsets.all(8.0),
                             child: Text('Year',
@@ -145,7 +147,7 @@ class _AddNotesDetailsState extends ConsumerState<AddNotesDetails> {
                           itemBuilder: (context, item, isSelected) {
                             return Padding(
                               padding: EdgeInsets.fromLTRB(
-                                  size.width * 0.1, size.width * 0.1, 0, 0),
+                                  size.width * 0.1, size.width * 0.05, 0, size.width * 0.05),
                               child: Text(
                                 item,
                                 style: TextStyle(
@@ -175,6 +177,15 @@ class _AddNotesDetailsState extends ConsumerState<AddNotesDetails> {
                         onChanged: (value) => course = value!,
                         items: courselist.map((e) => e.cname).toList(),
                         popupProps: PopupPropsMultiSelection.modalBottomSheet(
+                          searchFieldProps: const TextFieldProps(
+                            cursorColor: appBlackColor,
+                            decoration: InputDecoration(
+                              hintText: 'Search',
+                              hintStyle: TextStyle(color: appBlackColor),
+                            ),
+                            style: TextStyle(color: appBlackColor, fontSize: 16),
+                            
+                          ),
                           isFilterOnline: true,
                           showSelectedItems: true,
                           showSearchBox: true,
@@ -186,7 +197,7 @@ class _AddNotesDetailsState extends ConsumerState<AddNotesDetails> {
                           itemBuilder: (context, item, isSelected) {
                             return Padding(
                               padding: EdgeInsets.fromLTRB(
-                                  size.width * 0.1, size.width * 0.1, 0, 0),
+                                  size.width * 0.1, size.width * 0.05, 0, size.width * 0.05),
                               child: Text(
                                 item,
                                 style: TextStyle(
