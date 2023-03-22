@@ -176,7 +176,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                 ]),
                           ),
                           SizedBox(
-                            height: size.height * 0.05,
+                            height: size.width * 0.05,
                           ),
                           Padding(
                             padding: EdgeInsets.only(
@@ -188,9 +188,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                             padding: EdgeInsets.all(size.width * 0.05),
                             child: advertismentBuilder(size, context, ref),
                           ),
-                          SizedBox(
-                            height: size.height * 0.05,
-                          ),
+                          // SizedBox(
+                          //   height: size.height * 0.05,
+                          // ),
                           Padding(
                             padding: EdgeInsets.only(
                               left: size.width * 0.02,

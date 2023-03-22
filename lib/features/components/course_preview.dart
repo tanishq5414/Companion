@@ -97,9 +97,9 @@ class _CoursePreviewState extends State<CoursePreview> {
                                   top: widget.size.height * 0.01,
                                   right: widget.size.width * 0.01,
                                   bottom: widget.size.height * 0.01),
-                              color: Colors.transparent,
+                              // color: Colors.transparent,
                               width: widget.size.width * 0.45,
-                              height: widget.size.height * 0.02,
+                              // height: widget.size.height * 0.02,
                               child: Text(
                                 widget.courseName,
                                 maxLines: 2,
