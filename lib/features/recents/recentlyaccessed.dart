@@ -42,6 +42,7 @@ class _RecentlyAccessedPageState extends ConsumerState<RecentlyAccessedPage> {
               }
             }
             recentlyaccessed = new List.from(recentlyaccessed.reversed);
+            recentlyaccessed = recentlyaccessed.toSet().toList();
             return recentlyaccessed;
           },
           error: (error, stackTrace) => Text(error.toString()),

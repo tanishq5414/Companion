@@ -17,7 +17,7 @@ class NotesInfo extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: InkWell(
-          onTap: () => Routemaster.of(context).pop(),
+          onTap: () => Routemaster.of(context).history.back(),
           child: Container(
             width: size.width,
             height: size.height,

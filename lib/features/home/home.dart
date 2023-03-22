@@ -89,7 +89,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                           (user.isAdmin)
                               ? ZoomTapAnimation(
                                   child: IconButton(
-                                    visualDensity: VisualDensity(horizontal: -4.0, vertical: -4.0),
+                                    visualDensity: VisualDensity(horizontal: -4.0,),
                                     style: leadingStyle,
                                     icon: const Icon(
                                       OctIcons.plus_circle_16,
@@ -105,7 +105,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                           (user.isPremiumUser)
                               ? ZoomTapAnimation(
                                   child: IconButton(
-                                    visualDensity: VisualDensity(horizontal: -4.0, vertical: -4.0),
+                                    visualDensity: VisualDensity(horizontal: -4.0,),
                                     style: leadingStyle,
                                     icon: const Icon(
                                       OctIcons.history_16,
@@ -121,12 +121,13 @@ class _HomePageState extends ConsumerState<HomePage> {
                               : Container(),
                           ZoomTapAnimation(
                             child: IconButton(
-                              visualDensity: VisualDensity(horizontal: -4.0, vertical: -4.0),
+                              visualDensity: VisualDensity(horizontal: -4.0,),
                               style: leadingStyle,
                               icon: const Icon(
                                 OctIcons.gear_16,
                                 color: Colors.white,
                                 size: 21,
+                                // shadows: <Shadow>[Shadow(color: Colors.white, blurRadius: 15.0)],
                               ),
                               onPressed: () =>
                                   Routemaster.of(context).push('/settings'),

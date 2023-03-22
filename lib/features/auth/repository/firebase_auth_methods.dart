@@ -275,6 +275,7 @@ class AuthRepository {
               'isPremiumUser': true,
               'recentlyAccessed': [],
             });
+            userModel = await getUserData(user.uid).first;
           } else {
             userModel = await getUserData(userCredential.user!.uid).first;
           }

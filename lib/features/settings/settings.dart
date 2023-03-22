@@ -167,12 +167,12 @@ class SettingsPage extends ConsumerWidget {
                       signOut();
                     },
                   ),
-                  // DisplayTile(
-                  //     title: 'Delete Account',
-                  //     subtitle: 'This action is irreversible',
-                  //     onpressed: () {
-                  //       deleteAccount();
-                  //     }),
+                  DisplayTile(
+                      title: 'Delete Account',
+                      subtitle: 'This action is irreversible',
+                      onpressed: () {
+                        deleteAccount();
+                      }),
                 ],
               ),
             ),

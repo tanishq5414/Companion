@@ -43,6 +43,7 @@ ListView advertismentBuilder(Size size, context, WidgetRef ref) {
         String url = advertlist[index].redirectLink;
         // print  (usercourses);
         return ZoomTapAnimation(
+          beginDuration: const Duration(milliseconds: 500),
           child: InkWell(
             onTap: () => _launchURL(url),
             child: SizedBox(

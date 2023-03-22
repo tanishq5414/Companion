@@ -44,6 +44,9 @@ class SendEmailVerification extends ConsumerWidget {
                     width: size.width * 0.8,
                     child: TextButton(
                         onPressed: () {
+                          ref
+                              .read(authControllerProvider.notifier)
+                              .signOut(context);
                           Routemaster.of(context).popUntil((routeData) => false);
                           Routemaster.of(context).push('/');
                         },
