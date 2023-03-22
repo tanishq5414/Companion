@@ -75,12 +75,12 @@ class _HomePageState extends ConsumerState<HomePage> {
                           children: [
                             const AutoSizeText('Good ',
                                 style: TextStyle(
-                                    fontSize: 25,
+                                    fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white)),
                             AutoSizeText(greeting(),
                                 style: const TextStyle(
-                                    fontSize: 25,
+                                    fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white)),
                           ],
@@ -88,9 +88,10 @@ class _HomePageState extends ConsumerState<HomePage> {
                         actions: [
                           (user.isAdmin)
                               ? ZoomTapAnimation(
-                                  child: TextButton(
+                                  child: IconButton(
+                                    visualDensity: VisualDensity(horizontal: -4.0, vertical: -4.0),
                                     style: leadingStyle,
-                                    child: const Icon(
+                                    icon: const Icon(
                                       OctIcons.plus_circle_16,
                                       color: Colors.white,
                                       size: 21,
@@ -103,9 +104,10 @@ class _HomePageState extends ConsumerState<HomePage> {
                               : Container(),
                           (user.isPremiumUser)
                               ? ZoomTapAnimation(
-                                  child: TextButton(
+                                  child: IconButton(
+                                    visualDensity: VisualDensity(horizontal: -4.0, vertical: -4.0),
                                     style: leadingStyle,
-                                    child: const Icon(
+                                    icon: const Icon(
                                       OctIcons.history_16,
                                       color: Colors.white,
                                       size: 21,
@@ -118,9 +120,10 @@ class _HomePageState extends ConsumerState<HomePage> {
                                 )
                               : Container(),
                           ZoomTapAnimation(
-                            child: TextButton(
+                            child: IconButton(
+                              visualDensity: VisualDensity(horizontal: -4.0, vertical: -4.0),
                               style: leadingStyle,
-                              child: const Icon(
+                              icon: const Icon(
                                 OctIcons.gear_16,
                                 color: Colors.white,
                                 size: 21,

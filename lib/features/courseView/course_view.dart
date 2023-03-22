@@ -163,7 +163,7 @@ class CourseViewPage extends ConsumerWidget {
                                                     fontWeight:
                                                         FontWeight.w500)),
                                             subtitle: Text(
-                                                '${notes[index].unit.toString()} Unit',
+                                                '${notes[index].unit.toString()} Unit ',
                                                 style: const TextStyle(
                                                     color: appGreyColor,
                                                     fontSize: 12,

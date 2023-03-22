@@ -160,7 +160,7 @@ class _NotesPreviewState extends ConsumerState<NotesPreview> {
                                       width: size.width * 0.34,
                                       height: size.width * 0.06,
                                       child: Text(
-                                        widget.unit,
+                                        widget.unit + ' unit',
                                         style: const TextStyle(
                                           fontSize: 15,
                                           color: appWhiteColor,
@@ -172,10 +172,11 @@ class _NotesPreviewState extends ConsumerState<NotesPreview> {
                                       height: size.width * 0.06,
                                       child: Text(
                                         widget.name,
-                                        maxLines: 2,
+                                        maxLines: 1,
                                         style: const TextStyle(
                                           fontSize: 12,
                                           color: appAccentColor,
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                     ),

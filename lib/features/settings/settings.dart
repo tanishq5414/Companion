@@ -146,7 +146,7 @@ class SettingsPage extends ConsumerWidget {
                   SideHeading(title: 'About'),
                   DisplayTile(
                     title: 'Version',
-                    subtitle: '1.0.0',
+                    subtitle: '1.0.3 +4',
                     onpressed: () {},
                   ),
                   DisplayTile(

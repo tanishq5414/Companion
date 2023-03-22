@@ -36,7 +36,8 @@ class _AppBottomNavigatorState extends ConsumerState<AppBottomNavigator>
   void initState() {
     super.initState();
     //Future Delayed
-    FirebaseDynamicLinkService.initDynamicLink(context, ref);
+    print('initState');
+
   }
 
   @override
@@ -49,6 +50,7 @@ class _AppBottomNavigatorState extends ConsumerState<AppBottomNavigator>
     var user = ref.watch(userProvider);
     // var isLoading = ref.read(authControllerProvider);
     final size = MediaQuery.of(context).size;
+    FirebaseDynamicLinkService.initDynamicLink(context, ref);
     var items = [
       BottomNavigationBarItem(
           backgroundColor: Colors.transparent,

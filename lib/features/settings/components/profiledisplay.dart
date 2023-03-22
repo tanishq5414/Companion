@@ -19,6 +19,7 @@ class ProfileAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // print('image: $image');
     return SizedBox(
       width: width,
       child: CircleAvatar(

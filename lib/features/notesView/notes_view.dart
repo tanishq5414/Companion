@@ -33,8 +33,8 @@ class _NotesViewPageState extends ConsumerState<NotesViewPage> {
       cacheManager: CacheManager(
         Config(
           'pdfCache',
-          stalePeriod: const Duration(days: 2),
-          maxNrOfCacheObjects: 30,
+          stalePeriod: const Duration(days: 20),
+          maxNrOfCacheObjects: 80,
         ),
       ),
     );

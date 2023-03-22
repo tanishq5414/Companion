@@ -36,7 +36,7 @@ class FirebaseDynamicLinkService {
   }
 
   static Future<void> initDynamicLink(
-      BuildContext context, ref) async {
+      BuildContext context, WidgetRef ref) async {
     FirebaseDynamicLinks.instance.onLink.listen((event) {
       final deeplink = event.link;
       var isNote = deeplink.pathSegments.contains('notes');
@@ -45,29 +45,29 @@ class FirebaseDynamicLinkService {
         String id = deeplink.queryParameters['id']!;
         print('this is the id $id');
         final AsyncValue<List<Notes>> notesData = ref.watch(notesDataProvider);
-        print(notesData.value);
         var noteList = notesData.value!;
-            for (int i = 0; i < noteList.length - 1; i++) {
-              print(noteList[i].id == id);
-              if (noteList[i].id == id) {
-                final notes = noteList[i];
-                print(notes);
-                // Routemaster.of(context).popUntil((routeData) => false);
-                Routemaster.of(context).push('/pdfview', queryParameters: {
-                  'id': notes.id,
-                  'name': notes.name,
-                  'year': notes.year,
-                  'branch': notes.branch,
-                  'course': notes.course,
-                  'semester': notes.semester,
-                  'version': notes.version,
-                  'unit': notes.unit,
-                  'wdlink': notes.wdlink,
-                });
-              }
-            }
+        for (int i = 0; i < noteList.length - 1; i++) {
+          print(noteList[i].id == id);
+          if (noteList[i].id == id) {
+            print('notesfound');
+            final notes = noteList[i];
+            print(notes);
+            // Routemaster.of(context).popUntil((routeData) => false);
+            Routemaster.of(context).push('/pdfview', queryParameters: {
+              'id': notes.id,
+              'name': notes.name,
+              'year': notes.year,
+              'branch': notes.branch,
+              'course': notes.course,
+              'semester': notes.semester,
+              'version': notes.version,
+              'unit': notes.unit,
+              'wdlink': notes.wdlink,
+            });
+            break;
+          }
+        }
       }
     });
-
-      }
+  }
 }
