@@ -28,6 +28,7 @@ import 'features/auth/screens/loginEmail/login_email.dart';
 import 'features/auth/screens/send_email_verification.dart';
 import 'features/auth/screens/signUpEmail/signup_getemail.dart';
 import 'features/auth/screens/signUpEmail/signup_getpassword.dart';
+import 'features/bookmarks/bookmarks_search.dart';
 import 'features/notesView/notes_view.dart';
 
 final loggedOutPages = RouteMap(
@@ -68,6 +69,7 @@ final loggedInPages = RouteMap(
     '/premium': (_) => const MaterialPage(child: PremiumPage()),
     '/privacypolicy': (_) => const MaterialPage(child: PrivacyPolicyPage()),
     '/changepassword': (_) => const MaterialPage(child: ChangePasswordPage()),
+    '/bookmarksearchpage': (_) => const MaterialPage(child: BookmarksSearchPage()),
   },
 );
 

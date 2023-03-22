@@ -14,19 +14,23 @@ import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 List<String> BookmarkSearchList = [];
 
-class BookmarksPage extends ConsumerWidget {
+class BookmarksPage extends ConsumerStatefulWidget {
   const BookmarksPage({super.key});
 
   @override
-  Widget build(BuildContext context, ref) {
+  ConsumerState<BookmarksPage> createState() => _BookmarksPageState();
+}
+
+class _BookmarksPageState extends ConsumerState<BookmarksPage> {
+  
+  @override
+  Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     final user = ref.watch(userProvider);
     final allnotes = ref.read(notesDataProvider);
     List<Notes> allnoteslist;
     var userbookmarklist = user?.bid ?? [''];
     List bookmarks = [];
-
-    // print(userbookmarklist);
     List getBookmarks() {
       allnotes.when(
           data: (notes) {
@@ -96,35 +100,32 @@ class BookmarksPage extends ConsumerWidget {
           body: SingleChildScrollView(
             child: Column(
               children: [
-                // Container(
-                //   height: size.height * 0.05,
-                //   width: size.width * 0.9,
-                //   margin: EdgeInsets.symmetric(horizontal: size.width * 0.035),
-                //   decoration: BoxDecoration(
-                //     color: appBackgroundColor,
-                //     borderRadius: BorderRadius.circular(2),
-                //   ),
-                //   child: InkWell(
-                //     onTap: () {
-                //       showSearch(
-                //         context: context,
-                //         delegate: CustomBookmarkSearchDelegate(),
-                //       );
-                //     },
-                //     child: Row(
-                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //       children: const [
-                //         Text('Search in bookmarks',
-                //             style: TextStyle(
-                //                 color: appGreyColor,
-                //                 fontSize: 15,
-                //                 fontWeight: FontWeight.bold)),
-                //         Spacer(),
-                //         Icon(Icons.search, color: appGreyColor),
-                //       ],
-                //     ),
-                //   ),
-                // ),
+                Container(
+                  height: size.height * 0.05,
+                  width: size.width * 0.9,
+                  margin: EdgeInsets.symmetric(horizontal: size.width * 0.035),
+                  decoration: BoxDecoration(
+                    color: appBackgroundColor,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      Routemaster.of(context).push('/bookmarksearchpage');
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: const [
+                        Text('Search in bookmarks',
+                            style: TextStyle(
+                                color: appGreyColor,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold)),
+                        Spacer(),
+                        Icon(Icons.search, color: appGreyColor),
+                      ],
+                    ),
+                  ),
+                ),
                 Padding(
                   padding: EdgeInsets.only(
                       top: size.height * 0.05,
@@ -160,66 +161,3 @@ class BookmarksPage extends ConsumerWidget {
   }
 }
 
-class CustomBookmarkSearchDelegate extends SearchDelegate {
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return [
-      IconButton(
-          onPressed: () {
-            query = '';
-          },
-          icon: const Icon(Icons.clear))
-    ];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-        onPressed: () {
-          close(context, null);
-        },
-        icon: const Icon(Icons.arrow_back));
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    List<String> matchQuery = [];
-    for (var scourse in BookmarkSearchList) {
-      if (scourse.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(scourse);
-      }
-    }
-    return ListView.builder(
-        itemCount: matchQuery.length,
-        itemBuilder: (context, index) {
-          var result = matchQuery[index];
-          return ListTile(
-            title: Text(
-              result,
-              style: const TextStyle(color: Colors.white),
-            ),
-          );
-        });
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    List<String> matchQuery = [];
-    for (String scourse in BookmarkSearchList) {
-      if (scourse.contains(query.toLowerCase())) {
-        matchQuery.add(scourse);
-      }
-    }
-    return ListView.builder(
-        itemCount: matchQuery.length,
-        itemBuilder: (context, index) {
-          var result = matchQuery[index];
-          return ListTile(
-            title: Text(
-              result,
-              style: const TextStyle(color: Colors.white),
-            ),
-          );
-        });
-  }
-}
