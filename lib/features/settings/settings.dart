@@ -146,7 +146,7 @@ class SettingsPage extends ConsumerWidget {
                   SideHeading(title: 'About'),
                   DisplayTile(
                     title: 'Version',
-                    subtitle: '1.0.3 +4',
+                    subtitle: '1.0.4 +5',
                     onpressed: () {},
                   ),
                   DisplayTile(
@@ -155,7 +155,16 @@ class SettingsPage extends ConsumerWidget {
                     onpressed: () {
                       Routemaster.of(context).push('/privacypolicy');
                     },
-                  ),
+                  ), 
+                  DisplayTile(title: 'Info', subtitle: 'About Companion',onpressed: () {
+                      Routemaster.of(context).push('/about');
+                    },),
+                  DisplayTile(title: 'About LightHeads', subtitle: 'Join us',onpressed: () {
+                      Routemaster.of(context).push('/aboutLightHeads');
+                    },),
+                  DisplayTile(title: 'Contact the Devs', subtitle: 'Get in touch',onpressed: () {
+                      Routemaster.of(context).push('/contactdevs');
+                    },),
                   SizedBox(
                     height: size.height * 0.03,
                   ),

@@ -152,6 +152,9 @@ class _BookmarksPageState extends ConsumerState<BookmarksPage> {
                           wdlink: bookmarks[index].wdlink,
                           pressable: true,)),
                 ),
+                SizedBox(
+                  height: size.height * 0.15,
+                )
               ],
             ),
           ),

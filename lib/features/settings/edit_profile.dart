@@ -2,6 +2,7 @@
 
 import 'package:companion_rebuild/features/auth/controller/auth_controller.dart';
 import 'package:companion_rebuild/features/components/custom_appbar.dart';
+import 'package:companion_rebuild/features/components/loader.dart';
 import 'package:companion_rebuild/theme/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,11 @@ class _EditProfileState extends ConsumerState<EditProfile> {
     final user = ref.read(userProvider);
     super.initState();
     nameController = TextEditingController(text: user!.name);
+  }
+  @override
+  void dispose() {
+    nameController.dispose();
+    super.dispose();
   }
 
   @override

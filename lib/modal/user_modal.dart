@@ -9,10 +9,10 @@ class UserCollection {
   final String id;
   final List bid;
   final List cid;
-  final String notificationsEnabled;
+  final bool notificationsEnabled;
   final String email;
   final String photoUrl;
-  final String name;
+  String name;
   final bool isAdmin;
   final bool isPremiumUser;
   final List recentlyAccessed;
@@ -33,7 +33,7 @@ class UserCollection {
     String? id,
     List? bid,
     List? cid,
-    String? notificationsEnabled,
+    bool? notificationsEnabled,
     String? email,
     String? photoUrl,
     String? name,
@@ -75,7 +75,7 @@ class UserCollection {
       id: map['uid'] as String,
       bid: List.from(map['bid'] as List),
       cid: List.from(map['cid'] as List),
-      notificationsEnabled: map['notificationsEnabled'] as String,
+      notificationsEnabled: map['notificationsEnabled'] as bool,
       email: map['email'] as String,
       name: map['name'] as String,
       photoUrl: map['photoUrl'] as String,

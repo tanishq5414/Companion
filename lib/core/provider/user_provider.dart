@@ -12,7 +12,7 @@ class UserProvider with ChangeNotifier{
           email: '',
           cid: [],
           bid: [],
-          notificationsEnabled: '',
+          notificationsEnabled: true,
           photoUrl: '',
           isAdmin: false,
           isPremiumUser: false,

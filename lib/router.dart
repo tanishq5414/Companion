@@ -4,7 +4,7 @@ import 'package:companion_rebuild/features/notes/notes_info.dart';
 import 'package:companion_rebuild/features/notes/notes_menu.dart';
 import 'package:companion_rebuild/features/premium/premiumpage.dart';
 import 'package:companion_rebuild/features/premium/premiumstatuspage.dart';
-import 'package:companion_rebuild/features/privacypolicy/privacypolicy.dart';
+import 'package:companion_rebuild/features/infopages/privacypolicy.dart';
 import 'package:companion_rebuild/features/recents/recentlyaccessed.dart';
 import 'package:routemaster/routemaster.dart';
 import 'package:companion_rebuild/features/admin/addnotes.dart';
@@ -29,6 +29,9 @@ import 'features/auth/screens/send_email_verification.dart';
 import 'features/auth/screens/signUpEmail/signup_getemail.dart';
 import 'features/auth/screens/signUpEmail/signup_getpassword.dart';
 import 'features/bookmarks/bookmarks_search.dart';
+import 'features/infopages/aboutcompanion.dart';
+import 'features/infopages/aboutlightheads.dart';
+import 'features/infopages/contactdevs.dart';
 import 'features/notesView/notes_view.dart';
 
 final loggedOutPages = RouteMap(
@@ -70,6 +73,9 @@ final loggedInPages = RouteMap(
     '/privacypolicy': (_) => const MaterialPage(child: PrivacyPolicyPage()),
     '/changepassword': (_) => const MaterialPage(child: ChangePasswordPage()),
     '/bookmarksearchpage': (_) => const MaterialPage(child: BookmarksSearchPage()),
+    '/about': (_) => const MaterialPage(child: AboutCompanion()),
+    '/contactdevs': (_) => const MaterialPage(child: ContactDevs()),
+    '/aboutLightHeads': (_) => const MaterialPage(child: AboutLightHeads()),
   },
 );
 

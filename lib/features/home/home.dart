@@ -3,6 +3,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:companion_rebuild/core/provider/courses_provider.dart';
 import 'package:companion_rebuild/features/components/advertisment.dart';
+import 'package:companion_rebuild/features/components/loader.dart';
+import 'package:companion_rebuild/features/home/components/trending_notes_builder.dart';
+import 'package:companion_rebuild/modal/notes_modal.dart';
+import 'package:companion_rebuild/modal/trendingnotes_modal.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_octicons/flutter_octicons.dart';
@@ -42,23 +46,51 @@ class _HomePageState extends ConsumerState<HomePage> {
     }
     return 'evening';
   }
+  List<Notes> mostPopular(AsyncValue<List<Notes>> notesData, trendingData) {
+      List<Notes> mostpopular = [];
+      notesData.when(data: (data) {
+        for(int i = 0;i<data.length;i++){
+          trendingData.forEach((element) {
+            if(data[i].id == element.id){
+              mostpopular.add(data[i]);
+            }
+          });
+        }
+      }, loading: () {}, error: (e, s) {});
+      return mostpopular;
+    }
 
+  List<Notes> trendingtoday(AsyncValue<List<Notes>> notesData, trendingData) {
+    List<Notes> mostrecent = [];
+    notesData.when(data: (data) {
+      for (int i = 0; i < data.length; i++) {
+        trendingData.forEach((TrendingNotesModal element) {
+          
+          if (data[i].id == element.id) {
+            mostrecent.add(data[i]);
+          }
+        });
+      }
+    }, loading: () {}, error: (e, s) {});
+    return mostrecent;
+  } 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     final notesData = ref.watch(notesDataProvider);
     final courseData = ref.watch(coursesDataProvider);
     final user = ref.watch(userProvider);
+    final trendingData = ref.watch(trendingDataProvider)??[];
+    final trendingTodayData = ref.watch(trendingTodayDataProvider)??[];
     final ButtonStyle leadingStyle = ElevatedButton.styleFrom(
       minimumSize: Size(size.height * 0.05, size.height * 0.05),
       backgroundColor: appBackgroundColor,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       shape: const CircleBorder(),
     );
-    void recentsNotes() {}
-
+    
     return Container(
-      margin: EdgeInsets.only(top: size.height * 0.03),
+      margin: EdgeInsets.only(top: size.height * 0.02),
       color: appBackgroundColor,
       child: SafeArea(
         child: Scaffold(
@@ -73,12 +105,12 @@ class _HomePageState extends ConsumerState<HomePage> {
                         title: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const AutoSizeText('Good ',
+                            const AutoSizeText('Hey, ',
                                 style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white)),
-                            AutoSizeText(greeting(),
+                            AutoSizeText(user.name.split(' ')[0],
                                 style: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -89,7 +121,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                           (user.isAdmin)
                               ? ZoomTapAnimation(
                                   child: IconButton(
-                                    visualDensity: VisualDensity(horizontal: -4.0,),
+                                    visualDensity: VisualDensity(
+                                      horizontal: -4.0,
+                                    ),
                                     style: leadingStyle,
                                     icon: const Icon(
                                       OctIcons.plus_circle_16,
@@ -105,7 +139,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                           (user.isPremiumUser)
                               ? ZoomTapAnimation(
                                   child: IconButton(
-                                    visualDensity: VisualDensity(horizontal: -4.0,),
+                                    visualDensity: VisualDensity(
+                                      horizontal: -4.0,
+                                    ),
                                     style: leadingStyle,
                                     icon: const Icon(
                                       OctIcons.history_16,
@@ -121,7 +157,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                               : Container(),
                           ZoomTapAnimation(
                             child: IconButton(
-                              visualDensity: VisualDensity(horizontal: -4.0,),
+                              visualDensity: VisualDensity(
+                                horizontal: -4.0,
+                              ),
                               style: leadingStyle,
                               icon: const Icon(
                                 OctIcons.gear_16,
@@ -156,23 +194,32 @@ class _HomePageState extends ConsumerState<HomePage> {
                                       subheading: 'Your courses',
                                     ),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        left: size.width * 0.04,
-                                        right: size.width * 0.04),
-                                    child: ZoomTapAnimation(
-                                      child: InkWell(
-                                        child: const Icon(
-                                          OctIcons.filter_16,
-                                          color: Colors.white,
-                                          size: 20,
+                                  Row(
+                                    children: [
+                                      Text('Filter',
+                                          style: TextStyle(
+                                              color: appWhiteColor,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.normal)),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            left: size.width * 0.02,
+                                            right: size.width * 0.04),
+                                        child: ZoomTapAnimation(
+                                          child: InkWell(
+                                            child: const Icon(
+                                              OctIcons.filter_16,
+                                              color: appWhiteColor,
+                                              size: 20,
+                                            ),
+                                            onTap: () {
+                                              Routemaster.of(context)
+                                                  .push('/courselistfilter');
+                                            },
+                                          ),
                                         ),
-                                        onTap: () {
-                                          Routemaster.of(context)
-                                              .push('/courselistfilter');
-                                        },
                                       ),
-                                    ),
+                                    ],
                                   ),
                                 ]),
                           ),
@@ -217,7 +264,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                       ),
                                       Consumer(
                                           builder: (context, ref, child) =>
-                                              notesBuilder(size, notesData)),
+                                              trendingbuilder(size, trendingtoday(notesData, trendingTodayData))),
                                       SizedBox(
                                         width: size.width * 0.03,
                                       ),
@@ -285,9 +332,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                       SizedBox(
                                         width: size.width * 0.02,
                                       ),
-                                      Consumer(
-                                          builder: (context, ref, child) =>
-                                              notesBuilder(size, notesData)),
+                                      trendingbuilder(size, mostPopular(notesData, trendingData)),
                                       SizedBox(
                                         width: size.width * 0.03,
                                       ),

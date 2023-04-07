@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import, unused_local_variable
 
 import 'package:companion_rebuild/features/auth/repository/firebase_auth_methods.dart';
+import 'package:companion_rebuild/modal/trendingnotes_modal.dart';
 import 'package:companion_rebuild/modal/user_modal.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,7 +13,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../components/snack_bar.dart';
 
 final userProvider = StateProvider<UserCollection?>((ref) => null);
-
+final trendingDataProvider = StateProvider<List<TrendingNotesModal>?>((ref) => null);
+final trendingTodayDataProvider = StateProvider<List<TrendingNotesModal>?>((ref) => null);
 final authControllerProvider = StateNotifierProvider<AuthController, bool>(
   (ref) => AuthController(
     authRepository: ref.watch(authRepositoryProvider),
@@ -110,8 +112,31 @@ class AuthController extends StateNotifier<bool> {
     state = false;
   }
 
-  void updateName(BuildContext context, fullName, uid) async {
+  void getTrendingNotes(BuildContext context) async {
+    state = true;
+    final a = await _authRepository.getTrendingNotes();
+    a.fold((l) => Utils.showSnackBar(l.message), (r) {
+      _ref.read(trendingDataProvider.notifier).update((state) => r);
+    });
+    state = false;
+  }
+
+  void getTrendingTodayNotes(BuildContext context) async {
+    state = true;
+    final a = await _authRepository.getTrendingNotesDaily();
+    a.fold((l) => Utils.showSnackBar(l.message), (r) {
+      _ref.read(trendingTodayDataProvider.notifier).update((state) => r);
+    });
+    state = false;
+  }
+
+  void updateName(BuildContext context, fullName, uid) {
+    state = true;
     final user = _authRepository.updateName(context, fullName, uid);
+    var a = _ref.read(userProvider.notifier).state;
+    a!.name = fullName;
+    _ref.read(userProvider.notifier).update((state) => a);
+    state = false;
   }
 
   void deleteAccount(BuildContext context) async {

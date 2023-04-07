@@ -7,6 +7,7 @@ import 'package:companion_rebuild/core/provider/firebase_providers.dart';
 import 'package:companion_rebuild/core/type_defs.dart';
 import 'package:companion_rebuild/features/auth/controller/auth_controller.dart';
 import 'package:companion_rebuild/features/components/snack_bar.dart';
+import 'package:companion_rebuild/modal/trendingnotes_modal.dart';
 import 'package:companion_rebuild/modal/user_modal.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -69,17 +70,11 @@ class AuthRepository {
       );
       await sendEmailVerification(context);
       Routemaster.of(context).push('/sendverification');
-      await _supabaseClient.from('userscollection').insert({
-        'uid': result.user!.uid,
-        'cid': cid,
-        'bid': [],
+      await _supabaseClient.rpc('insertuserdata', params: {
+        'uid': user.uid,
         'email': user.email,
-        'name': fullName,
-        'photoUrl': user.photoURL ?? "",
-        'notificationsEnabled': "true",
-        'isAdmin': false,
-        'isPremiumUser': true,
-        'recentlyAccessed': [],
+        'name': user.displayName,
+        'photourl': user.photoURL ?? "",
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -167,13 +162,61 @@ class AuthRepository {
     }
   }
 
+  // TRENDING NOTES
+  FutureEither<List<TrendingNotesModal>> getTrendingNotes() async {
+    List<TrendingNotesModal> trendingNotes = [];
+    var a = await _supabaseClient
+        .from('notesdata')
+        .select()
+        .order('times_opened', ascending: false)
+        .limit(10)
+        .execute();
+    for (int i = 0; i < a.data.length; i++) {
+      trendingNotes.add(
+        TrendingNotesModal(
+          timesopened: a.data[i]['times_opened'],
+          course: a.data[i]['course'],
+          unit: a.data[i]['unit'],
+          notesname: a.data[i]['notesname'],
+          trendingnotesmonthly: a.data[i]['trendingnotesmonthly'],
+          trendingnotestoday: a.data[i]['trendingnotestoday'],
+          trendingnotesweekly: a.data[i]['trendingnotesweekly'],
+          id: a.data[i]['id']));
+    }
+    return right(trendingNotes);
+  }
+
+FutureEither<List<TrendingNotesModal>> getTrendingNotesDaily() async {
+    List<TrendingNotesModal> trendingNotes = [];
+    var a = await _supabaseClient
+        .from('notesdata')
+        .select()
+        .order('trendingnotestoday', ascending: false)
+        .limit(10)
+        .execute();
+    for (int i = 0; i < a.data.length; i++) {
+      trendingNotes.add(
+        TrendingNotesModal(
+          timesopened: a.data[i]['times_opened'],
+          course: a.data[i]['course'],
+          unit: a.data[i]['unit'],
+          notesname: a.data[i]['notesname'],
+          trendingnotesmonthly: a.data[i]['trendingnotesmonthly'],
+          trendingnotestoday: a.data[i]['trendingnotestoday'],
+          trendingnotesweekly: a.data[i]['trendingnotesweekly'],
+          id: a.data[i]['id']));
+    }
+    return right(trendingNotes);
+  }
+
+
   incrementnotesopened(String uid, String notesid, String notesname,
       String course, String unit) async {
     List data1 = await _supabaseClient
         .from('userscollection')
         .select('recentlyAccessed')
         .eq('uid', uid);
-    List data2 = data1[0]['recentlyAccessed'];
+    List data2 = data1[0]['recentlyAccessed'] ?? [];
     data2.add(notesid);
     if (data2.length > 30) {
       data2 = data2.sublist(data2.length - 30, data2.length);
@@ -184,7 +227,19 @@ class AuthRepository {
 
     var data = await _supabaseClient
         .from('notesdata')
-        .select('times_opened')
+        .select('times_opened', )
+        .eq('id', notesid);
+    var data3 = await _supabaseClient
+        .from('notesdata')
+        .select('trendingnotestoday')
+        .eq('id', notesid);
+    var data4 = await _supabaseClient
+        .from('notesdata')
+        .select('trendingnotesweekly')
+        .eq('id', notesid);
+    var data5 = await _supabaseClient
+        .from('notesdata')
+        .select('trendingnotesmonthly')
         .eq('id', notesid);
     if (data.length == '0' || data.length == 0) {
       await _supabaseClient.from('notesdata').insert({
@@ -193,12 +248,21 @@ class AuthRepository {
         'notesname': notesname,
         'course': course,
         'unit': unit,
+        'trendingnotestoday': 1,
+        'trendingnotesweekly': 1,
+        'trendingnotesmonthly': 1,
       });
       return;
     } else {
-      var timesopened = data[0]['times_opened'];
+      num timesopened = data[0]['times_opened'];
+      num trendingnotestoday = data3[0]['trendingnotestoday'];
+      num trendingnotesweekly = data4[0]['trendingnotesweekly'];
+      num trendingnotesmonthly = data5[0]['trendingnotesmonthly'];
       await _supabaseClient.from('notesdata').update({
         'times_opened': timesopened + 1,
+        'trendingnotestoday': trendingnotestoday + 1,
+        'trendingnotesweekly': trendingnotesweekly + 1,
+        'trendingnotesmonthly': trendingnotesmonthly + 1,
       }).eq('id', notesid);
     }
   }
@@ -258,22 +322,28 @@ class AuthRepository {
               email: user.email!,
               name: user.displayName!,
               photoUrl: user.photoURL ?? "",
-              notificationsEnabled: "true",
+              notificationsEnabled: true,
               isAdmin: false,
               isPremiumUser: true,
               recentlyAccessed: [],
             );
-            await _supabaseClient.from('userscollection').insert({
+            // await _supabaseClient.from('userscollection').insert({
+            //   'uid': user.uid,
+            //   'cid': cid,
+            //   'bid': [],
+            //   'email': user.email,
+            //   'name': user.displayName,
+            //   'photoUrl': user.photoURL ?? "",
+            //   'notificationsEnabled': "true",
+            //   'isAdmin': false,
+            //   'isPremiumUser': true,
+            //   'recentlyAccessed': [],
+            // });
+            await _supabaseClient.rpc('insertuserdata', params: {
               'uid': user.uid,
-              'cid': cid,
-              'bid': [],
               'email': user.email,
               'name': user.displayName,
-              'photoUrl': user.photoURL ?? "",
-              'notificationsEnabled': "true",
-              'isAdmin': false,
-              'isPremiumUser': true,
-              'recentlyAccessed': [],
+              'photourl': user.photoURL ?? "",
             });
             userModel = await getUserData(user.uid).first;
           } else {
@@ -355,16 +425,17 @@ class AuthRepository {
         .eq('uid', uid)
         .map((event) {
           return UserCollection(
-              id: event.elementAt(0)['uid'],
-              bid: event.elementAt(0)['bid'],
-              cid: event.elementAt(0)['cid'],
-              notificationsEnabled: event.elementAt(0)['notificationsEnabled'],
-              email: event.elementAt(0)['email'],
-              name: event.elementAt(0)['name'],
-              photoUrl: event.elementAt(0)['photoUrl'],
-              isAdmin: event.elementAt(0)['isAdmin'],
-              isPremiumUser: event.elementAt(0)['isPremiumUser'],
-              recentlyAccessed: event.elementAt(0)['recentlyAccessed']);
+              id: event.elementAt(0)['uid'] ?? '',
+              bid: event.elementAt(0)['bid'] ?? [],
+              cid: event.elementAt(0)['cid'] ?? [],
+              notificationsEnabled:
+                  event.elementAt(0)['notificationsEnabled'] ?? true,
+              email: event.elementAt(0)['email'] ?? '',
+              name: event.elementAt(0)['name'] ?? '',
+              photoUrl: event.elementAt(0)['photoUrl'] ?? '',
+              isAdmin: event.elementAt(0)['isAdmin'] ?? false,
+              isPremiumUser: event.elementAt(0)['isPremiumUser'] ?? false,
+              recentlyAccessed: event.elementAt(0)['recentlyAccessed'] ?? []);
         });
     return user;
   }

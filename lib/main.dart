@@ -26,7 +26,6 @@ import 'features/components/snack_bar.dart';
 
 // import 'features/dynamicLinks/firebase_dynamic_links.dart';
 
-
 Future main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
@@ -44,7 +43,6 @@ Future main() async {
     ),
   );
 }
-
 
 class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
@@ -98,10 +96,14 @@ class _MyAppState extends ConsumerState<MyApp> {
                       ref
                           .read(userProvider.notifier)
                           .update((state) => userModel);
+                      final b = ref
+                          .watch(authControllerProvider.notifier)
+                          .getTrendingNotes(context);
+
+                      ref
+                          .watch(authControllerProvider.notifier)
+                          .getTrendingTodayNotes(context);
                       FlutterNativeSplash.remove();
-                      // if (u1 == null) {
-                      //   setState(() {});
-                      // }
                     }
 
                     getData(ref, data);
