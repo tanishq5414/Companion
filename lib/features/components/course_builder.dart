@@ -9,7 +9,6 @@ import 'course_preview.dart';
 List<Course> usercourses = [];
 GridView courseBuilder(Size size, context, WidgetRef ref) {
   final user = ref.watch(userProvider)!;
-  print(user);
   var userslist = user.cid;
   var allcourses = ref.read(coursesDataProvider);
   var usercourseslist = [];

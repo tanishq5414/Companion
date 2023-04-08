@@ -46,49 +46,56 @@ class _HomePageState extends ConsumerState<HomePage> {
     }
     return 'evening';
   }
+
   List<Notes> mostPopular(AsyncValue<List<Notes>> notesData, trendingData) {
-      List<Notes> mostpopular = [];
-      notesData.when(data: (data) {
-        for(int i = 0;i<data.length;i++){
-          trendingData.forEach((element) {
-            if(data[i].id == element.id){
-              mostpopular.add(data[i]);
+    List<Notes> mostpopular = [];
+    trendingData.forEach((element) {
+      notesData.when(
+          data: (data) {
+            for (int i = 0; i < data.length; i++) {
+              if (data[i].id == element.id) {
+                mostpopular.add(data[i]);
+              }
             }
-          });
-        }
-      }, loading: () {}, error: (e, s) {});
-      return mostpopular;
-    }
+          },
+          loading: () {},
+          error: (e, s) {});
+    });
+    return mostpopular;
+  }
 
   List<Notes> trendingtoday(AsyncValue<List<Notes>> notesData, trendingData) {
     List<Notes> mostrecent = [];
-    notesData.when(data: (data) {
-      for (int i = 0; i < data.length; i++) {
-        trendingData.forEach((TrendingNotesModal element) {
-          
-          if (data[i].id == element.id) {
-            mostrecent.add(data[i]);
-          }
-        });
-      }
-    }, loading: () {}, error: (e, s) {});
+    trendingData.forEach((element) {
+      notesData.when(
+          data: (data) {
+            for (int i = 0; i < data.length; i++) {
+              if (data[i].id == element.id) {
+                mostrecent.add(data[i]);
+              }
+            }
+          },
+          loading: () {},
+          error: (e, s) {});
+    });
     return mostrecent;
-  } 
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     final notesData = ref.watch(notesDataProvider);
     final courseData = ref.watch(coursesDataProvider);
     final user = ref.watch(userProvider);
-    final trendingData = ref.watch(trendingDataProvider)??[];
-    final trendingTodayData = ref.watch(trendingTodayDataProvider)??[];
+    final trendingData = ref.watch(trendingDataProvider) ?? [];
+    final trendingTodayData = ref.watch(trendingTodayDataProvider);
     final ButtonStyle leadingStyle = ElevatedButton.styleFrom(
       minimumSize: Size(size.height * 0.05, size.height * 0.05),
       backgroundColor: appBackgroundColor,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       shape: const CircleBorder(),
     );
-    
+
     return Container(
       margin: EdgeInsets.only(top: size.height * 0.02),
       color: appBackgroundColor,
@@ -264,7 +271,12 @@ class _HomePageState extends ConsumerState<HomePage> {
                                       ),
                                       Consumer(
                                           builder: (context, ref, child) =>
-                                              trendingbuilder(size, trendingtoday(notesData, trendingTodayData))),
+                                              trendingbuilder(
+                                                  size,
+                                                  trendingtoday(
+                                                      notesData,
+                                                      trendingTodayData ??
+                                                          trendingData))),
                                       SizedBox(
                                         width: size.width * 0.03,
                                       ),
@@ -332,7 +344,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                                       SizedBox(
                                         width: size.width * 0.02,
                                       ),
-                                      trendingbuilder(size, mostPopular(notesData, trendingData)),
+                                      trendingbuilder(size,
+                                          mostPopular(notesData, trendingData)),
                                       SizedBox(
                                         width: size.width * 0.03,
                                       ),

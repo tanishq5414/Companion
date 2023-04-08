@@ -71,7 +71,7 @@ class AuthController extends StateNotifier<bool> {
 
   void logInWithEmail(BuildContext context, String email, String password,
       WidgetRef ref) async {
-    print(1);
+    
     state = true;
     final user = await _authRepository.loginWithEmail(
         email: email, password: password, context: context, ref: ref);

@@ -87,7 +87,6 @@ class _NotesViewPageState extends ConsumerState<NotesViewPage> {
     void createShareLink() async {
       await FirebaseDynamicLinkService.createDynamicLink(
           true, notes['id']!);
-      // print(deeplink);
     }
 
     return Scaffold(
@@ -121,7 +120,6 @@ class _NotesViewPageState extends ConsumerState<NotesViewPage> {
                 child: IconButton(
                     icon: const Icon(OctIcons.bookmark_fill_24),
                     onPressed: () {
-                      // print("{$flag} ${user.bid}");
                       removebookmark();
                     },
                   ),

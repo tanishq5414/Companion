@@ -35,7 +35,6 @@ class _BookmarksPageState extends ConsumerState<BookmarksPage> {
       allnotes.when(
           data: (notes) {
             allnoteslist = notes;
-            // print(allnoteslist);
             for (var i = 0; i < userbookmarklist.length; i++) {
               for (var j = 0; j < allnoteslist.length; j++) {
                 if (userbookmarklist[i].toString() ==

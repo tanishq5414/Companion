@@ -1,4 +1,4 @@
-// ignore_for_file: unused_field
+// ignore_for_file: unused_field, unused_import, library_private_types_in_public_api
 
 import 'dart:convert';
 import 'dart:io';
@@ -51,11 +51,12 @@ class _AddNotesState extends ConsumerState<AddNotes> {
               withData: true,
               type: FileType.custom,
               allowMultiple: _multiPick,
-              onFileLoading: (FilePickerStatus status) => print(status),
+              // ignore: avoid_print
+              onFileLoading: (FilePickerStatus status) => (kDebugMode)?print(status):null,
               allowedExtensions: ['pdf']))
           ?.files;
     } on PlatformException catch (e) {
-      _logException('Unsupported operation' + e.toString());
+      _logException('Unsupported operation$e');
     } catch (e) {
       _logException(e.toString());
     }
@@ -161,15 +162,11 @@ class _AddNotesState extends ConsumerState<AddNotes> {
                               http.MultipartFile.fromBytes('pdf', t,
                                   filename: fileName),
                             );
-                            print('request: $request');
                             http.StreamedResponse res = await request.send();
-                            print('res: ${res.statusCode}');
-                            print(fileName.characters.length);
                             var body = jsonEncode({
                               "filename": fileName,
                               "filepath": "./pdfStorage",
                             });
-                            // print('map: $map');
                             http.Response request2 =
                                 await http.post(Uri.parse(addFiletoGoogleDrive),
                                     headers: <String, String>{
@@ -178,7 +175,6 @@ class _AddNotesState extends ConsumerState<AddNotes> {
                                     },
                                     body: body);
 
-                            print('request2: ${request2.body}');
                             if (request2.statusCode == 200 && res.statusCode == 200) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(

@@ -47,6 +47,7 @@ class _AddNotesDetailsState extends ConsumerState<AddNotesDetails> {
       ),
       body: courselist.when(
         data: (courselist) {
+          courselist.sort((a, b) => a.cname.compareTo(b.cname));
           return SafeArea(
             child: Padding(
               padding: EdgeInsets.symmetric(
@@ -258,16 +259,6 @@ class _AddNotesDetailsState extends ConsumerState<AddNotesDetails> {
                     Center(
                       child: ElevatedButton(
                         onPressed: () async {
-                          print('pressed');
-                          print('branch' + branch);
-                          print('year' + year.toString());
-                          print('course' + course);
-                          print('name' + name.text);
-                          print('semester' + semester.text);
-                          print('version' + version.text);
-                          print('unit' + unit.text);
-
-
                           if (name.text.isEmpty ||
                               branch.isEmpty ||
                               course.isEmpty ||
@@ -292,9 +283,6 @@ class _AddNotesDetailsState extends ConsumerState<AddNotesDetails> {
                             "unit": unit.text,
                             "wdlink": webContentLink,
                           });
-                          print(course.length);
-
-                          // print('map: $map');
                           http.Response request2 =
                               await http.post(Uri.parse(addFileData),
                                   headers: <String, String>{

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors, duplicate_ignore
+
 import 'package:companion_rebuild/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_octicons/flutter_octicons.dart';
@@ -11,6 +13,7 @@ class ContactDevs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    // ignore: duplicate_ignore
     return Scaffold(
       appBar: CustomAppBar(title: 'Developers'),
       // ignore: prefer_const_constructors

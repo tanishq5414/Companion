@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, unnecessary_import
 
 import 'package:companion_rebuild/theme/colors.dart';
 import 'package:flutter/material.dart';

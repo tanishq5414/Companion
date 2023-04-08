@@ -26,13 +26,10 @@ class _RecentlyAccessedPageState extends ConsumerState<RecentlyAccessedPage> {
     List<Notes> allnoteslist;
     var userrecentlyaccessed = user!.recentlyAccessed;
     List<Notes> recentlyaccessed = [];
-
-    // print(userbookmarklist);
     List<Notes> getRecentlyAccessed() {
       allnotes.when(
           data: (notes) {
             allnoteslist = notes;
-            // print(allnoteslist);
             for (var i = 0; i < userrecentlyaccessed.length; i++) {
               for (var j = 0; j < allnoteslist.length; j++) {
                 if (userrecentlyaccessed[i].toString() ==

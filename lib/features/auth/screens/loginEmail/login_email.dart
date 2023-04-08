@@ -113,7 +113,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ElevatedButton(
                       style: loginButtonStyle,
                       onPressed: () {
-                        print(2);
                         loginUser(
                             emailController.text, passwordController.text);
                       },

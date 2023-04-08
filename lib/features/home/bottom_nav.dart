@@ -36,7 +36,6 @@ class _AppBottomNavigatorState extends ConsumerState<AppBottomNavigator>
   void initState() {
     super.initState();
     //Future Delayed
-    print('initState');
 
   }
 

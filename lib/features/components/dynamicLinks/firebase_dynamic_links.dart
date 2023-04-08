@@ -31,7 +31,6 @@ class FirebaseDynamicLinkService {
     }
 
     _linkMessage = url.toString();
-    print(_linkMessage);
     return Share.share(_linkMessage);
   }
 
@@ -40,10 +39,8 @@ class FirebaseDynamicLinkService {
     FirebaseDynamicLinks.instance.onLink.listen((event) {
       final deeplink = event.link;
       var isNote = deeplink.pathSegments.contains('notes');
-      print(isNote);
       if (isNote) {
         String id = deeplink.queryParameters['id']!;
-        print('this is the id $id');
         final AsyncValue<List<Notes>> notesData = ref.watch(notesDataProvider);
         var noteList = notesData.value!;
         for (int i = 0; i < noteList.length - 1; i++) {

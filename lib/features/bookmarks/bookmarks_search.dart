@@ -31,7 +31,6 @@ class _SearchState extends ConsumerState<BookmarksSearchPage> {
     allnotes.when(
         data: (notes) {
           allnoteslist = notes;
-          // print(allnoteslist);
           for (var i = 0; i < userbookmarklist.length; i++) {
             for (var j = 0; j < allnoteslist.length; j++) {
               if (userbookmarklist[i].toString() ==
@@ -58,7 +57,6 @@ class _SearchState extends ConsumerState<BookmarksSearchPage> {
       final allnotes = ref.read(notesDataProvider);
       var user = ref.watch(userProvider);
       _notes = getBookmarks(allnotes, user);
-      print(_notes);
       setState(() {
         foundedNotes = _notes;
       });
@@ -90,7 +88,6 @@ class _SearchState extends ConsumerState<BookmarksSearchPage> {
       allnotes.when(
           data: (notes) {
             allnoteslist = notes;
-            // print(allnoteslist);
             for (var i = 0; i < userbookmarklist.length; i++) {
               for (var j = 0; j < allnoteslist.length; j++) {
                 if (userbookmarklist[i].toString() ==
@@ -99,7 +96,7 @@ class _SearchState extends ConsumerState<BookmarksSearchPage> {
                 }
               }
             }
-            bookmarks = new List.from(bookmarks.reversed);
+            bookmarks = List.from(bookmarks.reversed);
             return bookmarks;
           },
           error: (error, stackTrace) => Text(error.toString()),

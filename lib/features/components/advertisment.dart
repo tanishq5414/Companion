@@ -28,7 +28,6 @@ ListView advertismentBuilder(Size size, context, WidgetRef ref) {
 
   _launchURL(String url) async {
     final uri = Uri.parse(url);
-    print(url);
       // ignore: deprecated_member_use
       await launch(url);
   }

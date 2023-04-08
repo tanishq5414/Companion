@@ -157,7 +157,6 @@ class AuthRepository {
         Utils.showSnackBar(
             'Some error occurred try again in some time if it still persists contact us');
       }
-      print(e.message);
       throw e.message!;
     }
   }
