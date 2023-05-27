@@ -20,6 +20,12 @@ abstract class IUserAPI {
   FutureVoid updateName(String uid, String name);
   FutureVoid updateBookmarks(String uid, List<String> bookmarks);
   FutureVoid updateUserCourses(String uid, List<String> courseid);
+  FutureVoid updateContributed(
+      String uid,
+      List<String> notesidList,
+      List<String> courseNameList,
+      int notesContributed,
+      int coureseContributed);
 }
 
 class UserAPI implements IUserAPI {
@@ -47,34 +53,53 @@ class UserAPI implements IUserAPI {
   }
 
   @override
-  FutureVoid updateName(String uid, String name) async{
+  FutureVoid updateName(String uid, String name) async {
     await _supabaseClient.from('userscollection').update({
-        'name': name,
-      }).eq('uid', uid);
+      'name': name,
+    }).eq('uid', uid);
   }
 
   @override
   FutureVoid saveUserData(
       {required uid, required email, required name, required photoUrl}) async {
-    await _supabaseClient.rpc('insertuserdata', params: {
-      'uid': uid,
-      'email': email,
-      'name': name,
-      'photourl': photoUrl,
-    });
+    try {
+      await _supabaseClient.rpc('insertuserdata', params: {
+        'uid': uid,
+        'email': email,
+        'name': name,
+        'photourl': photoUrl,
+      });
+    } catch (e) {
+      print(e);
+    }
   }
-  
+
   @override
-  FutureVoid updateBookmarks(String uid, List<String> bookmarks) async{
+  FutureVoid updateBookmarks(String uid, List<String> bookmarks) async {
     await _supabaseClient.from('userscollection').update({
-        'bid': bookmarks,
-      }).eq('uid', uid);
+      'bid': bookmarks,
+    }).eq('uid', uid);
   }
-  
+
   @override
-  FutureVoid updateUserCourses(String uid, List<String> courseid) async{
+  FutureVoid updateUserCourses(String uid, List<String> courseid) async {
     await _supabaseClient.from('userscollection').update({
-        'cid': courseid,
-      }).eq('uid', uid);
+      'cid': courseid,
+    }).eq('uid', uid);
+  }
+
+  @override
+  FutureVoid updateContributed(
+      String uid,
+      List<String> notesidList,
+      List<String> courseNameList,
+      int notesContributed,
+      int coureseContributed) async {
+    await _supabaseClient.from('userscollection').update({
+      'notesContributed': notesContributed,
+      'coursesContributed': coureseContributed,
+      'notesContributedList': notesidList,
+      'coursesContributedList': courseNameList,
+    }).eq('uid', uid);
   }
 }

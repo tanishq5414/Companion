@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import, prefer_is_empty
 
 import 'package:companion/features/notes/controller/notes_controller.dart';
+import 'package:companion/features/notes/views/notes_pdf_view.dart';
 import 'package:companion/features/user/controller/user_controller.dart';
 import 'package:companion/modal/notes.modal.dart';
 import 'package:companion/theme/pallete.dart';
@@ -14,6 +15,7 @@ class BookmarksSearchPage extends ConsumerStatefulWidget {
   static Route route() {
     return MaterialPageRoute<void>(builder: (_) => const BookmarksSearchPage());
   }
+
   const BookmarksSearchPage({Key? key}) : super(key: key);
 
   @override
@@ -81,16 +83,16 @@ class _SearchState extends ConsumerState<BookmarksSearchPage> {
     List bookmarks = [];
     List getBookmarks() {
       allnoteslist = allnotes!;
-            for (var i = 0; i < userbookmarklist.length; i++) {
-              for (var j = 0; j < allnoteslist.length; j++) {
-                if (userbookmarklist[i].toString() ==
-                    allnoteslist[j].fileId.toString()) {
-                  bookmarks.add(allnoteslist[j]);
-                }
-              }
-            }
-            bookmarks = List.from(bookmarks.reversed);
-            return bookmarks;
+      for (var i = 0; i < userbookmarklist.length; i++) {
+        for (var j = 0; j < allnoteslist.length; j++) {
+          if (userbookmarklist[i].toString() ==
+              allnoteslist[j].fileId.toString()) {
+            bookmarks.add(allnoteslist[j]);
+          }
+        }
+      }
+      bookmarks = List.from(bookmarks.reversed);
+      return bookmarks;
     }
 
     var bookmarkslist = getBookmarks();
@@ -163,7 +165,9 @@ class _SearchState extends ConsumerState<BookmarksSearchPage> {
 
   notesComponent({required NotesModal notes}) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(context, NotesPdfView.route(notes: notes));
+      },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20),
         padding: const EdgeInsets.only(top: 10, bottom: 10),

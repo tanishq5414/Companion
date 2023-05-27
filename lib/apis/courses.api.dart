@@ -19,7 +19,9 @@ class CoursesAPI implements ICoursesAPI {
       final coursesData = await dio.get(coursesUrl);
       List<CoursesModal> coursesList = [];
       coursesData.data['data']['files'].forEach((element) {
+
         coursesList.add(CoursesModal.fromJson(element));
+        
       });
       return right(coursesList);
     } catch (e, st) {

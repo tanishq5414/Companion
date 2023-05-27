@@ -2,6 +2,7 @@
 
 import 'package:companion/features/courses/controller/courses_controller.dart';
 import 'package:companion/features/notes/controller/notes_controller.dart';
+import 'package:companion/features/notes/views/notes_pdf_view.dart';
 import 'package:companion/modal/courses.modal.dart';
 import 'package:companion/modal/notes.modal.dart';
 import 'package:companion/theme/pallete.dart';
@@ -42,8 +43,10 @@ class _SearchState extends ConsumerState<MainSearchPage> {
   onSearch(query) {
     setState(() {
       foundedNotes = notesList
-          .where((element) => element.name!.toLowerCase().contains(query) ||
-              element.course!.toLowerCase().contains(query)|| element.author!.toLowerCase().contains(query))
+          .where((element) =>
+              element.name!.toLowerCase().contains(query) ||
+              element.course!.toLowerCase().contains(query) ||
+              element.author!.toLowerCase().contains(query))
           .toList();
     });
   }
@@ -130,14 +133,15 @@ class _SearchState extends ConsumerState<MainSearchPage> {
   notesComponent({required NotesModal notes}) {
     return InkWell(
       onTap: () {
-        //TODO:  Implement Pdf View navigation
-      },
+                Navigator.push(context, NotesPdfView.route(notes: notes));
+              },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20),
         padding: const EdgeInsets.only(top: 10, bottom: 10),
         child: Row(
           children: [
             ZoomTapAnimation(
+              
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

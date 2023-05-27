@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:companion/config/config.dart';
 import 'package:companion/core/core.dart';
+import 'package:companion/features/user/controller/user_controller.dart';
 import 'package:companion/modal/notes.modal.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

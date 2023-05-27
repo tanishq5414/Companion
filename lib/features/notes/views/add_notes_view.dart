@@ -95,12 +95,13 @@ class _AddNotesViewState extends ConsumerState<AddNotesView> {
       _userAborted = false;
     });
   }
-  
+
   final nameController = TextEditingController();
   void dispose() {
     super.dispose();
     nameController.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userDataProvider);
@@ -487,16 +488,22 @@ class _AddNotesViewState extends ConsumerState<AddNotesView> {
                       ),
                       const SizedBox(height: 20),
                       ElevatedButton(
-                        onPressed: () {
-                          if(nameController.text == "" || branch == "" || course == "" || semester == "" || year == "" || unit == "" || _paths == null){
-                            showSnackBar(context, "Please fill all the fields");	
+                        onPressed: () async {
+                          if (nameController.text == "" ||
+                              branch == "" ||
+                              course == "" ||
+                              semester == "" ||
+                              year == "" ||
+                              unit == "" ||
+                              _paths == null) {
+                            showSnackBar(context, "Please fill all the fields");
                             return;
                           }
                           File file = File(_paths!
                               .map((e) => e.path)
                               .toList()[0]
                               .toString());
-                          ref
+                          await ref
                               .read(notesControllerProvider.notifier)
                               .uploadNotes(
                                 name: nameController.text,
@@ -511,7 +518,11 @@ class _AddNotesViewState extends ConsumerState<AddNotesView> {
                                 authorId: user.uid!,
                                 context: context,
                               );
-                              Navigator.pop(context);
+                          ref
+                              .read(userControllerProvider.notifier)
+                              .updateContributed(
+                                  context, nameController.text, course);
+                          Navigator.pop(context);
                         },
                         style: ElevatedButton.styleFrom(
                           minimumSize: Size(size.width, size.height * 0.1),

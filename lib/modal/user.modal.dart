@@ -14,6 +14,8 @@ class UserModal {
   List<String>? following;
   int? notesContributed;
   int? coursesContributed;
+  List<String>? coursesContributedList;
+  List<String>? notesContributedList;
 
   UserModal(
       {this.uid,
@@ -29,7 +31,9 @@ class UserModal {
       this.followers,
       this.following,
       this.notesContributed,
-      this.coursesContributed});
+      this.coursesContributed,
+      this.coursesContributedList,
+      this.notesContributedList});
 
   UserModal.fromJson(Map<String, dynamic> json) {
     uid = json['uid'];
@@ -46,6 +50,8 @@ class UserModal {
     following = json['following'].cast<String>();
     notesContributed = json['notesContributed'];
     coursesContributed = json['coursesContributed'];
+    coursesContributedList = json['coursesContributedList'].cast<String>();
+    notesContributedList = json['notesContributedList'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
@@ -64,6 +70,8 @@ class UserModal {
     data['following'] = this.following;
     data['notesContributed'] = this.notesContributed;
     data['coursesContributed'] = this.coursesContributed;
+    data['coursesContributedList'] = this.coursesContributedList;
+    data['notesContributedList'] = this.notesContributedList;
     return data;
   }
 
@@ -82,6 +90,8 @@ class UserModal {
     List<String>? following,
     int? notesContributed,
     int? coursesContributed,
+    List<String>? coursesContributedList,
+    List<String>? notesContributedList,
   }) {
     return UserModal(
       uid: uid ?? this.uid,
@@ -98,6 +108,9 @@ class UserModal {
       following: following ?? this.following,
       notesContributed: notesContributed ?? this.notesContributed,
       coursesContributed: coursesContributed ?? this.coursesContributed,
+      coursesContributedList:
+          coursesContributedList ?? this.coursesContributedList,
+      notesContributedList: notesContributedList ?? this.notesContributedList,
     );
   }
 }

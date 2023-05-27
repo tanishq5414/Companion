@@ -1,6 +1,4 @@
-import 'package:companion/constants/user_constants.dart';
 import 'package:companion/features/auth/controller/auth_controller.dart';
-import 'package:companion/features/user/controller/user_controller.dart';
 import 'package:companion/theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

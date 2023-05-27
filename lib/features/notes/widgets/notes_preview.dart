@@ -92,7 +92,7 @@ class NotesPreview extends StatelessWidget {
                       ),
                       SizedBox(
                         width: size.width * 0.4,
-                        height: size.width * 0.2,
+                        height: size.width * 0.17,
                         child: Text(
                           notes.name ?? 'Notes name',
                           style: TextStyle(

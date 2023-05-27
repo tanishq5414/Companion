@@ -4,6 +4,7 @@ import 'package:companion/constants/user_constants.dart';
 import 'package:companion/core/core.dart';
 import 'package:companion/features/auth/views/login_view.dart';
 import 'package:companion/features/home/views/nav_view.dart';
+import 'package:companion/features/user/controller/user_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -58,6 +59,7 @@ class AuthController extends StateNotifier<bool> {
 
   void signOut(context) async {
     await _authAPI.signOut();
+    _ref.read(userDataProvider.notifier).update((state) => null);
       Navigator.pushAndRemoveUntil(
         context,
         LoginView.route(),

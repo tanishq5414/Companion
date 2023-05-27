@@ -46,6 +46,7 @@ class UserController extends StateNotifier<bool> {
       email: email,
       photoUrl: photoUrl,
     );
+    getUserData(context: context, uid: uid);
     state = false;
   }
 
@@ -81,10 +82,32 @@ class UserController extends StateNotifier<bool> {
         ));
     state = false;
   }
+
   void updateUserCourses(BuildContext context, String uid, var cid) {
     _userAPI.updateUserCourses(uid, cid);
     _ref.read(userDataProvider.notifier).update((state) => state!.copyWith(
           cid: cid,
+        ));
+  }
+
+  void updateContributed(
+    BuildContext context,
+    String notesid,
+    String courseName,
+  ) {
+    final user = _ref.watch(userDataProvider)!;
+    var notesidList = user.notesContributedList! + [notesid];
+    var courseNameList = user.coursesContributedList! + [courseName];
+    var notesContributed = user.notesContributed! + 1;
+    var coursesContributed = user.coursesContributed! + 1;
+    _userAPI.updateContributed(
+        user.uid!,
+        notesidList, courseNameList, notesContributed, coursesContributed);
+    _ref.read(userDataProvider.notifier).update((state) => state!.copyWith(
+          notesContributedList: notesidList,
+          coursesContributedList: courseNameList,
+          notesContributed: notesContributed,
+          coursesContributed: coursesContributed,
         ));
   }
 }

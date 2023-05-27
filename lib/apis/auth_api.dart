@@ -1,4 +1,6 @@
 import 'package:companion/core/core.dart';
+import 'package:companion/features/notes/controller/notes_controller.dart';
+import 'package:companion/features/user/controller/user_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart'; // Firebase Authentication library
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart'; // Riverpod dependency injection
@@ -12,7 +14,7 @@ final authAPIProvider = Provider((ref) {
       authProvider); // Get the Firebase Authentication instance from another provider
   return AuthAPI(
     auth:
-        account, // Pass the Firebase Authentication instance to the AuthAPI constructor
+        account,// Pass the Firebase Authentication instance to the AuthAPI constructor
   );
 });
 
@@ -32,7 +34,6 @@ abstract class IAuthAPI {
 class AuthAPI implements IAuthAPI {
   final FirebaseAuth
       _auth; // Private instance of the Firebase Authentication service.
-
   /// Constructor that initializes the private [_auth] field.
   AuthAPI({required FirebaseAuth auth}) : _auth = auth;
 
@@ -78,6 +79,7 @@ class AuthAPI implements IAuthAPI {
   /// Sign out of the Google account and Firebase Authentication.
   FutureVoid signOut() async {
     await GoogleSignIn().signOut();
+    // await _ref.read(userDataProvider.notifier).update(state = nulll)
     return await _auth.signOut();
   }
 
