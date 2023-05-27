@@ -25,7 +25,10 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -55,24 +58,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCONcK3vBX7beN4UTaYi4Sj-j_pxV8FiaM',
-    appId: '1:169404952251:android:2981a2a2bb694b79c5039e',
+    appId: '1:169404952251:android:a71cf5217c42fbb6c5039e',
     messagingSenderId: '169404952251',
     projectId: 'notesapp-7d858',
     storageBucket: 'notesapp-7d858.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyC48qoc5neN6z3DNQ6k91NZluZq0RW5yKE',
-    appId: '1:169404952251:ios:555ab31e11d0cff1c5039e',
-    messagingSenderId: '169404952251',
-    projectId: 'notesapp-7d858',
-    storageBucket: 'notesapp-7d858.appspot.com',
-    androidClientId: '169404952251-48ag3405umi4quufsdkekihs23o617i3.apps.googleusercontent.com',
-    iosClientId: '169404952251-kmjsfhspf5uc943k63dvi95nn93pjmup.apps.googleusercontent.com',
-    iosBundleId: 'com.lightheads.companion.companion',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyC48qoc5neN6z3DNQ6k91NZluZq0RW5yKE',
     appId: '1:169404952251:ios:555ab31e11d0cff1c5039e',
     messagingSenderId: '169404952251',

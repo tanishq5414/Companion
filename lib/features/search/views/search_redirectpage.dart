@@ -42,14 +42,14 @@ class _SearchState extends ConsumerState<MainSearchPage> {
   onSearch(query) {
     setState(() {
       foundedNotes = notesList
-          .where((element) => element.name!.toLowerCase().contains(query))
+          .where((element) => element.name!.toLowerCase().contains(query) ||
+              element.course!.toLowerCase().contains(query)|| element.author!.toLowerCase().contains(query))
           .toList();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    print(editingController.value.text.length);
     final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Padding(

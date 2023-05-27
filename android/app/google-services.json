@@ -55,10 +55,10 @@
               "client_type": 3
             },
             {
-              "client_id": "169404952251-m55b91vhk1dvcn4i37pgagn8r4j3rrgn.apps.googleusercontent.com",
+              "client_id": "169404952251-kmjsfhspf5uc943k63dvi95nn93pjmup.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.companionRebuild"
+                "bundle_id": "com.lightheads.companion.companion"
               }
             }
           ]
@@ -73,6 +73,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "169404952251-li16o9301ld8r5uh1m6oa5i2k3q08br6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lightheads.companion.companion",
+            "certificate_hash": "2024d710179fd605ed4791922cf59e387e3317e2"
+          }
+        },
         {
           "client_id": "169404952251-3mbata2epempv3plf4p22gtd66he2qkc.apps.googleusercontent.com",
           "client_type": 3
@@ -91,10 +99,10 @@
               "client_type": 3
             },
             {
-              "client_id": "169404952251-m55b91vhk1dvcn4i37pgagn8r4j3rrgn.apps.googleusercontent.com",
+              "client_id": "169404952251-kmjsfhspf5uc943k63dvi95nn93pjmup.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.companionRebuild"
+                "bundle_id": "com.lightheads.companion.companion"
               }
             }
           ]

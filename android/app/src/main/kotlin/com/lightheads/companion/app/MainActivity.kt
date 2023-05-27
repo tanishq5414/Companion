@@ -1,4 +1,4 @@
-package com.lightheads.companion.companion
+package com.lightheads.companion.app
 
 import io.flutter.embedding.android.FlutterActivity
 
