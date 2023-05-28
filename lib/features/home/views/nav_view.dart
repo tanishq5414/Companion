@@ -45,6 +45,7 @@ class _NavViewState extends ConsumerState<NavView> {
         // handle api calls from here
         ref.read(notesControllerProvider.notifier).getNotes(context);
         ref.read(coursesControllerProvider.notifier).getCourses(context);
+        ref.read(notesControllerProvider.notifier).getTrendingNotes(context);
       });
 
       getUserData();

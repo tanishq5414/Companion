@@ -36,7 +36,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
   Widget build(BuildContext context) {
     final user = ref.watch(userDataProvider);
     final size = MediaQuery.of(context).size;
-    final notesData = ref.watch(notesDataProvider);
+    final notesData = ref.watch(notesDataProvider)!;
+    final trendingDaily = ref.watch(trendingNotesDailyProvider);
+    final trendingWeekly = ref.watch(trendingNotesWeeklyProvider);
     return (user == null)
         ? const Loader()
         : SafeArea(
@@ -166,7 +168,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 12),
                               child: Text(
-                                'Trending Today',
+                                'Trending today',
                                 style: TextStyle(
                                     color: Pallete.whiteColor,
                                     fontWeight: FontWeight.w900,
@@ -175,14 +177,14 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 13),
-                              child: notesBuilder(size, notesData!),
+                              child: notesBuilder(size, trendingDaily!),
                             ),
                             const SizedBox(height: 28),
                             const Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 12),
                               child: Text(
-                                'Latest Notes',
+                                'Latest notes',
                                 style: TextStyle(
                                     color: Pallete.whiteColor,
                                     fontWeight: FontWeight.w900,
@@ -198,7 +200,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 12),
                               child: Text(
-                                'Most Popular',
+                                'Trending this week',
                                 style: TextStyle(
                                     color: Pallete.whiteColor,
                                     fontWeight: FontWeight.w900,
@@ -207,7 +209,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(left: 13),
-                              child: notesBuilder(size, notesData),
+                              child: notesBuilder(size, trendingWeekly!),
                             ),
                             SizedBox(height: size.height * 0.12),
                           ],

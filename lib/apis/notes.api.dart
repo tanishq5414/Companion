@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:companion/config/config.dart';
 import 'package:companion/core/core.dart';
-import 'package:companion/features/user/controller/user_controller.dart';
 import 'package:companion/modal/notes.modal.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,6 +12,8 @@ final dio = Dio();
 
 abstract class INotesAPI {
   FutureEither<List<NotesModal>> getNotes();
+  FutureEither<List<NotesModal>> getTrendingNotesDay();
+  FutureEither<List<NotesModal>> getTreandingNotesWeek();
   FutureEither<void> uploadNotes({
     required String name,
     required String year,
@@ -41,6 +42,7 @@ class NotesAPI implements INotesAPI {
       return left(Failure(e.toString(), st));
     }
   }
+
   @override
   FutureEither<void> uploadNotes({
     required String name,
@@ -70,6 +72,35 @@ class NotesAPI implements INotesAPI {
       });
       await dio.post(uploadNotesUrl, data: data);
       return right(null);
+    } catch (e, st) {
+      return left(Failure(e.toString(), st));
+    }
+  }
+
+  @override
+  FutureEither<List<NotesModal>> getTreandingNotesWeek() async {
+    try {
+      final notesData = await dio.get(trendingNotesByWeekURL);
+      List<NotesModal> notesList = [];
+      notesData.data['data']['trending'].forEach((element) {
+        notesList.add(NotesModal.fromJson(element));
+      });
+      return right(notesList);
+    } catch (e, st) {
+      return left(Failure(e.toString(), st));
+    }
+  }
+
+  @override
+  FutureEither<List<NotesModal>> getTrendingNotesDay() async {
+    try {
+      final notesData = await dio.get(trendingNotesByDayURL);
+      
+      List<NotesModal> notesList = [];
+      notesData.data['data']['trending'].forEach((element) {
+        notesList.add(NotesModal.fromJson(element));
+      });
+      return right(notesList);
     } catch (e, st) {
       return left(Failure(e.toString(), st));
     }

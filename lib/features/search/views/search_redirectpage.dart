@@ -29,14 +29,14 @@ class _SearchState extends ConsumerState<MainSearchPage> {
   @override
   void initState() {
     super.initState();
-    notesList = ref.read(notesDataProvider)!;
+    var notesList1 = ref.read(notesDataProvider)!;
+    notesList = List.from(notesList1);
     notesList.sort((a, b) => a.name!.compareTo(b.name!));
   }
 
   @override
   void dispose() {
     super.dispose();
-    notesList = [];
     editingController.dispose();
   }
 

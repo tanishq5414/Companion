@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final notesDataProvider = StateProvider<List<NotesModal>?>((ref) => null);
-
+final trendingNotesDailyProvider = StateProvider<List<NotesModal>?>((ref) => null);
+final trendingNotesWeeklyProvider = StateProvider<List<NotesModal>?>((ref) => null);
 final notesControllerProvider =
     StateNotifierProvider<NotesController, bool>((ref) {
   final notesAPI = ref.watch(notesAPIProvider);
@@ -30,6 +31,19 @@ class NotesController extends StateNotifier<bool> {
     final res = await _notesAPI.getNotes();
     res.fold((l) => showSnackBar(context, l.message), (notes) {
       _ref.read(notesDataProvider.notifier).update((state) => notes);
+    });
+    state = false;
+  }
+
+  Future<void> getTrendingNotes(BuildContext context) async {
+    state = true;
+    final res = await _notesAPI.getTrendingNotesDay();
+    res.fold((l) => showSnackBar(context, l.message), (notes) {
+      _ref.read(trendingNotesDailyProvider.notifier).update((state) => notes);
+    });
+    final res2 = await _notesAPI.getTreandingNotesWeek();
+    res2.fold((l) => showSnackBar(context, l.message), (notes) {
+      _ref.read(trendingNotesWeeklyProvider.notifier).update((state) => notes);
     });
     state = false;
   }
