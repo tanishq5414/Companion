@@ -36,7 +36,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
   Widget build(BuildContext context) {
     final user = ref.watch(userDataProvider);
     final size = MediaQuery.of(context).size;
-    final notesData = ref.watch(notesDataProvider)!;
+    final notesData = ref.watch(notesDataProvider)??[];
     final trendingDaily = ref.watch(trendingNotesDailyProvider);
     final trendingWeekly = ref.watch(trendingNotesWeeklyProvider);
     return (user == null)

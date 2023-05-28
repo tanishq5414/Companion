@@ -20,6 +20,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(RecentlyAccessedAdapter());
   recentlyAccessedBox = await Hive.openBox<List>('recentlyaccessed');
+  trendingBox = await Hive.openBox<String>('trending');
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

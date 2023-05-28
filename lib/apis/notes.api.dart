@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:companion/config/config.dart';
 import 'package:companion/core/core.dart';
 import 'package:companion/modal/notes.modal.dart';
+import 'package:companion/modal/trending.modal.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
@@ -14,6 +16,7 @@ abstract class INotesAPI {
   FutureEither<List<NotesModal>> getNotes();
   FutureEither<List<NotesModal>> getTrendingNotesDay();
   FutureEither<List<NotesModal>> getTreandingNotesWeek();
+  FutureVoid addTrendingData({required List<TrendingModal> trendingData});
   FutureEither<void> uploadNotes({
     required String name,
     required String year,
@@ -95,7 +98,7 @@ class NotesAPI implements INotesAPI {
   FutureEither<List<NotesModal>> getTrendingNotesDay() async {
     try {
       final notesData = await dio.get(trendingNotesByDayURL);
-      
+
       List<NotesModal> notesList = [];
       notesData.data['data']['trending'].forEach((element) {
         notesList.add(NotesModal.fromJson(element));
@@ -103,6 +106,30 @@ class NotesAPI implements INotesAPI {
       return right(notesList);
     } catch (e, st) {
       return left(Failure(e.toString(), st));
+    }
+  }
+
+  @override
+  FutureVoid addTrendingData(
+      {required List<TrendingModal> trendingData}) async {
+    try {
+      print(
+        jsonEncode(trendingData.map((e) => e.toJson()).toList(),),
+      );
+      var options = Options(
+        contentType: 'application/json',
+      );
+      final res = await dio.post(
+        trendingNotesDataURL,
+        data: {
+          "key": trendingData.map((e) => e.toJson()).toList(),
+        },
+        options: options,
+      );
+      print(res.statusCode);
+    } catch (e, st) {
+      print(e);
+      print(st);
     }
   }
 }

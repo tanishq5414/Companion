@@ -1,4 +1,5 @@
 import 'package:companion/features/courses/controller/courses_controller.dart';
+import 'package:companion/features/hive/boxes.dart';
 import 'package:companion/features/home/views/home_view.dart';
 import 'package:companion/features/notes/controller/notes_controller.dart';
 import 'package:companion/features/notes/views/bookmarks_view.dart';
@@ -15,14 +16,12 @@ class NavView extends ConsumerStatefulWidget {
   final User firebaseUser;
   static route({
     required User token,
-  }) => MaterialPageRoute(
-      builder: (context) => NavView(
-            firebaseUser: token,
-          ));
-  const NavView(
-      {super.key,
-      required this.firebaseUser,
-      String? imageUrl});
+  }) =>
+      MaterialPageRoute(
+          builder: (context) => NavView(
+                firebaseUser: token,
+              ));
+  const NavView({super.key, required this.firebaseUser, String? imageUrl});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _NavViewState();
@@ -42,10 +41,10 @@ class _NavViewState extends ConsumerState<NavView> {
       }
 
       widget.firebaseUser.getIdToken(false).then((value) {
-        // handle api calls from here
         ref.read(notesControllerProvider.notifier).getNotes(context);
         ref.read(coursesControllerProvider.notifier).getCourses(context);
         ref.read(notesControllerProvider.notifier).getTrendingNotes(context);
+        ref.read(notesControllerProvider.notifier).addDataForTrendingNotes();
       });
 
       getUserData();
@@ -181,8 +180,8 @@ class _NavViewState extends ConsumerState<NavView> {
                   height: size.height * 0.16,
                   width: size.width,
                   child: Container(
-                    margin: EdgeInsets.fromLTRB(
-                        size.width * 0.07, size.width * 0.03, size.width * 0.07, 0),
+                    margin: EdgeInsets.fromLTRB(size.width * 0.07,
+                        size.width * 0.03, size.width * 0.07, 0),
                     // color: Colors.transparent,
                     child: BottomNavigationBar(
                         type: BottomNavigationBarType.fixed,

@@ -2,13 +2,17 @@ import 'dart:io';
 
 import 'package:companion/apis/notes.api.dart';
 import 'package:companion/core/core.dart';
+import 'package:companion/features/hive/boxes.dart';
 import 'package:companion/modal/notes.modal.dart';
+import 'package:companion/modal/trending.modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final notesDataProvider = StateProvider<List<NotesModal>?>((ref) => null);
-final trendingNotesDailyProvider = StateProvider<List<NotesModal>?>((ref) => null);
-final trendingNotesWeeklyProvider = StateProvider<List<NotesModal>?>((ref) => null);
+final trendingNotesDailyProvider =
+    StateProvider<List<NotesModal>?>((ref) => null);
+final trendingNotesWeeklyProvider =
+    StateProvider<List<NotesModal>?>((ref) => null);
 final notesControllerProvider =
     StateNotifierProvider<NotesController, bool>((ref) {
   final notesAPI = ref.watch(notesAPIProvider);
@@ -78,5 +82,38 @@ class NotesController extends StateNotifier<bool> {
       showSnackBar(context, "Notes Uploaded Successfully");
     });
     state = false;
+  }
+
+  FutureVoid addDataForTrendingNotes() async {
+    if (trendingBox.length < 40) {
+      return;
+    }
+    List<String> a = trendingBox.values.toList().cast<String>();
+    List<TrendingModal> convertToList(List<String> inputList) {
+      final Map<String, int> counts = {};
+
+      for (final String? fileId in inputList) {
+        if (fileId != null) {
+          if (counts.containsKey(fileId)) {
+            counts[fileId] = (counts[fileId] ?? 0) + 1;
+          } else {
+            counts[fileId] = 1;
+          }
+        }
+      }
+
+      // Create a list of TrendingModal objects
+      final List<TrendingModal> trendingList = counts.entries
+          .map((entry) => TrendingModal(
+              fileId: entry.key,
+              accessToday: entry.value,
+              accessWeekly: entry.value))
+          .toList();
+
+      return trendingList;
+    }
+
+    var trendingData = convertToList(a);
+    await _notesAPI.addTrendingData(trendingData: trendingData);
   }
 }
