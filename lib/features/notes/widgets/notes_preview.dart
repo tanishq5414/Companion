@@ -1,9 +1,14 @@
 import 'package:companion/constants/constants.dart';
+import 'package:companion/features/hive/boxes.dart';
+import 'package:companion/features/hive/modal/recentlyaccessed.dart';
 import 'package:companion/features/notes/views/notes_details_view.dart';
 import 'package:companion/features/notes/views/notes_pdf_view.dart';
+
 import 'package:companion/modal/notes.modal.dart';
 import 'package:companion/theme/pallete.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
 import 'package:intl/intl.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
@@ -33,10 +38,18 @@ class NotesPreview extends StatelessWidget {
     Color color = UIConstants.lightColors[index];
     Color darkColor = UIConstants.darkColors[index];
     return ZoomTapAnimation(
-      onTap:(){
+      onTap: () {
         if (disableonTap) {
           return;
         }
+        recentlyAccessedBox.add([notes.fileId!, DateTime.now().millisecondsSinceEpoch.toString()]);
+        // var recentlyAccessedList = recentlyAccessedBox.get('notes');
+        // print(recentlyAccessedBox.get('notes').runtimeType == List<RecentlyAccessed>);
+        // if (recentlyAccessedList.isEmpty) {
+        //   recentlyAccessedList = [];
+        // }
+        // recentlyAccessedList.add(recentlyAccessed);
+        // recentlyAccessedBox.put('notes', recentlyAccessedList);
         Navigator.push(context, NotesPdfView.route(notes: notes));
       },
       onLongTap: () {
@@ -65,9 +78,7 @@ class NotesPreview extends StatelessWidget {
             },
           ),
         );
-        // Navigator.push(context, NotesMenu.route(notes: notes));
       },
-      
       child: Container(
         margin:
             EdgeInsets.only(right: size.width * 0.03, top: size.width * 0.03),

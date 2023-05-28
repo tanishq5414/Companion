@@ -40,16 +40,21 @@ class _SearchState extends ConsumerState<MainSearchPage> {
     editingController.dispose();
   }
 
-  onSearch(query) {
-    setState(() {
-      foundedNotes = notesList
-          .where((element) =>
-              element.name!.toLowerCase().contains(query) ||
-              element.course!.toLowerCase().contains(query) ||
-              element.author!.toLowerCase().contains(query))
-          .toList();
-    });
-  }
+  onSearch(String query) {
+  String lowercaseQuery = query.toLowerCase();
+  setState(() {
+    foundedNotes = notesList.where((element) {
+      String lowercaseName = element.name!.toLowerCase();
+      String lowercaseCourse = element.course!.toLowerCase();
+      String lowercaseAuthor = element.author!.toLowerCase();
+
+      return lowercaseName.contains(lowercaseQuery) ||
+          lowercaseCourse.contains(lowercaseQuery) ||
+          lowercaseAuthor.contains(lowercaseQuery);
+    }).toList();
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {

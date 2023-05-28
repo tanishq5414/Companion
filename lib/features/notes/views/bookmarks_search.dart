@@ -28,21 +28,20 @@ class _SearchState extends ConsumerState<BookmarksSearchPage> {
   List<NotesModal> _notes = [];
 
   List<NotesModal> getBookmarks(List<NotesModal> allnotes, user) {
-    List<NotesModal> bookmarks = [];
-    List<NotesModal> allnoteslist;
-    var userbookmarklist = user?.bid ?? [''];
-    allnoteslist = allnotes;
-    for (var i = 0; i < userbookmarklist.length; i++) {
-      for (var j = 0; j < allnoteslist.length; j++) {
-        if (userbookmarklist[i].toString() ==
-            allnoteslist[j].fileId.toString()) {
-          bookmarks.add(allnoteslist[j]);
-        }
-      }
+  List<NotesModal> bookmarks = [];
+  var userbookmarklist = user?.bid?.map((id) => id.toString())?.toList() ?? [];
+  
+  for (var note in allnotes) {
+    if (userbookmarklist.contains(note.fileId.toString())) {
+      bookmarks.add(note);
     }
-    bookmarks = List.from(bookmarks.reversed);
-    return bookmarks;
   }
+  
+  bookmarks = bookmarks.reversed.toList();
+  return bookmarks;
+}
+
+  
 
   @override
   void initState() {
@@ -76,26 +75,23 @@ class _SearchState extends ConsumerState<BookmarksSearchPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final allnotes = ref.read(notesDataProvider);
-    var user = ref.watch(userDataProvider);
-    List<NotesModal> allnoteslist;
+    final allnotes = ref.read(notesDataProvider)!;
+    var user = ref.watch(userDataProvider); 
     var userbookmarklist = user?.bid ?? [''];
-    List bookmarks = [];
-    List getBookmarks() {
-      allnoteslist = allnotes!;
-      for (var i = 0; i < userbookmarklist.length; i++) {
-        for (var j = 0; j < allnoteslist.length; j++) {
-          if (userbookmarklist[i].toString() ==
-              allnoteslist[j].fileId.toString()) {
-            bookmarks.add(allnoteslist[j]);
-          }
+    List<NotesModal> bookmarks = [];
+    List<NotesModal> getBookmarks() {
+      Set<String> bookmarkFileIds = Set<String>.from(userbookmarklist);
+      for (var note in allnotes) {
+        if (bookmarkFileIds.contains(note.fileId.toString())) {
+          print(note.fileId.toString());
+          bookmarks.add(note);
         }
       }
-      bookmarks = List.from(bookmarks.reversed);
+      bookmarks = bookmarks.reversed.toList();
       return bookmarks;
     }
 
-    var bookmarkslist = getBookmarks();
+    getBookmarks();
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.only(top: 30),

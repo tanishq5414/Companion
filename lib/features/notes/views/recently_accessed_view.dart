@@ -1,11 +1,15 @@
 import 'package:companion/common/common.dart';
+import 'package:companion/features/hive/boxes.dart';
+import 'package:companion/features/hive/modal/recentlyaccessed.dart';
 import 'package:companion/features/notes/controller/notes_controller.dart';
+import 'package:companion/features/notes/views/notes_pdf_view.dart';
 import 'package:companion/features/user/controller/user_controller.dart';
 import 'package:companion/modal/notes.modal.dart';
 import 'package:companion/theme/pallete.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
@@ -29,22 +33,24 @@ class _RecentlyAccessedPageState extends ConsumerState<RecentlyAccessedView> {
     var size = MediaQuery.of(context).size;
 
     final user = ref.watch(userDataProvider);
-    final allnotes = ref.read(notesDataProvider);
-    List<NotesModal> allnoteslist;
-    var userrecentlyaccessed = user!.recentlyAccessed;
+    final allnoteslist = ref.read(notesDataProvider)!;
+    var recentlyAcessedData = recentlyAccessedBox;
+
     List<NotesModal> recentlyaccessed = [];
     List<NotesModal> getRecentlyAccessed() {
-      allnoteslist = allnotes!;
-      for (var i = 0; i < userrecentlyaccessed!.length; i++) {
-        for (var j = 0; j < allnoteslist.length; j++) {
-          if (userrecentlyaccessed[i].toString() ==
-              allnoteslist[j].fileId.toString()) {
-            recentlyaccessed.add(allnoteslist[j]);
-          }
+      // }
+      Set<String> fileIdSet =
+          allnoteslist.map((note) => note.fileId.toString()).toSet();
+      for (var data in recentlyAcessedData.values) {
+        String fileId = data[0].toString();
+        if (fileIdSet.contains(fileId)) {
+          NotesModal matchingNote = allnoteslist
+              .firstWhere((note) => note.fileId.toString() == fileId);
+          recentlyaccessed.add(matchingNote);
         }
       }
+
       recentlyaccessed = List.from(recentlyaccessed.reversed);
-      recentlyaccessed = recentlyaccessed.toSet().toList();
       return recentlyaccessed;
     }
 
@@ -53,8 +59,9 @@ class _RecentlyAccessedPageState extends ConsumerState<RecentlyAccessedView> {
         appBar: CustomAppBar(
           title: "Recently accessed",
         ),
-        body: (user.recentlyAccessed!.isNotEmpty)
+        body: (user!.recentlyAccessed!.isNotEmpty)
             ? SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
                     SizedBox(
@@ -66,11 +73,9 @@ class _RecentlyAccessedPageState extends ConsumerState<RecentlyAccessedView> {
                       child: ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: recentlyaccessed.length > 20
-                              ? 20
-                              : recentlyaccessed.length,
+                          itemCount: recentlyaccessed.length,
                           itemBuilder: (context, index) {
-                            recentlyAccessed.reversed;
+                            recentlyAccessed;
                             NotesModal note = recentlyAccessed[index];
                             return ZoomTapAnimation(
                               child: ListTile(
@@ -80,30 +85,8 @@ class _RecentlyAccessedPageState extends ConsumerState<RecentlyAccessedView> {
                                       color: Pallete.lightGreyColor),
                                 ),
                                 onTap: () {
-                                  // TODO: Add recently accessed
-                                  // ref
-                                  //     .read(.notifier)
-                                  //     .incrementNotesOpened(
-                                  //       context,
-                                  //       user.id,
-                                  //       note.id.toString(),
-                                  //       note.name,
-                                  //       note.course,
-                                  //       note.unit,
-                                  //     );
-
-                                  // Routemaster.of(context)
-                                  //     .push('/pdfview', queryParameters: {
-                                  //   'id': note.id.toString(),
-                                  //   'name': note.name,
-                                  //   'year': note.year,
-                                  //   'branch': note.branch,
-                                  //   'course': note.course,
-                                  //   'semester': note.semester,
-                                  //   'version': note.version,
-                                  //   'unit': note.unit,
-                                  //   'wdlink': note.wdlink,
-                                  // });
+                                  Navigator.push(
+                                      context, NotesPdfView.route(notes: note));
                                 },
                                 title: Text(
                                   recentlyAccessed[index].name!,

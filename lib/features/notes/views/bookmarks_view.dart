@@ -10,7 +10,6 @@ import 'package:companion/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_octicons/flutter_octicons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 List<String> BookmarkSearchList = [];
 
@@ -30,25 +29,24 @@ class _BookmarksPageState extends ConsumerState<BookmarksView> {
     final user = ref.watch(userDataProvider);
     final allnoteslist = ref.read(notesDataProvider)!;
     var userbookmarklist = user?.bid!;
-    List bookmarks = [];
-    List getBookmarks() {
-      for (var i = 0; i < userbookmarklist!.length; i++) {
-        for (var j = 0; j < allnoteslist.length; j++) {
-          if (userbookmarklist[i].toString() ==
-              allnoteslist[j].fileId.toString()) {
-            bookmarks.add(allnoteslist[j]);
-          }
+    List<NotesModal> bookmarks = [];
+    List<NotesModal> getBookmarks() {
+      Set<String> bookmarkFileIds = Set<String>.from(userbookmarklist!);
+      for (var note in allnoteslist) {
+        if (bookmarkFileIds.contains(note.fileId.toString())) {
+          print(note.fileId.toString());
+          bookmarks.add(note);
         }
       }
-      bookmarks = List.from(bookmarks.reversed);
+      bookmarks = bookmarks.reversed.toList();
       return bookmarks;
     }
 
-    var bookmarkslist = getBookmarks();
+    getBookmarks();
 
     for (var i = 0; i < bookmarks.length; i++) {
-      BookmarkSearchList.add(bookmarks[i].name);
-      BookmarkSearchList.add(bookmarks[i].course);
+      BookmarkSearchList.add(bookmarks[i].name!);
+      BookmarkSearchList.add(bookmarks[i].course!);
       BookmarkSearchList.add(bookmarks[i].unit.toString());
     }
     return (user == null)
@@ -100,7 +98,8 @@ class _BookmarksPageState extends ConsumerState<BookmarksView> {
                         IconButton(
                           icon: const Icon(OctIcons.search_16),
                           onPressed: () {
-                            Navigator.push(context, BookmarksSearchPage.route());
+                            Navigator.push(
+                                context, BookmarksSearchPage.route());
                           },
                         )
                       ],
@@ -152,7 +151,6 @@ class _BookmarksPageState extends ConsumerState<BookmarksView> {
                                   childAspectRatio: (size.width / 190 / 2.4),
                                   mainAxisSpacing: 5,
                                 ),
-                                
                                 itemCount: bookmarks.length,
                                 itemBuilder: (context, index) => NotesPreview(
                                   size: size,

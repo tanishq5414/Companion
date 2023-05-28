@@ -11,11 +11,11 @@ GridView courseBuilder(Size size, context, WidgetRef ref) {
   List<String> userslist = user.cid!;
   var allcourseslist = ref.watch(coursesDataProvider)!;
   var usercourseslist = [];
-  for (var i = 0; i < userslist.length; i++) {
-    for (var j = 0; j < allcourseslist.length; j++) {
-      if (userslist[i] == allcourseslist[j].cid.toString()) {
-        usercourseslist.add(allcourseslist[j]);
-      }
+  Set<String> usersSet = Set<String>.from(userslist);
+
+  for (var course in allcourseslist) {
+    if (usersSet.contains(course.cid.toString())) {
+      usercourseslist.add(course);
     }
   }
   return GridView.builder(

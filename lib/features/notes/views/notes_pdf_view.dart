@@ -35,6 +35,15 @@ class _NotesPdfViewState extends State<NotesPdfView> {
   }
 
   late int percentage = 0, totalFileSize;
+
+  // redownload file
+  Future<void> filereDownload() async {
+    if (await File(tempPath).exists()) {
+      await File(tempPath).delete();
+    }
+    fileDownload();
+  }
+
   Future<void> fileDownload() async {
     tempDir = await getTemporaryDirectory();
     //download file
@@ -47,11 +56,14 @@ class _NotesPdfViewState extends State<NotesPdfView> {
         dio.download(
           widget.notes.reslink!,
           tempPath,
+          deleteOnError: true,
           onReceiveProgress: (count, total) {
-            this.setState(() {
-              percentage = ((count / total) * 100).floor();
-            });
-          },
+            if (context.mounted) {
+              setState(() {
+                percentage = ((count / total) * 100).floor();
+              });
+            }
+          }
         );
       } else {
         this.setState(() {
@@ -63,14 +75,21 @@ class _NotesPdfViewState extends State<NotesPdfView> {
         widget.notes.reslink!,
         tempPath,
         onReceiveProgress: (count, total) {
-          this.setState(() {
+          if (context.mounted) {
+            setState(() {
+              percentage = ((count / total) * 100).floor();
+            });
             percentage = ((count / total) * 100).floor();
-          });
-          percentage = ((count / total) * 100).floor();
-          totalFileSize = total;
+            totalFileSize = total;
+          }
         },
       );
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -92,6 +111,9 @@ class _NotesPdfViewState extends State<NotesPdfView> {
                 if (_canShowPdf) {
                   return SfPdfViewer.file(
                     File(tempPath),
+                    onDocumentLoadFailed: (details) {
+                      filereDownload();
+                    },
                   );
                 } else {
                   return Container();
@@ -111,7 +133,10 @@ class _NotesPdfViewState extends State<NotesPdfView> {
                   ),
                   Text(
                     (percentage.toDouble()).toString() + " %",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23, color: Colors.white),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 23,
+                        color: Colors.white),
                   ),
                   Text("Please wait file downloading",
                       style: TextStyle(

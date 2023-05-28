@@ -47,94 +47,41 @@ class _BasicSliverAppBarState extends ConsumerState<BasicSliverAppBar> {
     });
   }
 
-  getnotes(List fileIds, List<NotesModal> notes) {
+  getnotes(List<String> fileIds, List<NotesModal> notes) {
+    Map<String, NotesModal> notesMap = {};
+
+    for (var note in notes) {
+      notesMap[note.fileId!] = note;
+    }
+
     List<NotesModal> notesList = [];
 
-    for (var i = 0; i < fileIds.length; i++) {
-      for (var j = 0; j < notes.length; j++) {
-        if (fileIds[i].toString() == notes[j].fileId) {
-          notesList.add(notes[j]);
-        }
+    for (var fileId in fileIds) {
+      var note = notesMap[fileId];
+      if (note != null) {
+        notesList.add(note);
       }
     }
+
     return notesList;
   }
 
-  getunit0notes(List fileIds, List<NotesModal> notes) {
+  getNotesByUnit(List<String> fileIds, List<NotesModal> notes, int unit) {
+    Map<String, NotesModal> notesMap = {};
+
+    for (var note in notes) {
+      notesMap[note.fileId!] = note;
+    }
+
     List<NotesModal> notesList = [];
 
-    for (var i = 0; i < fileIds.length; i++) {
-      for (var j = 0; j < notes.length; j++) {
-        if (fileIds[i].toString() == notes[j].fileId && notes[j].unit == 0) {
-          notesList.add(notes[j]);
-        }
+    for (var fileId in fileIds) {
+      var note = notesMap[fileId];
+      if (note != null && note.unit == unit) {
+        notesList.add(note);
       }
     }
-    return notesList;
-  }
 
-  getunit1notes(List fileIds, List<NotesModal> notes) {
-    List<NotesModal> notesList = [];
-
-    for (var i = 0; i < fileIds.length; i++) {
-      for (var j = 0; j < notes.length; j++) {
-        if (fileIds[i].toString() == notes[j].fileId && notes[j].unit == 1) {
-          notesList.add(notes[j]);
-        }
-      }
-    }
-    return notesList;
-  }
-
-  getunit2notes(List fileIds, List<NotesModal> notes) {
-    List<NotesModal> notesList = [];
-
-    for (var i = 0; i < fileIds.length; i++) {
-      for (var j = 0; j < notes.length; j++) {
-        if (fileIds[i].toString() == notes[j].fileId && notes[j].unit == 2) {
-          notesList.add(notes[j]);
-        }
-      }
-    }
-    return notesList;
-  }
-
-  getunit3notes(List fileIds, List<NotesModal> notes) {
-    List<NotesModal> notesList = [];
-
-    for (var i = 0; i < fileIds.length; i++) {
-      for (var j = 0; j < notes.length; j++) {
-        if (fileIds[i].toString() == notes[j].fileId && notes[j].unit == 3) {
-          notesList.add(notes[j]);
-        }
-      }
-    }
-    return notesList;
-  }
-
-  getunit4notes(List fileIds, List<NotesModal> notes) {
-    List<NotesModal> notesList = [];
-
-    for (var i = 0; i < fileIds.length; i++) {
-      for (var j = 0; j < notes.length; j++) {
-        if (fileIds[i].toString() == notes[j].fileId && notes[j].unit == 4) {
-          notesList.add(notes[j]);
-        }
-      }
-    }
-    return notesList;
-  }
-
-  getunit5notes(List fileIds, List<NotesModal> notes) {
-    List<NotesModal> notesList = [];
-
-    for (var i = 0; i < fileIds.length; i++) {
-      for (var j = 0; j < notes.length; j++) {
-        if (fileIds[i].toString() == notes[j].fileId && notes[j].unit == 5) {
-          notesList.add(notes[j]);
-        }
-      }
-    }
     return notesList;
   }
 
@@ -152,17 +99,17 @@ class _BasicSliverAppBarState extends ConsumerState<BasicSliverAppBar> {
 
     List<NotesModal> notesList = getnotes(widget.course.fileId!, notes);
     List<NotesModal> unit0notesList =
-        getunit0notes(widget.course.fileId!, notes);
+        getNotesByUnit(widget.course.fileId!, notes, 0);
     List<NotesModal> unit1notesList =
-        getunit1notes(widget.course.fileId!, notes);
+        getNotesByUnit(widget.course.fileId!, notes, 1);
     List<NotesModal> unit2notesList =
-        getunit2notes(widget.course.fileId!, notes);
+        getNotesByUnit(widget.course.fileId!, notes, 2);
     List<NotesModal> unit3notesList =
-        getunit3notes(widget.course.fileId!, notes);
+        getNotesByUnit(widget.course.fileId!, notes, 3);
     List<NotesModal> unit4notesList =
-        getunit4notes(widget.course.fileId!, notes);
+        getNotesByUnit(widget.course.fileId!, notes, 4);
     List<NotesModal> unit5notesList =
-        getunit5notes(widget.course.fileId!, notes);
+        getNotesByUnit(widget.course.fileId!, notes, 5);
     var index = widget.course.cid! % 10;
     return SafeArea(
       child: Scaffold(
@@ -196,15 +143,16 @@ class _BasicSliverAppBarState extends ConsumerState<BasicSliverAppBar> {
             ),
             SliverToBoxAdapter(
                 child: Container(
-                  decoration: BoxDecoration(gradient: 
-                  LinearGradient(
-                    colors: [
-                      UIConstants.lightColors[index].withOpacity(0.1),
-                      Colors.transparent,
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    UIConstants.lightColors[index].withOpacity(0.1),
+                    Colors.transparent,
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
               child: Column(
                 children: [
                   SizedBox(
