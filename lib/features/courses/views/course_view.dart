@@ -111,112 +111,115 @@ class _BasicSliverAppBarState extends ConsumerState<BasicSliverAppBar> {
     List<NotesModal> unit5notesList =
         getNotesByUnit(widget.course.fileId!, notes, 5);
     var index = widget.course.cid! % 10;
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Pallete.backgroundColor,
-        body: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: [
-            SliverAppBar(
-              elevation: 0,
-              expandedHeight: size.height * 0.35,
-              pinned: true,
-              backgroundColor: Colors.transparent,
-              flexibleSpace: Container(
+    return Container(
+      color: Pallete.backgroundColor,
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: Pallete.backgroundColor,
+          body: CustomScrollView(
+            physics: const BouncingScrollPhysics(),
+            slivers: [
+              SliverAppBar(
+                elevation: 0,
+                expandedHeight: size.height * 0.35,
+                pinned: true,
+                backgroundColor: Colors.transparent,
+                flexibleSpace: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        UIConstants.lightColors[index],
+                        UIConstants.lightColors[index],
+                        UIConstants.lightColors[index].withOpacity(0.5),
+                        UIConstants.lightColors[index].withOpacity(0.3),
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                  ),
+                  child: MyAppSpace(
+                    size: size,
+                    title: widget.course.cname!,
+                  ),
+                ),
+              ),
+              SliverToBoxAdapter(
+                  child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      UIConstants.lightColors[index],
-                      UIConstants.lightColors[index],
-                      UIConstants.lightColors[index].withOpacity(0.5),
-                      UIConstants.lightColors[index].withOpacity(0.3),
+                      UIConstants.lightColors[index].withOpacity(0.1),
+                      Colors.transparent,
                     ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
                 ),
-                child: MyAppSpace(
-                  size: size,
-                  title: widget.course.cname!,
-                ),
-              ),
-            ),
-            SliverToBoxAdapter(
-                child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    UIConstants.lightColors[index].withOpacity(0.1),
-                    Colors.transparent,
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
-              ),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: size.height * 0.02,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SortBar(
-                      size: size,
-                      unitView: unitView,
-                      ref: ref,
-                      sortAlphabetical: sortedAlphabetical,
-                      viewCallback: (val) {
-                        setState(() {
-                          unitView = val;
-                        });
-                      },
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: size.height * 0.02,
                     ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.03,
-                  ),
-                  (unitView)
-                      ? Column(
-                          children: [
-                            UnitExpansionTile(
-                                unit0notesList, user, size, 'Miscellaneous'),
-                            UnitExpansionTile(
-                                unit1notesList, user, size, 'Unit 1'),
-                            UnitExpansionTile(
-                                unit2notesList, user, size, 'Unit 2'),
-                            UnitExpansionTile(
-                                unit3notesList, user, size, 'Unit 3'),
-                            UnitExpansionTile(
-                                unit4notesList, user, size, 'Unit 4'),
-                            UnitExpansionTile(
-                                unit5notesList, user, size, 'Unit 5'),
-                          ],
-                        )
-                      : Container(),
-                  (!unitView)
-                      ? ListView.builder(
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: notesList.length,
-                          shrinkWrap: true,
-                          itemBuilder: (context, index) {
-                            if (sortedAlphabetical) {
-                              notesList
-                                  .sort((a, b) => a.name!.compareTo(b.name!));
-                            } else {
-                              notesList.sort((a, b) =>
-                                  b.createdAt!.compareTo(a.createdAt!));
-                            }
-                            return NotesView(notesList, index, user, size);
-                          },
-                        )
-                      : Container(),
-                  SizedBox(
-                    height: size.height * 0.1,
-                  )
-                ],
-              ),
-            ))
-          ],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SortBar(
+                        size: size,
+                        unitView: unitView,
+                        ref: ref,
+                        sortAlphabetical: sortedAlphabetical,
+                        viewCallback: (val) {
+                          setState(() {
+                            unitView = val;
+                          });
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: size.height * 0.03,
+                    ),
+                    (unitView)
+                        ? Column(
+                            children: [
+                              UnitExpansionTile(
+                                  unit0notesList, user, size, 'Miscellaneous'),
+                              UnitExpansionTile(
+                                  unit1notesList, user, size, 'Unit 1'),
+                              UnitExpansionTile(
+                                  unit2notesList, user, size, 'Unit 2'),
+                              UnitExpansionTile(
+                                  unit3notesList, user, size, 'Unit 3'),
+                              UnitExpansionTile(
+                                  unit4notesList, user, size, 'Unit 4'),
+                              UnitExpansionTile(
+                                  unit5notesList, user, size, 'Unit 5'),
+                            ],
+                          )
+                        : Container(),
+                    (!unitView)
+                        ? ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: notesList.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              if (sortedAlphabetical) {
+                                notesList
+                                    .sort((a, b) => a.name!.compareTo(b.name!));
+                              } else {
+                                notesList.sort((a, b) =>
+                                    b.createdAt!.compareTo(a.createdAt!));
+                              }
+                              return NotesView(notesList, index, user, size);
+                            },
+                          )
+                        : Container(),
+                    SizedBox(
+                      height: size.height * 0.1,
+                    )
+                  ],
+                ),
+              ))
+            ],
+          ),
         ),
       ),
     );

@@ -51,125 +51,128 @@ class _BookmarksPageState extends ConsumerState<BookmarksView> {
     }
     return (user == null)
         ? const Loader()
-        : SafeArea(
-            child: Scaffold(
-              key: _key,
-              drawer: SideDrawer(
-                size: size,
-                ref: ref,
-              ),
-              body: Container(
-                margin: EdgeInsets.only(top: size.height * 0.03),
-                child: CustomScrollView(
-                  // physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  slivers: [
-                    SliverAppBar(
-                      automaticallyImplyLeading: false,
-                      elevation: 0,
-                      title: Row(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              _key.currentState!.openDrawer();
-                            },
-                            child: Container(
-                              width: size.width * 0.09,
-                              height: size.width * 0.09,
-                              decoration: BoxDecoration(
-                                color: Pallete.whiteColor,
-                                image: DecorationImage(
-                                  image: NetworkImage(user.photoUrl!),
-                                  fit: BoxFit.cover,
-                                ),
-                                borderRadius: BorderRadius.circular(100),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 18),
-                          Text(
-                            'Your bookmarks',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w900, fontSize: 24),
-                          ),
-                        ],
-                      ),
-                      actions: [
-                        IconButton(
-                          icon: const Icon(OctIcons.search_16),
-                          onPressed: () {
-                            Navigator.push(
-                                context, BookmarksSearchPage.route());
-                          },
-                        )
-                      ],
-                    ),
-                    SliverPersistentHeader(
-                      pinned: true,
-                      delegate: _StickyHeaderDelegate(
-                        minHeight: 60,
-                        maxHeight: 60,
-                        child: Container(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 8),
-                            child: Row(
-                              children: const [
-                                SectionChip(
-                                  label: 'Notes',
-                                  textColor: Pallete.blackColor,
-                                  backgroundColor: Pallete.whiteColor,
-                                ),
-                                SizedBox(width: 8),
-                                // SectionChip(
-                                //   label: 'Recently accessed',
-                                // ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: SingleChildScrollView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+        : Container(
+          color: Pallete.backgroundColor,
+          child: SafeArea(
+              child: Scaffold(
+                key: _key,
+                drawer: SideDrawer(
+                  size: size,
+                  ref: ref,
+                ),
+                body: Container(
+                  margin: EdgeInsets.only(top: size.height * 0.03),
+                  child: CustomScrollView(
+                    // physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    slivers: [
+                      SliverAppBar(
+                        automaticallyImplyLeading: false,
+                        elevation: 0,
+                        title: Row(
                           children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: size.width * 0.05,
-                                  left: size.width * 0.05,
-                                  right: size.width * 0.05),
-                              child: GridView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  childAspectRatio: (size.width / 190 / 2.4),
-                                  mainAxisSpacing: 5,
-                                ),
-                                itemCount: bookmarks.length,
-                                itemBuilder: (context, index) => NotesPreview(
-                                  size: size,
-                                  notes: bookmarks[index],
+                            InkWell(
+                              onTap: () {
+                                _key.currentState!.openDrawer();
+                              },
+                              child: Container(
+                                width: size.width * 0.09,
+                                height: size.width * 0.09,
+                                decoration: BoxDecoration(
+                                  color: Pallete.whiteColor,
+                                  image: DecorationImage(
+                                    image: NetworkImage(user.photoUrl!),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  borderRadius: BorderRadius.circular(100),
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              height: size.height * 0.15,
-                            )
+                            const SizedBox(width: 18),
+                            Text(
+                              'Your bookmarks',
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w900, fontSize: 24),
+                            ),
                           ],
                         ),
+                        actions: [
+                          IconButton(
+                            icon: const Icon(OctIcons.search_16),
+                            onPressed: () {
+                              Navigator.push(
+                                  context, BookmarksSearchPage.route());
+                            },
+                          )
+                        ],
                       ),
-                    )
-                  ],
+                      SliverPersistentHeader(
+                        pinned: true,
+                        delegate: _StickyHeaderDelegate(
+                          minHeight: 60,
+                          maxHeight: 60,
+                          child: Container(
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
+                              child: Row(
+                                children: const [
+                                  SectionChip(
+                                    label: 'Notes',
+                                    textColor: Pallete.blackColor,
+                                    backgroundColor: Pallete.whiteColor,
+                                  ),
+                                  SizedBox(width: 8),
+                                  // SectionChip(
+                                  //   label: 'Recently accessed',
+                                  // ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SliverToBoxAdapter(
+                        child: SingleChildScrollView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    top: size.width * 0.05,
+                                    left: size.width * 0.05,
+                                    right: size.width * 0.05),
+                                child: GridView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: (size.width / 190 / 2.4),
+                                    mainAxisSpacing: 5,
+                                  ),
+                                  itemCount: bookmarks.length,
+                                  itemBuilder: (context, index) => NotesPreview(
+                                    size: size,
+                                    notes: bookmarks[index],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: size.height * 0.15,
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-          );
+        );
   }
 }
 

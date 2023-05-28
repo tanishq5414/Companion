@@ -55,59 +55,64 @@ class _RecentlyAccessedPageState extends ConsumerState<RecentlyAccessedView> {
     }
 
     List<NotesModal> recentlyAccessed = getRecentlyAccessed();
-    return Scaffold(
-        appBar: CustomAppBar(
-          title: "Recently accessed",
-        ),
-        body: (user!.recentlyAccessed!.isNotEmpty)
-            ? SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: size.height * 0.02,
+    return Container(
+      color: Pallete.backgroundColor,
+      child: SafeArea(
+        child: Scaffold(
+            appBar: CustomAppBar(
+              title: "Recently accessed",
+            ),
+            body: (user!.recentlyAccessed!.isNotEmpty)
+                ? SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: size.height * 0.02,
+                        ),
+                        Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: size.width * 0.02),
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: recentlyaccessed.length,
+                              itemBuilder: (context, index) {
+                                recentlyAccessed;
+                                NotesModal note = recentlyAccessed[index];
+                                return ZoomTapAnimation(
+                                  child: ListTile(
+                                    trailing: Text(
+                                      note.unit.toString() + " Unit",
+                                      style: const TextStyle(
+                                          color: Pallete.lightGreyColor),
+                                    ),
+                                    onTap: () {
+                                      Navigator.push(
+                                          context, NotesPdfView.route(notes: note));
+                                    },
+                                    title: Text(
+                                      recentlyAccessed[index].name!,
+                                      style: const TextStyle(
+                                          color: Pallete.whiteColor),
+                                    ),
+                                    subtitle: Text(
+                                      recentlyAccessed[index].course!,
+                                      style: const TextStyle(
+                                          color: Pallete.whiteColor,
+                                          fontWeight: FontWeight.w300),
+                                    ),
+                                  ),
+                                );
+                              }),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: size.width * 0.02),
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: recentlyaccessed.length,
-                          itemBuilder: (context, index) {
-                            recentlyAccessed;
-                            NotesModal note = recentlyAccessed[index];
-                            return ZoomTapAnimation(
-                              child: ListTile(
-                                trailing: Text(
-                                  note.unit.toString() + " Unit",
-                                  style: const TextStyle(
-                                      color: Pallete.lightGreyColor),
-                                ),
-                                onTap: () {
-                                  Navigator.push(
-                                      context, NotesPdfView.route(notes: note));
-                                },
-                                title: Text(
-                                  recentlyAccessed[index].name!,
-                                  style: const TextStyle(
-                                      color: Pallete.whiteColor),
-                                ),
-                                subtitle: Text(
-                                  recentlyAccessed[index].course!,
-                                  style: const TextStyle(
-                                      color: Pallete.whiteColor,
-                                      fontWeight: FontWeight.w300),
-                                ),
-                              ),
-                            );
-                          }),
-                    ),
-                  ],
-                ),
-              )
-            : const Center(
-                child: Text("No recently accessed items"),
-              ));
+                  )
+                : const Center(
+                    child: Text("No recently accessed items"),
+                  )),
+      ),
+    );
   }
 }

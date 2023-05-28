@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:companion/theme/pallete.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -75,44 +76,49 @@ class _BookState extends State<Book> {
 
 @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Syncfusion Flutter PDF Viewer'),
-      ),
-      body: percentage == 100
-          ? FutureBuilder(
-          future: Future.delayed(Duration(milliseconds: 200)).then((value) {
-            _canShowPdf = true;
-          }),
-          builder: (context, snapshot) {
-            if (_canShowPdf) {
-              return  SfPdfViewer.file(
-                File(tempPath),
-              );
-            } else {
-              return Container();
-            }
-          })
-          : Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: EdgeInsets.all(10),
-              child: LinearProgressIndicator(
-                backgroundColor: Colors.white,
-                value: percentage.toDouble() / 100,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
-              ),
+    return Container(
+      color: Pallete.backgroundColor,
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text('Syncfusion Flutter PDF Viewer'),
+          ),
+          body: percentage == 100
+              ? FutureBuilder(
+              future: Future.delayed(Duration(milliseconds: 200)).then((value) {
+                _canShowPdf = true;
+              }),
+              builder: (context, snapshot) {
+                if (_canShowPdf) {
+                  return  SfPdfViewer.file(
+                    File(tempPath),
+                  );
+                } else {
+                  return Container();
+                }
+              })
+              : Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: LinearProgressIndicator(
+                    backgroundColor: Colors.white,
+                    value: percentage.toDouble() / 100,
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
+                  ),
+                ),
+                Text(
+                  (percentage.toDouble()).toString() + " %",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
+                ),
+                Text("Please wait file downloading",
+                    style:
+                    TextStyle(fontWeight: FontWeight.bold, fontSize: 23))
+              ],
             ),
-            Text(
-              (percentage.toDouble()).toString() + " %",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23),
-            ),
-            Text("Please wait file downloading",
-                style:
-                TextStyle(fontWeight: FontWeight.bold, fontSize: 23))
-          ],
+          ),
         ),
       ),
     );

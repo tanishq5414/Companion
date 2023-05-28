@@ -92,67 +92,70 @@ class _SearchState extends ConsumerState<BookmarksSearchPage> {
     }
 
     getBookmarks();
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 30),
-        child: Scaffold(
-          appBar: AppBar(
-            leading: ZoomTapAnimation(
-              child: IconButton(
-                  icon: const Icon(
-                    OctIcons.arrow_left_16,
-                    size: 15,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  }),
-            ),
-            elevation: 0,
-            backgroundColor: Pallete.backgroundColor,
-            title: Container(
-              height: 30,
-              decoration: BoxDecoration(
-                  color: Colors.grey[800],
-                  borderRadius: BorderRadius.circular(2)),
-              child: TextField(
-                autofocus: true,
-                style: const TextStyle(color: Pallete.whiteColor),
-                onChanged: (value) => onSearch(value.toLowerCase()),
-                decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.grey[800],
-                    contentPadding: const EdgeInsets.all(0),
-                    prefixIcon: const Icon(
-                      OctIcons.search_16,
-                      size: 20,
-                      color: Pallete.whiteColor,
+    return Container(
+      color: Pallete.backgroundColor,
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 30),
+          child: Scaffold(
+            appBar: AppBar(
+              leading: ZoomTapAnimation(
+                child: IconButton(
+                    icon: const Icon(
+                      OctIcons.arrow_left_16,
+                      size: 15,
                     ),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide.none),
-                    hintStyle: const TextStyle(
-                        fontSize: 14, color: Pallete.whiteColor),
-                    hintText: "Search in your library"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    }),
+              ),
+              elevation: 0,
+              backgroundColor: Pallete.backgroundColor,
+              title: Container(
+                height: 30,
+                decoration: BoxDecoration(
+                    color: Colors.grey[800],
+                    borderRadius: BorderRadius.circular(2)),
+                child: TextField(
+                  autofocus: true,
+                  style: const TextStyle(color: Pallete.whiteColor),
+                  onChanged: (value) => onSearch(value.toLowerCase()),
+                  decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.grey[800],
+                      contentPadding: const EdgeInsets.all(0),
+                      prefixIcon: const Icon(
+                        OctIcons.search_16,
+                        size: 20,
+                        color: Pallete.whiteColor,
+                      ),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide.none),
+                      hintStyle: const TextStyle(
+                          fontSize: 14, color: Pallete.whiteColor),
+                      hintText: "Search in your library"),
+                ),
               ),
             ),
-          ),
-          body: Container(
-            margin: EdgeInsets.only(top: size.width * 0.05),
-            color: Pallete.backgroundColor,
-            child: foundedNotes.length > 0
-                ? ListView.builder(
-                    itemCount:
-                        foundedNotes.length > 15 ? 15 : foundedNotes.length,
-                    itemBuilder: (context, index) {
-                      return notesComponent(notes: foundedNotes[index]);
-                    })
-                : const Center(
-                    child: Text(
-                    "No notes found",
-                    style: TextStyle(
-                      color: Pallete.whiteColor,
-                    ),
-                  )),
+            body: Container(
+              margin: EdgeInsets.only(top: size.width * 0.05),
+              color: Pallete.backgroundColor,
+              child: foundedNotes.length > 0
+                  ? ListView.builder(
+                      itemCount:
+                          foundedNotes.length > 15 ? 15 : foundedNotes.length,
+                      itemBuilder: (context, index) {
+                        return notesComponent(notes: foundedNotes[index]);
+                      })
+                  : const Center(
+                      child: Text(
+                      "No notes found",
+                      style: TextStyle(
+                        color: Pallete.whiteColor,
+                      ),
+                    )),
+            ),
           ),
         ),
       ),

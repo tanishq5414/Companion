@@ -41,186 +41,189 @@ class _HomeViewState extends ConsumerState<HomeView> {
     final trendingWeekly = ref.watch(trendingNotesWeeklyProvider);
     return (user == null)
         ? const Loader()
-        : SafeArea(
-            child: Scaffold(
-              key: _key,
-              drawer: SideDrawer(
-                size: size,
-                ref: ref,
-              ),
-              body: Container(
-                margin: EdgeInsets.only(top: size.height * 0.03),
-                child: CustomScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  slivers: [
-                    SliverAppBar(
-                      automaticallyImplyLeading: false,
-                      elevation: 0,
-                      title: Row(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              _key.currentState!.openDrawer();
-                            },
-                            child: Container(
-                              width: size.width * 0.09,
-                              height: size.width * 0.09,
-                              decoration: BoxDecoration(
-                                color: Pallete.whiteColor,
-                                image: DecorationImage(
-                                  image: NetworkImage(user.photoUrl!),
-                                  fit: BoxFit.cover,
+        : Container(
+            color: Pallete.backgroundColor,
+          child: SafeArea(
+              child: Scaffold(
+                key: _key,
+                drawer: SideDrawer(
+                  size: size,
+                  ref: ref,
+                ),
+                body: Container(
+                  margin: EdgeInsets.only(top: size.height * 0.03),
+                  child: CustomScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    slivers: [
+                      SliverAppBar(
+                        automaticallyImplyLeading: false,
+                        elevation: 0,
+                        title: Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                _key.currentState!.openDrawer();
+                              },
+                              child: Container(
+                                width: size.width * 0.09,
+                                height: size.width * 0.09,
+                                decoration: BoxDecoration(
+                                  color: Pallete.whiteColor,
+                                  image: DecorationImage(
+                                    image: NetworkImage(user.photoUrl!),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  borderRadius: BorderRadius.circular(100),
                                 ),
-                                borderRadius: BorderRadius.circular(100),
                               ),
                             ),
-                          ),
-                          const SizedBox(width: 18),
-                          Text(
-                            'Good ${greeting()}',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w900, fontSize: 24),
-                          ),
+                            const SizedBox(width: 18),
+                            Text(
+                              'Good ${greeting()}',
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w900, fontSize: 24),
+                            ),
+                          ],
+                        ),
+                        actions: [
+                          IconButton(
+                            icon: const Icon(OctIcons.bell_16),
+                            onPressed: () {},
+                          )
                         ],
                       ),
-                      actions: [
-                        IconButton(
-                          icon: const Icon(OctIcons.bell_16),
-                          onPressed: () {},
-                        )
-                      ],
-                    ),
-                    SliverPersistentHeader(
-                      pinned: true,
-                      delegate: _StickyHeaderDelegate(
-                        minHeight: 60,
-                        maxHeight: 60,
-                        child: Container(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 8),
-                            child: Row(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context, CourseFilterView.route());
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Pallete.greyColor,
-                                      border:
-                                          Border.all(color: Colors.transparent),
-                                      borderRadius: BorderRadius.circular(100),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 8),
-                                      child: Row(
-                                        children: const [
-                                          Text(
-                                            'Courses',
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: Pallete.whiteColor,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                          const SizedBox(width: 8),
-                                          Icon(
-                                            OctIcons.pencil_24,
-                                            color: Pallete.whiteColor,
-                                            size: 12,
-                                          )
-                                        ],
+                      SliverPersistentHeader(
+                        pinned: true,
+                        delegate: _StickyHeaderDelegate(
+                          minHeight: 60,
+                          maxHeight: 60,
+                          child: Container(
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
+                              child: Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context, CourseFilterView.route());
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Pallete.greyColor,
+                                        border:
+                                            Border.all(color: Colors.transparent),
+                                        borderRadius: BorderRadius.circular(100),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16, vertical: 8),
+                                        child: Row(
+                                          children: const [
+                                            Text(
+                                              'Courses',
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Pallete.whiteColor,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                            const SizedBox(width: 8),
+                                            Icon(
+                                              OctIcons.pencil_24,
+                                              color: Pallete.whiteColor,
+                                              size: 12,
+                                            )
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                const SizedBox(width: 8),
-                                SectionChip(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context, RecentlyAccessedView.route());
-                                  },
-                                  label: 'Recently accessed',
-                                ),
-                              ],
+                                  const SizedBox(width: 8),
+                                  SectionChip(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context, RecentlyAccessedView.route());
+                                    },
+                                    label: 'Recently accessed',
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: SingleChildScrollView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 12),
-                              child: courseBuilder(size, context, ref),
-                            ),
-                            const SizedBox(height: 28),
-                            const Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 12),
-                              child: Text(
-                                'Trending today',
-                                style: TextStyle(
-                                    color: Pallete.whiteColor,
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 25),
+                      SliverToBoxAdapter(
+                        child: SingleChildScrollView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 12),
+                                child: courseBuilder(size, context, ref),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 13),
-                              child: notesBuilder(size, trendingDaily!),
-                            ),
-                            const SizedBox(height: 28),
-                            const Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 12),
-                              child: Text(
-                                'Latest notes',
-                                style: TextStyle(
-                                    color: Pallete.whiteColor,
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 25),
+                              const SizedBox(height: 28),
+                              const Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 12),
+                                child: Text(
+                                  'Trending today',
+                                  style: TextStyle(
+                                      color: Pallete.whiteColor,
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 25),
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 13),
-                              child: notesBuilder(size, notesData),
-                            ),
-                            const SizedBox(height: 28),
-                            const Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 12),
-                              child: Text(
-                                'Trending this week',
-                                style: TextStyle(
-                                    color: Pallete.whiteColor,
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 25),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 13),
+                                child: notesBuilder(size, trendingDaily!),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 13),
-                              child: notesBuilder(size, trendingWeekly!),
-                            ),
-                            SizedBox(height: size.height * 0.12),
-                          ],
+                              const SizedBox(height: 28),
+                              const Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 12),
+                                child: Text(
+                                  'Latest notes',
+                                  style: TextStyle(
+                                      color: Pallete.whiteColor,
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 25),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 13),
+                                child: notesBuilder(size, notesData),
+                              ),
+                              const SizedBox(height: 28),
+                              const Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 12),
+                                child: Text(
+                                  'Trending this week',
+                                  style: TextStyle(
+                                      color: Pallete.whiteColor,
+                                      fontWeight: FontWeight.w900,
+                                      fontSize: 25),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 13),
+                                child: notesBuilder(size, trendingWeekly!),
+                              ),
+                              SizedBox(height: size.height * 0.12),
+                            ],
+                          ),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-          );
+        );
   }
 }
 

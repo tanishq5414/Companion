@@ -12,43 +12,48 @@ class AboutLightHeads extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return Scaffold(
-        appBar: CustomAppBar(title: 'About LightHeads'),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Image(image: AssetImage('assets/logo/lightheads.png')),
-              Text(
-                'LightHeads',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Pallete.whiteColor,
-                ),
+    return Container(
+      color: Pallete.backgroundColor,
+      child: SafeArea(
+        child: Scaffold(
+            appBar: CustomAppBar(title: 'About LightHeads'),
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Image(image: AssetImage('assets/logo/lightheads.png')),
+                  Text(
+                    'LightHeads',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Pallete.whiteColor,
+                    ),
+                  ),
+                  Text(
+                    'lightheads.org',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Pallete.whiteColor,
+                    ),
+                  ),
+                  SizedBox(height: size.height * 0.05),
+                  Text(
+                    'Join us',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Pallete.whiteColor,
+                    ),
+                  ),
+                  Text(
+                    'contact@lightheads.org',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Pallete.whiteColor,
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                'lightheads.org',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Pallete.whiteColor,
-                ),
-              ),
-              SizedBox(height: size.height * 0.05),
-              Text(
-                'Join us',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Pallete.whiteColor,
-                ),
-              ),
-              Text(
-                'contact@lightheads.org',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Pallete.whiteColor,
-                ),
-              ),
-            ],
-          ),
-        ));
+            )),
+      ),
+    );
   }
 }

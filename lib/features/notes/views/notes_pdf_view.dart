@@ -94,58 +94,63 @@ class _NotesPdfViewState extends State<NotesPdfView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          widget.notes.name!,
-          style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
+    return Container(
+      color: Pallete.backgroundColor,
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text(
+              widget.notes.name!,
+              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
+            ),
+          ),
+          body: percentage == 100
+              ? FutureBuilder(
+                  future: Future.delayed(Duration(milliseconds: 200)).then((value) {
+                    _canShowPdf = true;
+                  }),
+                  builder: (context, snapshot) {
+                    if (_canShowPdf) {
+                      return SfPdfViewer.file(
+                        File(tempPath),
+                        onDocumentLoadFailed: (details) {
+                          filereDownload();
+                        },
+                      );
+                    } else {
+                      return Container();
+                    }
+                  })
+              : Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        child: LinearProgressIndicator(
+                          backgroundColor: Pallete.greyColor,
+                          value: percentage.toDouble() / 100,
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                        ),
+                      ),
+                      Text(
+                        (percentage.toDouble()).toString() + " %",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 23,
+                            color: Colors.white),
+                      ),
+                      Text("Please wait file downloading",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 23,
+                              color: Colors.white))
+                    ],
+                  ),
+                ),
         ),
       ),
-      body: percentage == 100
-          ? FutureBuilder(
-              future: Future.delayed(Duration(milliseconds: 200)).then((value) {
-                _canShowPdf = true;
-              }),
-              builder: (context, snapshot) {
-                if (_canShowPdf) {
-                  return SfPdfViewer.file(
-                    File(tempPath),
-                    onDocumentLoadFailed: (details) {
-                      filereDownload();
-                    },
-                  );
-                } else {
-                  return Container();
-                }
-              })
-          : Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    child: LinearProgressIndicator(
-                      backgroundColor: Pallete.greyColor,
-                      value: percentage.toDouble() / 100,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    ),
-                  ),
-                  Text(
-                    (percentage.toDouble()).toString() + " %",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 23,
-                        color: Colors.white),
-                  ),
-                  Text("Please wait file downloading",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 23,
-                          color: Colors.white))
-                ],
-              ),
-            ),
     );
   }
 }

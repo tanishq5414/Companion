@@ -1,3 +1,4 @@
+import 'package:companion/theme/pallete.dart';
 import 'package:flutter/material.dart';
 
 class ErrorText extends StatelessWidget {
@@ -16,6 +17,8 @@ class ErrorPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text(error)));
+    return Container(
+        color: Pallete.backgroundColor,
+        child: SafeArea(child: Scaffold(body: Center(child: Text(error)))));
   }
 }
