@@ -1,21 +1,40 @@
 class AdvertismentModal {
   String? photoUrl;
-  String? redirectLink;
   String? size;
+  String? title;
+  String? subititle;
+  String? description;
+  String? redirectUrl;
+  bool? display;
 
-  AdvertismentModal({this.photoUrl, this.redirectLink, this.size});
+  AdvertismentModal(
+      {this.photoUrl,
+      this.size,
+      this.title,
+      this.subititle,
+      this.description,
+      this.redirectUrl,
+      this.display});
 
   AdvertismentModal.fromJson(Map<String, dynamic> json) {
     photoUrl = json['photoUrl'];
-    redirectLink = json['redirectLink'];
     size = json['size'];
+    title = json['title'];
+    subititle = json['subititle'];
+    description = json['description'];
+    redirectUrl = json['redirectUrl'];
+    display = json['display'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['photoUrl'] = this.photoUrl;
-    data['redirectLink'] = this.redirectLink;
     data['size'] = this.size;
+    data['title'] = this.title;
+    data['subititle'] = this.subititle;
+    data['description'] = this.description;
+    data['redirectUrl'] = this.redirectUrl;
+    data['display'] = this.display;
     return data;
   }
 }

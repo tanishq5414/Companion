@@ -2,6 +2,7 @@
 // ignore_for_file: unused_import
 
 import 'package:companion/common/common.dart';
+import 'package:companion/features/advertisment/widgets/advertisment_builder.dart';
 import 'package:companion/features/home/widgets/side_drawer.dart';
 import 'package:companion/features/notes/controller/notes_controller.dart';
 import 'package:companion/features/search/views/search_redirectpage.dart';
@@ -73,6 +74,7 @@ class _SearchPageState extends ConsumerState<SearchView> {
                   ),
                 ),
                 body: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
                   child: Padding(
                     padding: EdgeInsets.only(
                         left: size.width * 0.02, right: size.width * 0.02),
@@ -81,12 +83,11 @@ class _SearchPageState extends ConsumerState<SearchView> {
                         SizedBox(height: size.height * 0.05),
                         const SearchBar(),
                         SizedBox(height: size.height * 0.05),
-                        // Padding(
-                        //   padding: EdgeInsets.all(size.width * 0.05),
-                        //   child: advertismentBuilder(size, context, ref),
-                        // ),
-
-                        // SearchResults(),
+                        Container(
+                            margin: EdgeInsets.symmetric(horizontal: size.height * 0.03),
+                            child: advertismentBuilder(
+                                size, context, ref, "search")),
+                        SizedBox(height: size.height * 0.15),
                       ],
                     ),
                   ),

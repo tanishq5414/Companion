@@ -115,5 +115,6 @@ class NotesController extends StateNotifier<bool> {
 
     var trendingData = convertToList(a);
     await _notesAPI.addTrendingData(trendingData: trendingData);
+    trendingBox.deleteAll(trendingBox.keys);
   }
 }

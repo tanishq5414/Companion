@@ -1,3 +1,4 @@
+import 'package:companion/features/advertisment/controller/advertisment_controller.dart';
 import 'package:companion/features/courses/controller/courses_controller.dart';
 import 'package:companion/features/hive/boxes.dart';
 import 'package:companion/features/home/views/home_view.dart';
@@ -45,6 +46,7 @@ class _NavViewState extends ConsumerState<NavView> {
         ref.read(coursesControllerProvider.notifier).getCourses(context);
         ref.read(notesControllerProvider.notifier).getTrendingNotes(context);
         ref.read(notesControllerProvider.notifier).addDataForTrendingNotes();
+        ref.read(advertisementControllerProvider.notifier).getAdvertisements(context);
       });
 
       getUserData();

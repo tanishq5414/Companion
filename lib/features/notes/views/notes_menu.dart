@@ -1,3 +1,4 @@
+import 'package:companion/features/notes/views/notes_info_view.dart';
 import 'package:companion/features/notes/widgets/notes_preview.dart';
 import 'package:companion/features/user/controller/user_controller.dart';
 import 'package:companion/modal/notes.modal.dart';
@@ -100,8 +101,29 @@ class _NotesMenuState extends ConsumerState<NotesMenu> {
                             style: TextStyle(color: Pallete.whiteColor)),
                       ),
                       onTap: () {
-                        // Routemaster.of(context)
-                        //     .push('/notesinfo', queryParameters: notes);
+                        Navigator.pop(context);
+                        Navigator.of(context).push(
+                          PageRouteBuilder(
+                            opaque: false, // set to false
+                            pageBuilder: (_, __, ___) => NotesInfoView(
+                              notes: widget.notes,
+                            ),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              const begin = Offset(0.0, 1.0);
+                              const end = Offset.zero;
+                              const curve = Curves.ease;
+
+                              var tween = Tween(begin: begin, end: end)
+                                  .chain(CurveTween(curve: curve));
+
+                              return SlideTransition(
+                                position: animation.drive(tween),
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
                       },
                     ),
                     ListTile(

@@ -2,7 +2,7 @@ import 'package:companion/common/flexible_space_appbar.dart';
 import 'package:companion/common/sectionchip.dart';
 import 'package:companion/constants/constants.dart';
 import 'package:companion/features/notes/controller/notes_controller.dart';
-import 'package:companion/features/notes/views/notes_details_view.dart';
+import 'package:companion/features/notes/views/notes_menu.dart';
 import 'package:companion/features/notes/widgets/notes_preview.dart';
 import 'package:companion/features/user/controller/user_controller.dart';
 import 'package:companion/modal/courses.modal.dart';

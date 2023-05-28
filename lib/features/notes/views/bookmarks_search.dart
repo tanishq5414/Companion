@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import, prefer_is_empty
 
+import 'package:companion/features/hive/boxes.dart';
 import 'package:companion/features/notes/controller/notes_controller.dart';
 import 'package:companion/features/notes/views/notes_pdf_view.dart';
 import 'package:companion/features/user/controller/user_controller.dart';
@@ -165,6 +166,9 @@ class _SearchState extends ConsumerState<BookmarksSearchPage> {
   notesComponent({required NotesModal notes}) {
     return InkWell(
       onTap: () {
+        recentlyAccessedBox.add(
+            [notes.fileId!, DateTime.now().millisecondsSinceEpoch.toString()]);
+        trendingBox.add(notes.fileId!);
         Navigator.push(context, NotesPdfView.route(notes: notes));
       },
       child: Container(

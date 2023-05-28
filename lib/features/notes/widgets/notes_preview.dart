@@ -1,6 +1,6 @@
 import 'package:companion/constants/constants.dart';
 import 'package:companion/features/hive/boxes.dart';
-import 'package:companion/features/notes/views/notes_details_view.dart';
+import 'package:companion/features/notes/views/notes_menu.dart';
 import 'package:companion/features/notes/views/notes_pdf_view.dart';
 import 'package:companion/modal/notes.modal.dart';
 import 'package:companion/theme/pallete.dart';

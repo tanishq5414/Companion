@@ -88,6 +88,12 @@ class _RecentlyAccessedPageState extends ConsumerState<RecentlyAccessedView> {
                                           color: Pallete.lightGreyColor),
                                     ),
                                     onTap: () {
+                                      recentlyAccessedBox.add([
+                                        note.fileId!,
+                                        DateTime.now()
+                                            .millisecondsSinceEpoch
+                                            .toString()
+                                      ]);
                                       Navigator.push(
                                           context, NotesPdfView.route(notes: note));
                                     },

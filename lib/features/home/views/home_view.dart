@@ -1,12 +1,12 @@
 import 'package:companion/common/common.dart';
 import 'package:companion/common/sectionchip.dart';
+import 'package:companion/features/advertisment/widgets/advertisment_builder.dart';
 import 'package:companion/features/courses/views/course_filter.dart';
 import 'package:companion/features/courses/widgets/course_builder_view.dart';
 import 'package:companion/features/notes/controller/notes_controller.dart';
 import 'package:companion/features/notes/views/recently_accessed_view.dart';
 import 'package:companion/features/notes/widgets/notes_builder_view.dart';
 import 'package:companion/features/home/widgets/side_drawer.dart';
-import 'package:companion/features/notification/views/notifications_view.dart';
 import 'package:companion/features/user/controller/user_controller.dart';
 import 'package:companion/theme/pallete.dart';
 import 'package:flutter/material.dart';
@@ -37,14 +37,14 @@ class _HomeViewState extends ConsumerState<HomeView> {
   Widget build(BuildContext context) {
     final user = ref.watch(userDataProvider);
     final size = MediaQuery.of(context).size;
-    final notesData = ref.watch(notesDataProvider)??[];
+    final notesData = ref.watch(notesDataProvider) ?? [];
     final trendingDaily = ref.watch(trendingNotesDailyProvider);
     final trendingWeekly = ref.watch(trendingNotesWeeklyProvider);
     return (user == null)
         ? const Loader()
         : Container(
             color: Pallete.backgroundColor,
-          child: SafeArea(
+            child: SafeArea(
               child: Scaffold(
                 key: _key,
                 drawer: SideDrawer(
@@ -114,9 +114,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                     child: Container(
                                       decoration: BoxDecoration(
                                         color: Pallete.greyColor,
-                                        border:
-                                            Border.all(color: Colors.transparent),
-                                        borderRadius: BorderRadius.circular(100),
+                                        border: Border.all(
+                                            color: Colors.transparent),
+                                        borderRadius:
+                                            BorderRadius.circular(100),
                                       ),
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
@@ -144,8 +145,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                   const SizedBox(width: 8),
                                   SectionChip(
                                     onTap: () {
-                                      Navigator.push(
-                                          context, RecentlyAccessedView.route());
+                                      Navigator.push(context,
+                                          RecentlyAccessedView.route());
                                     },
                                     label: 'Recently accessed',
                                   ),
@@ -166,6 +167,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                     const EdgeInsets.symmetric(horizontal: 12),
                                 child: courseBuilder(size, context, ref),
                               ),
+                              const SizedBox(height: 28),
+                              // advertismentSmallBuilder(size),
+                              advertismentBuilder(size, context, ref, "home"),
                               const SizedBox(height: 28),
                               const Padding(
                                 padding:
@@ -224,7 +228,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                 ),
               ),
             ),
-        );
+          );
   }
 }
 

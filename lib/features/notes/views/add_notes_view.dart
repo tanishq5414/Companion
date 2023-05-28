@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:companion/common/app_bar.dart';
 import 'package:companion/common/common.dart';
 import 'package:companion/constants/constants.dart';
 import 'package:companion/features/courses/controller/courses_controller.dart';
