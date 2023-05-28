@@ -115,6 +115,7 @@ class _AddNotesViewState extends ConsumerState<AddNotesView> {
         body: (Loading)
             ? const Loader()
             : SingleChildScrollView(
+
                 physics: const BouncingScrollPhysics(),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),

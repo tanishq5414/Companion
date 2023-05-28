@@ -6,7 +6,6 @@ import 'package:flutter_octicons/flutter_octicons.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-
   final title;
   final List<Widget>? actions;
   CustomAppBar({Key? key, required this.title, this.actions}) : super(key: key);
@@ -17,7 +16,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Pallete.greyColor,
-      elevation: 10,
+      elevation: 0,
       leading: ZoomTapAnimation(
         child: IconButton(
             icon: const Icon(

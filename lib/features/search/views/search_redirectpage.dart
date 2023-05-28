@@ -54,76 +54,80 @@ class _SearchState extends ConsumerState<MainSearchPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 30),
-        child: Scaffold(
-          appBar: AppBar(
-            leading: ZoomTapAnimation(
-                child: IconButton(
-                    icon: const Icon(
-                      OctIcons.arrow_left_16,
-                      size: 25,
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    })),
-            elevation: 0,
-            backgroundColor: Pallete.backgroundColor,
-            title: Container(
-              height: 50,
-              decoration: BoxDecoration(
+    return Container(
+      color: Pallete.backgroundColor,
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 30),
+          child: Scaffold(
+            appBar: AppBar(
+              leading: ZoomTapAnimation(
+                  child: IconButton(
+                      icon: const Icon(
+                        OctIcons.arrow_left_16,
+                        size: 25,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      })),
+              elevation: 0,
+              backgroundColor: Pallete.backgroundColor,
+              title: Container(
+                height: 50,
+                decoration: BoxDecoration(
                   color: Pallete.whiteColor,
-                  borderRadius: BorderRadius.circular(2)),
-              child: TextField(
-                autofocus: true,
-                style: const TextStyle(color: Pallete.blackColor),
-                onChanged: (value) => onSearch(value.toLowerCase()),
-                decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Pallete.whiteColor,
-                    contentPadding: const EdgeInsets.all(0),
-                    prefixIcon: const Icon(
-                      OctIcons.search_16,
-                      size: 20,
-                      color: Pallete.greyColor,
-                    ),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide.none),
-                    hintStyle:
-                        const TextStyle(fontSize: 14, color: Pallete.greyColor),
-                    hintText: "Search notes, courses, etc..."),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: TextField(
+                  autofocus: true,
+                  style: const TextStyle(color: Pallete.blackColor),
+                  onChanged: (value) => onSearch(value.toLowerCase()),
+                  decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Pallete.whiteColor,
+                      contentPadding: const EdgeInsets.all(0),
+                      prefixIcon: const Icon(
+                        OctIcons.search_24,
+                        size: 20,
+                        color: Pallete.greyColor,
+                      ),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(100),
+                          borderSide: BorderSide.none),
+                      hintStyle: const TextStyle(
+                          fontSize: 14, color: Pallete.greyColor),
+                      hintText: "Search notes, courses, user, etc..."),
+                ),
               ),
             ),
-          ),
-          body: Container(
-            margin: EdgeInsets.only(top: size.width * 0.05),
-            color: Pallete.backgroundColor,
-            child: foundedNotes.length > 0
-                ? ListView.builder(
-                    itemCount:
-                        foundedNotes.length > 15 ? 15 : foundedNotes.length,
-                    itemBuilder: (context, index) {
-                      return notesComponent(notes: foundedNotes[index]);
-                    })
-                : Center(
-                    child: (editingController.value.text.isNotEmpty)
-                        ? const Text(
-                            'No result found',
-                            style: TextStyle(
-                                color: Pallete.whiteColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal),
-                          )
-                        : const Text(
-                            'Try Searching Something...',
-                            style: TextStyle(
-                                color: Pallete.whiteColor,
-                                fontSize: 24,
-                                fontWeight: FontWeight.w900),
-                          ),
-                  ),
+            body: Container(
+              margin: EdgeInsets.only(top: size.width * 0.05),
+              color: Pallete.backgroundColor,
+              child: foundedNotes.length > 0
+                  ? ListView.builder(
+                      itemCount:
+                          foundedNotes.length > 15 ? 15 : foundedNotes.length,
+                      itemBuilder: (context, index) {
+                        return notesComponent(notes: foundedNotes[index]);
+                      })
+                  : Center(
+                      child: (editingController.value.text.isNotEmpty)
+                          ? const Text(
+                              'No result found',
+                              style: TextStyle(
+                                  color: Pallete.whiteColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal),
+                            )
+                          : const Text(
+                              'Try Searching Something...',
+                              style: TextStyle(
+                                  color: Pallete.whiteColor,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w900),
+                            ),
+                    ),
+            ),
           ),
         ),
       ),
@@ -133,15 +137,14 @@ class _SearchState extends ConsumerState<MainSearchPage> {
   notesComponent({required NotesModal notes}) {
     return InkWell(
       onTap: () {
-                Navigator.push(context, NotesPdfView.route(notes: notes));
-              },
+        Navigator.push(context, NotesPdfView.route(notes: notes));
+      },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20),
         padding: const EdgeInsets.only(top: 10, bottom: 10),
         child: Row(
           children: [
             ZoomTapAnimation(
-              
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

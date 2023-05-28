@@ -20,6 +20,8 @@ class SideDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userDataProvider);
+    //generate color from common colors from image
+
     return Drawer(
       backgroundColor: Pallete.greyColor,
       width: size.width * 0.85,
@@ -28,6 +30,7 @@ class SideDrawer extends StatelessWidget {
         padding:
             EdgeInsets.fromLTRB(size.width * 0.02, size.width * 0.03, 0, 0),
         children: [
+          SizedBox(height: size.width * 0.03),
           Row(
             children: [
               Container(
@@ -40,6 +43,10 @@ class SideDrawer extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.circular(100),
+                  border: Border.all(
+                    color: Pallete.whiteColor,
+                    width: 2,
+                  ),
                 ),
               ),
               SizedBox(width: size.width * 0.08),
@@ -83,13 +90,14 @@ class SideDrawer extends StatelessWidget {
               ),
             ],
           ),
+          SizedBox(height: size.height * 0.025),
           const Divider(color: Pallete.whiteColor),
           ListTile(
             onTap: () {
               Navigator.push(context, UserProfileView.route());
             },
             leading:
-                Icon(OctIcons.person_16, color: Pallete.whiteColor, size: 30),
+                Icon(OctIcons.person_24, color: Pallete.whiteColor, size: 30),
             title: Text('Profile',
                 style: TextStyle(
                     color: Pallete.whiteColor,
@@ -101,31 +109,33 @@ class SideDrawer extends StatelessWidget {
               Navigator.push(context, RecentlyAccessedView.route());
             },
             leading:
-                Icon(OctIcons.clock_16, color: Pallete.whiteColor, size: 30),
+                Icon(OctIcons.clock_24, color: Pallete.whiteColor, size: 30),
             title: Text('Recently accessed',
                 style: TextStyle(
                     color: Pallete.whiteColor,
                     fontSize: 18,
                     fontWeight: FontWeight.normal)),
           ),
-          (user.isAdmin!)?ListTile(
-            onTap: () {
-              Navigator.push(context, AddNotesView.route());
-            },
-            leading:
-                Icon(OctIcons.plus_circle_16, color: Pallete.whiteColor, size: 30),
-            title: Text('Add notes',
-                style: TextStyle(
-                    color: Pallete.whiteColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal)),
-          ):Container(),
+          (user.isAdmin!)
+              ? ListTile(
+                  onTap: () {
+                    Navigator.push(context, AddNotesView.route());
+                  },
+                  leading: Icon(OctIcons.plus_circle_24,
+                      color: Pallete.whiteColor, size: 30),
+                  title: Text('Add notes',
+                      style: TextStyle(
+                          color: Pallete.whiteColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.normal)),
+                )
+              : Container(),
           ListTile(
             onTap: () {
               Navigator.push(context, SettingsPage.route());
             },
             leading:
-                Icon(OctIcons.gear_16, color: Pallete.whiteColor, size: 30),
+                Icon(OctIcons.gear_24, color: Pallete.whiteColor, size: 30),
             title: Text('Settings',
                 style: TextStyle(
                     color: Pallete.whiteColor,
