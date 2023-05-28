@@ -4,6 +4,10 @@ import 'package:companion/common/common.dart';
 import 'package:companion/core/core.dart';
 import 'package:companion/features/auth/controller/auth_controller.dart';
 import 'package:companion/features/auth/views/login_view.dart';
+import 'package:companion/features/info/aboutcompanionview.dart';
+import 'package:companion/features/info/aboutlightheadsview.dart';
+import 'package:companion/features/info/contactdevs.dart';
+import 'package:companion/features/info/privacypolicyview.dart';
 import 'package:companion/features/user/controller/user_controller.dart';
 import 'package:companion/features/user/views/user_profile_view.dart';
 import 'package:companion/features/user/widgets/display_tile.dart';
@@ -102,23 +106,6 @@ class SettingsPage extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  // DisplayTile(
-                  //   title: 'Customize',
-                  //   subtitle: 'Change the accent color',
-                  //   trailing: Icon(
-                  //     OctIcons.paintbrush_16,
-                  //     color: appAccentColor,
-                  //     size: 17,
-                  //   ),
-                  // ),
-                  // DisplayTile(
-                  //   title: 'Notifications',
-                  //   subtitle: 'Turn on/off notifications',
-                  //   trailing: Icon(
-                  //     Icons.notifications_none,
-                  //     color: appAccentColor,
-                  //   ),
-                  // ),
                   SizedBox(
                     height: size.height * 0.005,
                   ),
@@ -139,13 +126,6 @@ class SettingsPage extends ConsumerWidget {
                       // Routemaster.of(context).push('/changeemail');
                     },
                   ),
-                  // DisplayTile(
-                  //   title: 'Password',
-                  //   subtitle: 'Change your password',
-                  //   onpressed: () {
-                  //     // Routemaster.of(context).push('/changepassword');
-                  //   },
-                  // ),
                   SizedBox(
                     height: size.height * 0.03,
                   ),
@@ -159,28 +139,28 @@ class SettingsPage extends ConsumerWidget {
                     title: 'Privacy policy',
                     subtitle: 'View our privacy policy',
                     onpressed: () {
-                      // Routemaster.of(context).push('/privacypolicy');
+                      Navigator.push(context, PrivacyPolicyPage.route());
                     },
                   ),
                   DisplayTile(
                     title: 'Info',
                     subtitle: 'About Companion',
                     onpressed: () {
-                      // Routemaster.of(context).push('/about');
+                      Navigator.push(context, AboutCompanion.route());
                     },
                   ),
                   DisplayTile(
                     title: 'About LightHeads',
                     subtitle: 'Join us',
                     onpressed: () {
-                      // Routemaster.of(context).push('/aboutLightHeads');
+                      Navigator.push(context, AboutLightHeads.route());
                     },
                   ),
                   DisplayTile(
                     title: 'Contact the Devs',
                     subtitle: 'Get in touch',
                     onpressed: () {
-                      // Routemaster.of(context).push('/contactdevs');
+                      Navigator.push(context, ContactDevs.route());
                     },
                   ),
                   SizedBox(

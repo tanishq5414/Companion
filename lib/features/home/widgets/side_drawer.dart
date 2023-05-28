@@ -44,10 +44,6 @@ class SideDrawer extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.circular(100),
-                  border: Border.all(
-                    color: Pallete.whiteColor,
-                    width: 2,
-                  ),
                 ),
               ),
               SizedBox(width: size.width * 0.08),
