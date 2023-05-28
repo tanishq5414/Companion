@@ -35,7 +35,10 @@ class _SearchPageState extends ConsumerState<SearchView> {
               child: Scaffold(
                 key: _key,
                 backgroundColor: Colors.transparent,
-                drawer: SideDrawer(size: size, ref: ref,),
+                drawer: SideDrawer(
+                  size: size,
+                  ref: ref,
+                ),
                 appBar: AppBar(
                   automaticallyImplyLeading: false,
                   backgroundColor: Colors.transparent,
@@ -107,7 +110,7 @@ class SearchBar extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: size.width * 0.035),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(2),
+        borderRadius: BorderRadiusDirectional.circular(10),
       ),
       child: InkWell(
         onTap: () {

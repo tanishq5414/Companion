@@ -18,6 +18,7 @@ class SettingsPage extends ConsumerWidget {
   static Route route() {
     return MaterialPageRoute<void>(builder: (_) => const SettingsPage());
   }
+
   const SettingsPage({Key? key}) : super(key: key);
 
   @override
@@ -34,6 +35,7 @@ class SettingsPage extends ConsumerWidget {
     }
     var size = MediaQuery.of(context).size;
     // final appAccentColor = Theme.of(context).accentColor;
+    final margin = EdgeInsets.symmetric(horizontal: size.width * 0.02);
     return Container(
       color: Pallete.backgroundColor,
       child: SafeArea(
@@ -41,7 +43,7 @@ class SettingsPage extends ConsumerWidget {
           backgroundColor: Pallete.backgroundColor,
           appBar: CustomAppBar(title: 'Settings'),
           body: Padding(
-            padding: EdgeInsets.all(size.width * 0.02),
+            padding: EdgeInsets.all(size.width * 0.04),
             child: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Column(
@@ -49,7 +51,7 @@ class SettingsPage extends ConsumerWidget {
                 children: [
                   ZoomTapAnimation(
                     child: Padding(
-                      padding: EdgeInsets.only(bottom: size.width * 0.07),
+                      padding: EdgeInsets.only(bottom: size.width * 0.025),
                       child: InkWell(
                         onTap: () {
                           Navigator.push(context, UserProfileView.route());
@@ -118,7 +120,7 @@ class SettingsPage extends ConsumerWidget {
                   //   ),
                   // ),
                   SizedBox(
-                    height: size.height * 0.02,
+                    height: size.height * 0.005,
                   ),
                   SideHeading(
                     title: "Account",
