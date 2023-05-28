@@ -41,20 +41,19 @@ class _SearchState extends ConsumerState<MainSearchPage> {
   }
 
   onSearch(String query) {
-  String lowercaseQuery = query.toLowerCase();
-  setState(() {
-    foundedNotes = notesList.where((element) {
-      String lowercaseName = element.name!.toLowerCase();
-      String lowercaseCourse = element.course!.toLowerCase();
-      String lowercaseAuthor = element.author!.toLowerCase();
+    String lowercaseQuery = query.toLowerCase();
+    setState(() {
+      foundedNotes = notesList.where((element) {
+        String lowercaseName = element.name!.toLowerCase();
+        String lowercaseCourse = element.course!.toLowerCase();
+        String lowercaseAuthor = element.author!.toLowerCase();
 
-      return lowercaseName.contains(lowercaseQuery) ||
-          lowercaseCourse.contains(lowercaseQuery) ||
-          lowercaseAuthor.contains(lowercaseQuery);
-    }).toList();
-  });
-}
-
+        return lowercaseName.contains(lowercaseQuery) ||
+            lowercaseCourse.contains(lowercaseQuery) ||
+            lowercaseAuthor.contains(lowercaseQuery);
+      }).toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,8 +97,8 @@ class _SearchState extends ConsumerState<MainSearchPage> {
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5),
                           borderSide: BorderSide.none),
-                      hintStyle:
-                          const TextStyle(fontSize: 14, color: Pallete.greyColor),
+                      hintStyle: const TextStyle(
+                          fontSize: 14, color: Pallete.greyColor),
                       hintText: "Search notes, courses, etc..."),
                 ),
               ),
@@ -141,15 +140,14 @@ class _SearchState extends ConsumerState<MainSearchPage> {
   notesComponent({required NotesModal notes}) {
     return InkWell(
       onTap: () {
-                Navigator.push(context, NotesPdfView.route(notes: notes));
-              },
+        Navigator.push(context, NotesPdfView.route(notes: notes));
+      },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20),
         padding: const EdgeInsets.only(top: 10, bottom: 10),
         child: Row(
           children: [
             ZoomTapAnimation(
-              
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

@@ -3,8 +3,6 @@
 import 'package:companion/theme/pallete.dart';
 import 'package:flutter/material.dart';
 
-
-
 class SideHeading extends StatelessWidget {
   var title;
 
@@ -19,12 +17,13 @@ class SideHeading extends StatelessWidget {
     return Align(
       alignment: Alignment.centerLeft,
       child: Padding(
-        padding: EdgeInsets.only(bottom: size.width * 0.03,top: size.width * 0.03),
+        padding:
+            EdgeInsets.only(bottom: size.width * 0.03, top: size.width * 0.03),
         child: Text(title,
             style: const TextStyle(
               color: Pallete.whiteColor,
-              fontWeight: FontWeight.w800,
-              fontSize: 16,
+              fontWeight: FontWeight.w900,
+              fontSize: 18,
             )),
       ),
     );

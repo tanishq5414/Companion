@@ -6,6 +6,7 @@ import 'package:companion/features/notes/controller/notes_controller.dart';
 import 'package:companion/features/notes/views/recently_accessed_view.dart';
 import 'package:companion/features/notes/widgets/notes_builder_view.dart';
 import 'package:companion/features/home/widgets/side_drawer.dart';
+import 'package:companion/features/notification/views/notifications_view.dart';
 import 'package:companion/features/user/controller/user_controller.dart';
 import 'package:companion/theme/pallete.dart';
 import 'package:flutter/material.dart';
