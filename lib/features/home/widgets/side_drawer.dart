@@ -1,3 +1,4 @@
+import 'package:companion/features/info/aboutlightheadsview.dart';
 import 'package:companion/features/notes/views/add_notes_view.dart';
 import 'package:companion/features/notes/views/recently_accessed_view.dart';
 import 'package:companion/features/user/controller/user_controller.dart';
@@ -108,18 +109,20 @@ class SideDrawer extends StatelessWidget {
                     fontSize: 18,
                     fontWeight: FontWeight.normal)),
           ),
-          (user.isAdmin!)?ListTile(
-            onTap: () {
-              Navigator.push(context, AddNotesView.route());
-            },
-            leading:
-                Icon(OctIcons.plus_circle_16, color: Pallete.whiteColor, size: 30),
-            title: Text('Add notes',
-                style: TextStyle(
-                    color: Pallete.whiteColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.normal)),
-          ):Container(),
+          (user.isAdmin!)
+              ? ListTile(
+                  onTap: () {
+                    Navigator.push(context, AddNotesView.route());
+                  },
+                  leading: Icon(OctIcons.plus_circle_16,
+                      color: Pallete.whiteColor, size: 30),
+                  title: Text('Add notes',
+                      style: TextStyle(
+                          color: Pallete.whiteColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.normal)),
+                )
+              : Container(),
           ListTile(
             onTap: () {
               Navigator.push(context, SettingsPage.route());
@@ -136,6 +139,9 @@ class SideDrawer extends StatelessWidget {
             color: Pallete.whiteColor,
           ),
           ListTile(
+            onTap: () {
+              Navigator.push(context, AboutLightHeads.route());
+            },
             leading: Image.asset(
               'assets/logo/shortlogo.png',
               width: 30,

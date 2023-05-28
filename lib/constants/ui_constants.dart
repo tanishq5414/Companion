@@ -10,6 +10,16 @@ class UIConstants {
     const Text('Profile'),
   ];
 
+  // create text styles according to how it is used in app
+  static const TextStyle kHeadingTextStyle = TextStyle(
+    fontSize: 20.0,
+    fontWeight: FontWeight.bold,
+  );
+  static const TextStyle kSubHeadingTextStyle = TextStyle(
+    fontSize: 16.0,
+    fontWeight: FontWeight.bold,
+  );
+
   static final List<Color> lightColors = [
     Pallete.redColor,
     Pallete.blueColor,
@@ -50,6 +60,4 @@ class UIConstants {
     'CS DS',
     'CSC',
   ];
-
-
 }

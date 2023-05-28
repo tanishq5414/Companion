@@ -32,8 +32,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   device_info_plus: any
   dio: ^5.1.2
-  file_picker: any
   dropdown_search: ^5.0.6
+  file_picker: any
   firebase_analytics: ^10.4.1
   firebase_auth: ^4.6.1
   firebase_core: ^2.13.0
@@ -46,6 +46,8 @@ dependencies:
   flutter_svg: any
   fpdart: ^0.6.0
   google_sign_in: ^6.1.1
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
   intl: ^0.18.1
   page_transition: ^2.0.9
   shared_preferences: ^2.1.1
@@ -56,18 +58,19 @@ dependencies:
   zoom_tap_animation: ^1.1.0
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.10.0"
   flutter_lints: ^1.0.0
+  hive_generator:
+  build_runner:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: "^0.10.0"
 
 flutter_icons:
- android: true
- ios: true
- image_path: "assets/logo/logo.png"
- adaptive_icon_background: "#000000"
- adaptive_icon_foreground: "assets/logo/logo_foreground.png"
- 
+  android: true
+  ios: true
+  image_path: "assets/logo/logo.png"
+  adaptive_icon_background: "#000000"
+  adaptive_icon_foreground: "assets/logo/logo_foreground.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
