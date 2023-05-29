@@ -103,7 +103,7 @@ class _AddNotesViewState extends ConsumerState<AddNotesView> {
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(userDataProvider);
+    final user = ref.watch(userDataProvider)!;
     final size = MediaQuery.of(context).size;
     final Loading = ref.watch(notesControllerProvider);
     final courselist = ref.watch(coursesDataProvider);
@@ -153,7 +153,8 @@ class _AddNotesViewState extends ConsumerState<AddNotesView> {
                           child: DropdownSearch<String>(
                             onChanged: (value) => course = value!,
                             items: courselist!.map((e) => e.cname!).toList(),
-                            popupProps: PopupPropsMultiSelection.modalBottomSheet(
+                            popupProps:
+                                PopupPropsMultiSelection.modalBottomSheet(
                               searchFieldProps: const TextFieldProps(
                                 cursorColor: Pallete.whiteColor,
                                 decoration: InputDecoration(
@@ -201,7 +202,8 @@ class _AddNotesViewState extends ConsumerState<AddNotesView> {
                           child: DropdownSearch<String>(
                             onChanged: (value) => branch = value!,
                             items: UIConstants.branchDetails,
-                            popupProps: PopupPropsMultiSelection.modalBottomSheet(
+                            popupProps:
+                                PopupPropsMultiSelection.modalBottomSheet(
                               searchFieldProps: const TextFieldProps(
                                 cursorColor: Pallete.whiteColor,
                                 decoration: InputDecoration(
@@ -249,7 +251,8 @@ class _AddNotesViewState extends ConsumerState<AddNotesView> {
                           child: DropdownSearch<String>(
                             onChanged: (value) => unit = value!,
                             items: ['0', '1', '2', '3', '4', '5'],
-                            popupProps: PopupPropsMultiSelection.modalBottomSheet(
+                            popupProps:
+                                PopupPropsMultiSelection.modalBottomSheet(
                               searchFieldProps: const TextFieldProps(
                                 cursorColor: Pallete.whiteColor,
                                 decoration: InputDecoration(
@@ -297,7 +300,8 @@ class _AddNotesViewState extends ConsumerState<AddNotesView> {
                           child: DropdownSearch<String>(
                             onChanged: (value) => year = value!,
                             items: ['1', '2', '3', '4'],
-                            popupProps: PopupPropsMultiSelection.modalBottomSheet(
+                            popupProps:
+                                PopupPropsMultiSelection.modalBottomSheet(
                               searchFieldProps: const TextFieldProps(
                                 cursorColor: Pallete.whiteColor,
                                 decoration: InputDecoration(
@@ -345,7 +349,8 @@ class _AddNotesViewState extends ConsumerState<AddNotesView> {
                           child: DropdownSearch<String>(
                             onChanged: (value) => semester = value!,
                             items: ['1', '2'],
-                            popupProps: PopupPropsMultiSelection.modalBottomSheet(
+                            popupProps:
+                                PopupPropsMultiSelection.modalBottomSheet(
                               searchFieldProps: const TextFieldProps(
                                 cursorColor: Pallete.whiteColor,
                                 decoration: InputDecoration(
@@ -446,9 +451,10 @@ class _AddNotesViewState extends ConsumerState<AddNotesView> {
                                                       'File name: ' +
                                                           (isMultiPath
                                                               ? _paths!
-                                                                  .map((e) =>
-                                                                      e.name)
-                                                                  .toList()[index]
+                                                                      .map((e) =>
+                                                                          e.name)
+                                                                      .toList()[
+                                                                  index]
                                                               : _fileName ??
                                                                   '...');
                                                   final path = kIsWeb
@@ -457,18 +463,20 @@ class _AddNotesViewState extends ConsumerState<AddNotesView> {
                                                           .map((e) => e.path)
                                                           .toList()[index]
                                                           .toString();
-    
+
                                                   return ListTile(
                                                     title: Text(
                                                       name,
                                                       style: TextStyle(
-                                                        color: Pallete.whiteColor,
+                                                        color:
+                                                            Pallete.whiteColor,
                                                       ),
                                                     ),
                                                     subtitle: Text(
                                                       path ?? '',
                                                       style: TextStyle(
-                                                        color: Pallete.whiteColor,
+                                                        color:
+                                                            Pallete.whiteColor,
                                                       ),
                                                     ),
                                                   );
@@ -481,7 +489,8 @@ class _AddNotesViewState extends ConsumerState<AddNotesView> {
                                             )
                                           : _saveAsFileName != null
                                               ? ListTile(
-                                                  title: const Text('Save file'),
+                                                  title:
+                                                      const Text('Save file'),
                                                   subtitle:
                                                       Text(_saveAsFileName!),
                                                 )
@@ -497,7 +506,8 @@ class _AddNotesViewState extends ConsumerState<AddNotesView> {
                                 year == "" ||
                                 unit == "" ||
                                 _paths == null) {
-                              showSnackBar(context, "Please fill all the fields");
+                              showSnackBar(
+                                  context, "Please fill all the fields");
                               return;
                             }
                             File file = File(_paths!

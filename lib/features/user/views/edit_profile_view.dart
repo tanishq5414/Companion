@@ -1,4 +1,5 @@
 import 'package:companion/common/common.dart';
+import 'package:companion/core/providers/dummy_user_provider.dart';
 import 'package:companion/features/user/controller/user_controller.dart';
 import 'package:companion/theme/pallete.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ class EditProfile extends ConsumerStatefulWidget {
   static Route route() {
     return MaterialPageRoute<void>(builder: (_) => const EditProfile());
   }
+
   const EditProfile({super.key});
 
   @override
@@ -18,12 +20,10 @@ class EditProfile extends ConsumerStatefulWidget {
 class _EditProfileState extends ConsumerState<EditProfile> {
   TextEditingController nameController = TextEditingController();
   late Color saveColor;
-  
-
 
   @override
   void initState() {
-    final user = ref.read(userDataProvider);
+    final user = ref.read(userDataProvider) ?? nullUser;
     super.initState();
     nameController = TextEditingController(text: user!.name);
   }
@@ -37,7 +37,7 @@ class _EditProfileState extends ConsumerState<EditProfile> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final user = ref.read(userDataProvider)!;
+    final user = ref.read(userDataProvider) ?? nullUser;
     final String email = user.email!;
     final name = user.name;
     Color saveColor = Colors.grey;
@@ -79,7 +79,7 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                     SizedBox(
                       height: size.height * 0.06,
                     ),
-                    
+
                     SizedBox(
                       height: size.height * 0.03,
                     ),
@@ -94,17 +94,17 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                     //   ),
                     // ),
                     Container(
-                            width: size.width * 0.3,
-                            height: size.width * 0.3,
-                            decoration: BoxDecoration(
-                              color: Pallete.whiteColor,
-                              image: DecorationImage(
-                                image: NetworkImage(user.photoUrl!),
-                                fit: BoxFit.cover,
-                              ),
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                          ),
+                      width: size.width * 0.3,
+                      height: size.width * 0.3,
+                      decoration: BoxDecoration(
+                        color: Pallete.whiteColor,
+                        image: DecorationImage(
+                          image: NetworkImage(user.photoUrl!),
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                    ),
                     SizedBox(
                       height: size.height * 0.03,
                     ),
@@ -144,7 +144,7 @@ class _EditProfileState extends ConsumerState<EditProfile> {
                             fontWeight: FontWeight.w300)),
                     const Text('This is how your name will appear to others',
                         style: TextStyle(
-                            color:  Pallete.whiteColor,
+                            color: Pallete.whiteColor,
                             fontSize: 11,
                             fontWeight: FontWeight.w300)),
                     SizedBox(

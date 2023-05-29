@@ -13,7 +13,7 @@ final notesAPIProvider = Provider((ref) => NotesAPI());
 final dio = Dio();
 
 abstract class INotesAPI {
-  FutureEither<List<NotesModal>> getNotes();
+  FutureEither<List<NotesModal>> getNotes(String token);
   FutureEither<List<NotesModal>> getTrendingNotesDay();
   FutureEither<List<NotesModal>> getTreandingNotesWeek();
   FutureVoid addTrendingData({required List<TrendingModal> trendingData});
@@ -33,9 +33,12 @@ abstract class INotesAPI {
 
 class NotesAPI implements INotesAPI {
   @override
-  FutureEither<List<NotesModal>> getNotes() async {
+  FutureEither<List<NotesModal>> getNotes(String token) async {
     try {
-      final notesData = await dio.get(notesUrl);
+      dio.options.headers['authorization'] = token;
+      final notesData = await dio.get(
+        notesUrl,
+      );
       List<NotesModal> notesList = [];
       notesData.data['data']['files'].forEach((element) {
         notesList.add(NotesModal.fromJson(element));
@@ -114,7 +117,9 @@ class NotesAPI implements INotesAPI {
       {required List<TrendingModal> trendingData}) async {
     try {
       print(
-        jsonEncode(trendingData.map((e) => e.toJson()).toList(),),
+        jsonEncode(
+          trendingData.map((e) => e.toJson()).toList(),
+        ),
       );
       var options = Options(
         contentType: 'application/json',

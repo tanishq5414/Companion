@@ -1,4 +1,5 @@
 import 'package:companion/common/common.dart';
+import 'package:companion/core/providers/dummy_user_provider.dart';
 import 'package:companion/features/hive/boxes.dart';
 import 'package:companion/features/hive/modal/recentlyaccessed.dart';
 import 'package:companion/features/notes/controller/notes_controller.dart';
@@ -32,7 +33,7 @@ class _RecentlyAccessedPageState extends ConsumerState<RecentlyAccessedView> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
-    final user = ref.watch(userDataProvider);
+    final user = ref.watch(userDataProvider) ?? nullUser;
     final allnoteslist = ref.read(notesDataProvider)!;
     var recentlyAcessedData = recentlyAccessedBox;
 
@@ -71,8 +72,8 @@ class _RecentlyAccessedPageState extends ConsumerState<RecentlyAccessedView> {
                           height: size.height * 0.02,
                         ),
                         Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: size.width * 0.02),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: size.width * 0.02),
                           child: ListView.builder(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
@@ -94,8 +95,8 @@ class _RecentlyAccessedPageState extends ConsumerState<RecentlyAccessedView> {
                                             .millisecondsSinceEpoch
                                             .toString()
                                       ]);
-                                      Navigator.push(
-                                          context, NotesPdfView.route(notes: note));
+                                      Navigator.push(context,
+                                          NotesPdfView.route(notes: note));
                                     },
                                     title: Text(
                                       recentlyAccessed[index].name!,

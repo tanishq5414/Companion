@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import, prefer_is_empty
 
+import 'package:companion/core/providers/dummy_user_provider.dart';
 import 'package:companion/features/hive/boxes.dart';
 import 'package:companion/features/notes/controller/notes_controller.dart';
 import 'package:companion/features/notes/views/notes_pdf_view.dart';
@@ -29,20 +30,19 @@ class _SearchState extends ConsumerState<BookmarksSearchPage> {
   List<NotesModal> _notes = [];
 
   List<NotesModal> getBookmarks(List<NotesModal> allnotes, user) {
-  List<NotesModal> bookmarks = [];
-  var userbookmarklist = user?.bid?.map((id) => id.toString())?.toList() ?? [];
-  
-  for (var note in allnotes) {
-    if (userbookmarklist.contains(note.fileId.toString())) {
-      bookmarks.add(note);
-    }
-  }
-  
-  bookmarks = bookmarks.reversed.toList();
-  return bookmarks;
-}
+    List<NotesModal> bookmarks = [];
+    var userbookmarklist =
+        user?.bid?.map((id) => id.toString())?.toList() ?? [];
 
-  
+    for (var note in allnotes) {
+      if (userbookmarklist.contains(note.fileId.toString())) {
+        bookmarks.add(note);
+      }
+    }
+
+    bookmarks = bookmarks.reversed.toList();
+    return bookmarks;
+  }
 
   @override
   void initState() {
@@ -52,7 +52,7 @@ class _SearchState extends ConsumerState<BookmarksSearchPage> {
       // ignore: todo
       // TODO: implement initState
       final allnotes = ref.read(notesDataProvider)!;
-      var user = ref.watch(userDataProvider);
+      var user = ref.watch(userDataProvider) ?? nullUser;
       _notes = getBookmarks(allnotes, user);
       setState(() {
         foundedNotes = _notes;
@@ -63,7 +63,7 @@ class _SearchState extends ConsumerState<BookmarksSearchPage> {
   onSearch(String search) {
     setState(() {
       final allnotes = ref.read(notesDataProvider);
-      var user = ref.watch(userDataProvider);
+      var user = ref.watch(userDataProvider) ?? nullUser;
       _notes = getBookmarks(allnotes!, user);
       foundedNotes = _notes
           .where((notes) =>
@@ -77,7 +77,7 @@ class _SearchState extends ConsumerState<BookmarksSearchPage> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final allnotes = ref.read(notesDataProvider)!;
-    var user = ref.watch(userDataProvider); 
+    var user = ref.watch(userDataProvider) ?? nullUser;
     var userbookmarklist = user?.bid ?? [''];
     List<NotesModal> bookmarks = [];
     List<NotesModal> getBookmarks() {

@@ -8,7 +8,16 @@ import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final title;
   final List<Widget>? actions;
-  CustomAppBar({Key? key, required this.title, this.actions}) : super(key: key);
+  final automaticallyImplyLeading;
+  final Icon? leading;
+  CustomAppBar(
+      {Key? key,
+      required this.title,
+      this.actions,
+      this.automaticallyImplyLeading,
+      this.leading,
+      })
+      : super(key: key);
   @override
   Size get preferredSize => const Size.fromHeight(50);
 
@@ -36,6 +45,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           fontSize: 18,
         ),
       ),
+      automaticallyImplyLeading: automaticallyImplyLeading ?? true,
       actions: actions,
       centerTitle: true,
     );

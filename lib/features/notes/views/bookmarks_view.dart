@@ -1,5 +1,6 @@
 import 'package:companion/common/common.dart';
 import 'package:companion/common/sectionchip.dart';
+import 'package:companion/core/providers/dummy_user_provider.dart';
 import 'package:companion/features/notes/views/bookmarks_search.dart';
 import 'package:companion/features/notes/widgets/notes_preview.dart';
 import 'package:companion/features/home/widgets/side_drawer.dart';
@@ -26,12 +27,12 @@ class _BookmarksPageState extends ConsumerState<BookmarksView> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    final user = ref.watch(userDataProvider);
+    final user = ref.watch(userDataProvider) ?? nullUser;
     final allnoteslist = ref.read(notesDataProvider)!;
-    var userbookmarklist = user?.bid!;
+    var userbookmarklist = user.bid!;
     List<NotesModal> bookmarks = [];
     List<NotesModal> getBookmarks() {
-      Set<String> bookmarkFileIds = Set<String>.from(userbookmarklist!);
+      Set<String> bookmarkFileIds = Set<String>.from(userbookmarklist);
       for (var note in allnoteslist) {
         if (bookmarkFileIds.contains(note.fileId.toString())) {
           print(note.fileId.toString());
@@ -52,8 +53,8 @@ class _BookmarksPageState extends ConsumerState<BookmarksView> {
     return (user == null)
         ? const Loader()
         : Container(
-          color: Pallete.backgroundColor,
-          child: SafeArea(
+            color: Pallete.backgroundColor,
+            child: SafeArea(
               child: Scaffold(
                 key: _key,
                 drawer: SideDrawer(
@@ -172,7 +173,7 @@ class _BookmarksPageState extends ConsumerState<BookmarksView> {
                 ),
               ),
             ),
-        );
+          );
   }
 }
 

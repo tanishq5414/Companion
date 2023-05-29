@@ -1,6 +1,8 @@
 import 'package:companion/common/common.dart';
 import 'package:companion/common/sectionchip.dart';
+import 'package:companion/core/providers/dummy_user_provider.dart';
 import 'package:companion/features/advertisment/widgets/advertisment_builder.dart';
+import 'package:companion/features/chat/views/global_chat.dart';
 import 'package:companion/features/courses/views/course_filter.dart';
 import 'package:companion/features/courses/widgets/course_builder_view.dart';
 import 'package:companion/features/notes/controller/notes_controller.dart';
@@ -12,6 +14,7 @@ import 'package:companion/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_octicons/flutter_octicons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
@@ -21,6 +24,7 @@ class HomeView extends ConsumerStatefulWidget {
 }
 
 class _HomeViewState extends ConsumerState<HomeView> {
+  bool internetConnection = false;
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   String greeting() {
     var hour = DateTime.now().hour;
@@ -35,6 +39,14 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    checkInternetConnection() async {
+      internetConnection = await InternetConnectionChecker().hasConnection;
+      setState(() {
+        internetConnection = internetConnection;
+      });
+    }
+
+    checkInternetConnection();
     final user = ref.watch(userDataProvider);
     final size = MediaQuery.of(context).size;
     final notesData = ref.watch(notesDataProvider) ?? [];
@@ -88,10 +100,17 @@ class _HomeViewState extends ConsumerState<HomeView> {
                           ],
                         ),
                         actions: [
-                          IconButton(
-                            icon: const Icon(OctIcons.bell_16),
-                            onPressed: () {},
-                          )
+                          Padding(
+                            padding: const EdgeInsets.only(right: 16),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context, MobileChatScreen.route(user.uid!));
+                              },
+                              child: Image.asset('assets/logo/dm.png',
+                                  width: size.width * 0.08),
+                            ),
+                          ),
                         ],
                       ),
                       SliverPersistentHeader(
@@ -162,14 +181,47 @@ class _HomeViewState extends ConsumerState<HomeView> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              (internetConnection == true)
+                                  ? Container()
+                                  : Padding(
+                                      padding: const EdgeInsets.all(20),
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: Pallete.whiteColor),
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          height: size.height * 0.08,
+                                          child: Center(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text('You are offline',
+                                                    style: TextStyle(
+                                                        color:
+                                                            Pallete.whiteColor,
+                                                        fontWeight:
+                                                            FontWeight.w900,
+                                                        fontSize: 15)),
+                                                const SizedBox(width: 8),
+                                                Text(
+                                                    'Some features may be limited',
+                                                    style: TextStyle(
+                                                        color:
+                                                            Pallete.whiteColor,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 15)),
+                                              ],
+                                            ),
+                                          )),
+                                    ),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 12),
                                 child: courseBuilder(size, context, ref),
                               ),
-                              const SizedBox(height: 28),
-                              // advertismentSmallBuilder(size),
-                              advertismentBuilder(size, context, ref, "home"),
                               const SizedBox(height: 28),
                               const Padding(
                                 padding:
@@ -187,6 +239,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                 child: notesBuilder(size, trendingDaily!),
                               ),
                               const SizedBox(height: 28),
+                              (internetConnection == true)
+                                  ? advertismentBuilder(
+                                      size, context, ref, "home")
+                                  : Container(),
                               const Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 12),

@@ -1,6 +1,7 @@
 import 'package:companion/common/flexible_space_appbar.dart';
 import 'package:companion/common/sectionchip.dart';
 import 'package:companion/constants/constants.dart';
+import 'package:companion/core/providers/dummy_user_provider.dart';
 import 'package:companion/features/notes/controller/notes_controller.dart';
 import 'package:companion/features/notes/views/notes_menu.dart';
 import 'package:companion/features/notes/widgets/notes_preview.dart';
@@ -94,7 +95,7 @@ class _BasicSliverAppBarState extends ConsumerState<BasicSliverAppBar> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     var notes = ref.watch(notesDataProvider)!;
-    final user = ref.watch(userDataProvider)!;
+    final user = ref.watch(userDataProvider)??nullUser;
     var sortedAlphabetical = ref.watch(sortNoteProvider) ?? true;
 
     List<NotesModal> notesList = getnotes(widget.course.fileId!, notes);

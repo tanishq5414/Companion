@@ -1,3 +1,5 @@
+import 'package:companion/core/providers/dummy_user_provider.dart';
+import 'package:companion/features/dynamiclinks/dynamic_links.dart';
 import 'package:companion/features/notes/views/notes_info_view.dart';
 import 'package:companion/features/notes/widgets/notes_preview.dart';
 import 'package:companion/features/user/controller/user_controller.dart';
@@ -27,7 +29,7 @@ class _NotesMenuState extends ConsumerState<NotesMenu> {
   Widget build(BuildContext context) {
     bool bookmark() {
       late bool flag;
-      final user = ref.watch(userDataProvider)!;
+      final user = ref.watch(userDataProvider)??nullUser;
       if (user.bid!.contains(widget.notes.fileId)) {
         flag = true;
       } else {
@@ -37,7 +39,7 @@ class _NotesMenuState extends ConsumerState<NotesMenu> {
     }
 
     bool flag = bookmark();
-    final user = ref.watch(userDataProvider)!;
+    final user = ref.watch(userDataProvider)??nullUser;
     final size = MediaQuery.of(context).size;
     void addbookmark() {
       setState(() {
@@ -60,7 +62,7 @@ class _NotesMenuState extends ConsumerState<NotesMenu> {
 
     void createShareLink() async {
       // TODO: implement dynamic linking
-      // await FirebaseDynamicLinkService.createDynamicLink(true, notes['id']!);
+      await FirebaseDynamicLinkService.createDynamicLink(true, widget.notes.fileId!, context);
     }
 
     return Container(

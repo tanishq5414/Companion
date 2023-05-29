@@ -1,6 +1,7 @@
 import 'package:companion/common/common.dart';
 import 'package:companion/common/sectionchip.dart';
 import 'package:companion/core/core.dart';
+import 'package:companion/core/providers/dummy_user_provider.dart';
 import 'package:companion/features/courses/controller/courses_controller.dart';
 import 'package:companion/features/user/controller/user_controller.dart';
 import 'package:companion/modal/courses.modal.dart';
@@ -30,7 +31,7 @@ class _CourseListFilterPageState extends ConsumerState<CourseFilterView> {
   @override
   void initState() {
     super.initState();
-    var user = ref.read(userDataProvider)!;
+    var user = ref.read(userDataProvider)??nullUser;
     usercourseslist = List.from(user.cid!);
     List<CoursesModal> selectedCourses = [];
     List<CoursesModal> unselectedCourses = [];
@@ -64,7 +65,7 @@ class _CourseListFilterPageState extends ConsumerState<CourseFilterView> {
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.read(userDataProvider)!;
+    final user = ref.read(userDataProvider)??nullUser;
     var size = MediaQuery.of(context).size;
     return Container(
       color: Pallete.backgroundColor,

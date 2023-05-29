@@ -9,19 +9,18 @@ final coursesAPIProvider = Provider((ref) => CoursesAPI());
 final dio = Dio();
 
 abstract class ICoursesAPI {
-  FutureEither<List<CoursesModal>> getCourses();
+  FutureEither<List<CoursesModal>> getCourses(String token);
 }
 
 class CoursesAPI implements ICoursesAPI {
   @override
-  FutureEither<List<CoursesModal>> getCourses() async {
+  FutureEither<List<CoursesModal>> getCourses(String token) async {
     try {
+      dio.options.headers['authorization'] = token;
       final coursesData = await dio.get(coursesUrl);
       List<CoursesModal> coursesList = [];
       coursesData.data['data']['files'].forEach((element) {
-
         coursesList.add(CoursesModal.fromJson(element));
-        
       });
       return right(coursesList);
     } catch (e, st) {

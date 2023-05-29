@@ -1,3 +1,4 @@
+import 'package:companion/core/providers/dummy_user_provider.dart';
 import 'package:companion/features/courses/controller/courses_controller.dart';
 import 'package:companion/features/courses/widgets/course_preview.dart';
 import 'package:companion/features/user/controller/user_controller.dart';
@@ -7,9 +8,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 List<CoursesModal> usercourses = [];
 GridView courseBuilder(Size size, context, WidgetRef ref) {
-  final user = ref.watch(userDataProvider)!;
+  final user = ref.watch(userDataProvider)??nullUser;
   List<String> userslist = user.cid!;
-  var allcourseslist = ref.watch(coursesDataProvider)!;
+  var allcourseslist = ref.watch(coursesDataProvider)??[];
   var usercourseslist = [];
   Set<String> usersSet = Set<String>.from(userslist);
 

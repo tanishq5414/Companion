@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:companion/apis/auth_api.dart';
 import 'package:companion/apis/user_api.dart';
 import 'package:companion/core/core.dart';
+import 'package:companion/core/providers/dummy_user_provider.dart';
+import 'package:companion/features/hive/boxes.dart';
 import 'package:companion/modal/user.modal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,16 +50,28 @@ class UserController extends StateNotifier<bool> {
       email: email,
       photoUrl: photoUrl,
     );
-    getUserData(context: context, uid: uid);
+    getUserData(context: context, uid: uid, internet: true);
     state = false;
   }
 
   FutureVoid getUserData({
     required BuildContext context,
     required String uid,
+    required bool internet,
   }) async {
-    var res = await _userAPI.getUserData(uid).first;
-    _ref.read(userDataProvider.notifier).update((state) => res);
+    if (internet == true) {
+      var res = await _userAPI.getUserData(uid).first;
+      _ref.read(userDataProvider.notifier).update((state) => res);
+      userCache.put('user', jsonEncode(res.toJson()));
+    } else {
+      final user = userCache.get('user');
+      if (user != null) {
+        final Map<String, dynamic> userMap = jsonDecode(user);
+        _ref
+            .read(userDataProvider.notifier)
+            .update((state) => UserModal.fromJson(userMap));
+      }
+    }
   }
 
   void updateName(BuildContext context, fullName, uid) {
@@ -68,7 +84,7 @@ class UserController extends StateNotifier<bool> {
   }
 
   void bookmarkNotes(BuildContext context, String notesId) {
-    var user = _ref.read(userDataProvider)!;
+    var user = _ref.read(userDataProvider) ?? nullUser;
     var bookmarks = user.bid!;
     if (bookmarks.contains(notesId)) {
       bookmarks.remove(notesId);
@@ -100,9 +116,8 @@ class UserController extends StateNotifier<bool> {
     var courseNameList = user.coursesContributedList! + [courseName];
     var notesContributed = user.notesContributed! + 1;
     var coursesContributed = user.coursesContributed! + 1;
-    _userAPI.updateContributed(
-        user.uid!,
-        notesidList, courseNameList, notesContributed, coursesContributed);
+    _userAPI.updateContributed(user.uid!, notesidList, courseNameList,
+        notesContributed, coursesContributed);
     _ref.read(userDataProvider.notifier).update((state) => state!.copyWith(
           notesContributedList: notesidList,
           coursesContributedList: courseNameList,

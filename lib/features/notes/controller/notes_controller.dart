@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:companion/apis/notes.api.dart';
@@ -30,26 +31,80 @@ class NotesController extends StateNotifier<bool> {
         _ref = ref,
         super(false);
 
-  Future<void> getNotes(BuildContext context) async {
+  Future<void> getNotes(
+      BuildContext context, String token, bool internet) async {
     state = true;
-    final res = await _notesAPI.getNotes();
-    res.fold((l) => showSnackBar(context, l.message), (notes) {
-      _ref.read(notesDataProvider.notifier).update((state) => notes);
-    });
+    if (internet == true) {
+      final res = await _notesAPI.getNotes(token);
+      res.fold((l) => showSnackBar(context, l.message), (notes) {
+        _ref.read(notesDataProvider.notifier).update((state) => notes);
+        networkCache.put(
+          'getNotes',
+          notes.map((e) => jsonEncode(e.toJson())).toList(),
+        );
+      });
+    }
+    if (internet == false) {
+      final notes = networkCache.get('getNotes');
+      if (notes != null) {
+        final List<String> notesListString = notes.cast<String>();
+        List<NotesModal> notesList = [];
+        notesListString.forEach((noteString) {
+          final Map<String, dynamic> noteMap = jsonDecode(noteString);
+          notesList.add(NotesModal.fromJson(noteMap));
+        });
+        _ref.read(notesDataProvider.notifier).update((state) => notesList);
+      }
+    }
     state = false;
   }
 
-  Future<void> getTrendingNotes(BuildContext context) async {
+  Future<void> getTrendingNotes(
+      BuildContext context, String token, bool internet) async {
     state = true;
-    final res = await _notesAPI.getTrendingNotesDay();
-    res.fold((l) => showSnackBar(context, l.message), (notes) {
-      _ref.read(trendingNotesDailyProvider.notifier).update((state) => notes);
-    });
-    final res2 = await _notesAPI.getTreandingNotesWeek();
-    res2.fold((l) => showSnackBar(context, l.message), (notes) {
-      _ref.read(trendingNotesWeeklyProvider.notifier).update((state) => notes);
-    });
-    state = false;
+    if (internet == true) {
+      final res = await _notesAPI.getTrendingNotesDay();
+      res.fold((l) => showSnackBar(context, l.message), (notes) {
+        _ref.read(trendingNotesDailyProvider.notifier).update((state) => notes);
+        networkCache.put(
+          'getTrendingNotesDay',
+          notes.map((e) => jsonEncode(e.toJson())).toList(),
+        );
+      });
+      final res2 = await _notesAPI.getTreandingNotesWeek();
+      res2.fold((l) => showSnackBar(context, l.message), (notes) {
+        _ref
+            .read(trendingNotesWeeklyProvider.notifier)
+            .update((state) => notes);
+        networkCache.put(
+          'getTrendingNotesWeek',
+          notes.map((e) => jsonEncode(e.toJson())).toList(),
+        );
+      });
+      state = false;
+    }
+    if(internet == false){
+      final notes = networkCache.get('getTrendingNotesDay');
+      if (notes != null) {
+        final List<String> notesListString = notes.cast<String>();
+        List<NotesModal> notesList = [];
+        notesListString.forEach((noteString) {
+          final Map<String, dynamic> noteMap = jsonDecode(noteString);
+          notesList.add(NotesModal.fromJson(noteMap));
+        });
+        _ref.read(trendingNotesDailyProvider.notifier).update((state) => notesList);
+      }
+      final notes2 = networkCache.get('getTrendingNotesWeek');
+      if (notes2 != null) {
+        final List<String> notesListString = notes2.cast<String>();
+        List<NotesModal> notesList = [];
+        notesListString.forEach((noteString) {
+          final Map<String, dynamic> noteMap = jsonDecode(noteString);
+          notesList.add(NotesModal.fromJson(noteMap));
+        });
+        _ref.read(trendingNotesWeeklyProvider.notifier).update((state) => notesList);
+      }
+    }
   }
 
   Future<void> uploadNotes({

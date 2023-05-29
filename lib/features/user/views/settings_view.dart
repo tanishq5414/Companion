@@ -2,6 +2,7 @@
 
 import 'package:companion/common/common.dart';
 import 'package:companion/core/core.dart';
+import 'package:companion/core/providers/dummy_user_provider.dart';
 import 'package:companion/features/auth/controller/auth_controller.dart';
 import 'package:companion/features/auth/views/login_view.dart';
 import 'package:companion/features/info/aboutcompanionview.dart';
@@ -27,7 +28,7 @@ class SettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final user = ref.watch(userDataProvider);
+    final user = ref.watch(userDataProvider) ?? nullUser;
     void signOut() {
       ref.read(authControllerProvider.notifier).signOut(context);
       Navigator.popUntil(context, (route) => false);

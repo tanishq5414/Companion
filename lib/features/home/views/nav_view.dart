@@ -1,5 +1,7 @@
+import 'package:companion/core/providers/dummy_user_provider.dart';
 import 'package:companion/features/advertisment/controller/advertisment_controller.dart';
 import 'package:companion/features/courses/controller/courses_controller.dart';
+import 'package:companion/features/dynamiclinks/dynamic_links.dart';
 import 'package:companion/features/hive/boxes.dart';
 import 'package:companion/features/home/views/home_view.dart';
 import 'package:companion/features/notes/controller/notes_controller.dart';
@@ -11,6 +13,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_octicons/flutter_octicons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class NavView extends ConsumerStatefulWidget {
@@ -29,33 +32,50 @@ class NavView extends ConsumerStatefulWidget {
 }
 
 class _NavViewState extends ConsumerState<NavView> {
+  FirebaseDynamicLinkService firebaseDynamicLinkService =
+      FirebaseDynamicLinkService();
+
   int selectedIndex = 0;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      bool internetConnection = await InternetConnectionChecker().hasConnection;
       getUserData() async {
-        await ref
-            .read(userControllerProvider.notifier)
-            .getUserData(context: context, uid: widget.firebaseUser.uid);
+        await ref.read(userControllerProvider.notifier).getUserData(
+            context: context,
+            uid: widget.firebaseUser.uid,
+            internet: internetConnection);
       }
 
       widget.firebaseUser.getIdToken(false).then((value) {
-        ref.read(notesControllerProvider.notifier).getNotes(context);
-        ref.read(coursesControllerProvider.notifier).getCourses(context);
-        ref.read(notesControllerProvider.notifier).getTrendingNotes(context);
+        ref
+            .read(notesControllerProvider.notifier)
+            .getNotes(context, value, internetConnection);
+        ref
+            .read(coursesControllerProvider.notifier)
+            .getCourses(context, value, internetConnection);
+        ref
+            .read(notesControllerProvider.notifier)
+            .getTrendingNotes(context, value, internetConnection);
         ref.read(notesControllerProvider.notifier).addDataForTrendingNotes();
-        ref.read(advertisementControllerProvider.notifier).getAdvertisements(context);
+        ref
+            .read(advertisementControllerProvider.notifier)
+            .getAdvertisements(context, internetConnection);
       });
-
       getUserData();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+      
+    });
+
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    FirebaseDynamicLinkService.initDynamicLink(context, ref);
     var user = ref.watch(userDataProvider);
     final pages = [
       const HomeView(),
@@ -150,7 +170,7 @@ class _NavViewState extends ConsumerState<NavView> {
         items.removeLast();
       });
     }
-    return Container(
+    return (user==null)?Container():Container(
       color: Pallete.backgroundColor,
       child: SafeArea(
         child: Scaffold(

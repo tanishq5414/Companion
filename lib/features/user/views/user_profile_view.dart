@@ -1,5 +1,6 @@
 import 'package:companion/common/common.dart';
 import 'package:companion/common/sectionchip.dart';
+import 'package:companion/core/providers/dummy_user_provider.dart';
 import 'package:companion/features/user/controller/user_controller.dart';
 import 'package:companion/features/user/views/edit_profile_view.dart';
 import 'package:companion/theme/pallete.dart';
@@ -20,7 +21,7 @@ class UserProfileView extends ConsumerStatefulWidget {
 class UserProfileViewState extends ConsumerState<UserProfileView> {
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(userDataProvider);
+    final user = ref.watch(userDataProvider) ?? nullUser;
     var size = MediaQuery.of(context).size;
     return Container(
       color: Pallete.backgroundColor,
@@ -31,7 +32,8 @@ class UserProfileViewState extends ConsumerState<UserProfileView> {
                 appBar: AppBar(),
                 body: SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+                    padding:
+                        const EdgeInsets.only(left: 16, right: 16, top: 16),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -139,22 +141,25 @@ class UserProfileViewState extends ConsumerState<UserProfileView> {
                           ],
                         ),
                         SizedBox(height: size.width * 0.08),
-                        (!user.isAdmin!)?Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text('Not a contributor?',
-                                style: TextStyle(
-                                    color: Pallete.whiteColor,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w900)),
-                            SectionChip(
-                              onTap: () {},
-                              label: 'Become a contributor',
-                              backgroundColor: Pallete.whiteColor,
-                              textColor: Pallete.blackColor,
-                            ),
-                          ],
-                        ):Container(),
+                        (!user.isAdmin!)
+                            ? Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text('Not a contributor?',
+                                      style: TextStyle(
+                                          color: Pallete.whiteColor,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w900)),
+                                  SectionChip(
+                                    onTap: () {},
+                                    label: 'Become a contributor',
+                                    backgroundColor: Pallete.whiteColor,
+                                    textColor: Pallete.blackColor,
+                                  ),
+                                ],
+                              )
+                            : Container(),
                       ],
                     ),
                   ),

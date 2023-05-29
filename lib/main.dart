@@ -21,6 +21,8 @@ void main() async {
   Hive.registerAdapter(RecentlyAccessedAdapter());
   recentlyAccessedBox = await Hive.openBox<List>('recentlyaccessed');
   trendingBox = await Hive.openBox<String>('trending');
+  networkCache = await Hive.openBox<List>('networkcache');
+  userCache = await Hive.openBox<String>('usercache');
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

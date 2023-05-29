@@ -2,6 +2,7 @@
 // ignore_for_file: unused_import
 
 import 'package:companion/common/common.dart';
+import 'package:companion/core/providers/dummy_user_provider.dart';
 import 'package:companion/features/advertisment/widgets/advertisment_builder.dart';
 import 'package:companion/features/home/widgets/side_drawer.dart';
 import 'package:companion/features/notes/controller/notes_controller.dart';
@@ -11,6 +12,7 @@ import 'package:companion/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_octicons/flutter_octicons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
@@ -21,10 +23,19 @@ class SearchView extends ConsumerStatefulWidget {
 }
 
 class _SearchPageState extends ConsumerState<SearchView> {
+  bool internetConnection = false;
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(userDataProvider);
+    checkInternetConnection() async {
+      internetConnection = await InternetConnectionChecker().hasConnection;
+      setState(() {
+        internetConnection = internetConnection;
+      });
+    }
+
+    checkInternetConnection();
+    final user = ref.watch(userDataProvider) ?? nullUser;
     final size = MediaQuery.of(context).size;
     final notes = ref.watch(notesDataProvider);
     return (user == null)
@@ -83,10 +94,13 @@ class _SearchPageState extends ConsumerState<SearchView> {
                         SizedBox(height: size.height * 0.05),
                         const SearchBar(),
                         SizedBox(height: size.height * 0.05),
-                        Container(
-                            margin: EdgeInsets.symmetric(horizontal: size.height * 0.03),
-                            child: advertismentBuilder(
-                                size, context, ref, "search")),
+                        (internetConnection == false)
+                            ? Container()
+                            : Container(
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: size.height * 0.03),
+                                child: advertismentBuilder(
+                                    size, context, ref, "search")),
                         SizedBox(height: size.height * 0.15),
                       ],
                     ),

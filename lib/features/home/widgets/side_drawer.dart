@@ -1,3 +1,4 @@
+import 'package:companion/core/providers/dummy_user_provider.dart';
 import 'package:companion/features/info/aboutlightheadsview.dart';
 import 'package:companion/features/notes/views/add_notes_view.dart';
 import 'package:companion/features/notes/views/recently_accessed_view.dart';
@@ -20,7 +21,7 @@ class SideDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(userDataProvider);
+    final user = ref.watch(userDataProvider)??nullUser;
     //generate color from common colors from image
 
     return Drawer(
