@@ -32,4 +32,9 @@ class ChatController extends StateNotifier<bool> {
   Stream getMessages() {
     return _chatAPI.getMessages();
   }
+
+  // delete message
+  void deleteMessage(String messageId) {
+    _chatAPI.deleteMessage(messageId);
+  }
 }

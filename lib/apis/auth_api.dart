@@ -60,7 +60,6 @@ class AuthAPI implements IAuthAPI {
         );
         UserCredential userCredential =
             await _auth.signInWithCredential(credential);
-        print(credential.idToken);
         return right(userCredential); // Return a Right with the UserCredential
       } else {
         return left(Failure(

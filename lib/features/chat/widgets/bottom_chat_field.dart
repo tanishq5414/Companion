@@ -31,6 +31,10 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
 
   void sendTextMessage() async {
     if (isShowSendButton) {
+      if(_messageController.text.characters.length>260){
+
+        _messageController.text = _messageController.text.characters.take(260).toString();
+      }
       ref.read(chatControllerProvider.notifier).sendTextMessage(
             context,
             _messageController.text.trim(),

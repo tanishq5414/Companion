@@ -84,7 +84,6 @@ class _SearchState extends ConsumerState<BookmarksSearchPage> {
       Set<String> bookmarkFileIds = Set<String>.from(userbookmarklist);
       for (var note in allnotes) {
         if (bookmarkFileIds.contains(note.fileId.toString())) {
-          print(note.fileId.toString());
           bookmarks.add(note);
         }
       }

@@ -2,6 +2,7 @@ import 'package:companion/core/core.dart';
 import 'package:companion/modal/user.modal.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
 final userAPIProvider = Provider((ref) {
@@ -44,12 +45,6 @@ class UserAPI implements IUserAPI {
           return UserModal.fromJson(event.first);
         });
     return user;
-  }
-
-  @override
-  FutureVoid deleteUser(String uid) {
-    // TODO: implement deleteUser
-    throw UnimplementedError();
   }
 
   @override
@@ -101,5 +96,11 @@ class UserAPI implements IUserAPI {
       'notesContributedList': notesidList,
       'coursesContributedList': courseNameList,
     }).eq('uid', uid);
+  }
+  
+  @override
+  FutureVoid deleteUser(String uid) {
+    // TODO: implement deleteUser
+    throw UnimplementedError();
   }
 }

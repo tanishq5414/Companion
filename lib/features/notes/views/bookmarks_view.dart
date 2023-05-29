@@ -35,7 +35,6 @@ class _BookmarksPageState extends ConsumerState<BookmarksView> {
       Set<String> bookmarkFileIds = Set<String>.from(userbookmarklist);
       for (var note in allnoteslist) {
         if (bookmarkFileIds.contains(note.fileId.toString())) {
-          print(note.fileId.toString());
           bookmarks.add(note);
         }
       }

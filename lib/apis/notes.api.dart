@@ -116,11 +116,7 @@ class NotesAPI implements INotesAPI {
   FutureVoid addTrendingData(
       {required List<TrendingModal> trendingData}) async {
     try {
-      print(
-        jsonEncode(
-          trendingData.map((e) => e.toJson()).toList(),
-        ),
-      );
+      
       var options = Options(
         contentType: 'application/json',
       );
@@ -131,7 +127,6 @@ class NotesAPI implements INotesAPI {
         },
         options: options,
       );
-      print(res.statusCode);
     } catch (e, st) {
       print(e);
       print(st);
