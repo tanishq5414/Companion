@@ -63,7 +63,7 @@ class NotesController extends StateNotifier<bool> {
       BuildContext context, String token, bool internet) async {
     state = true;
     if (internet == true) {
-      final res = await _notesAPI.getTrendingNotesDay();
+      final res = await _notesAPI.getTrendingNotesDay(token);
       res.fold((l) => showSnackBar(context, l.message), (notes) {
         _ref.read(trendingNotesDailyProvider.notifier).update((state) => notes);
         networkCache.put(
@@ -71,7 +71,7 @@ class NotesController extends StateNotifier<bool> {
           notes.map((e) => jsonEncode(e.toJson())).toList(),
         );
       });
-      final res2 = await _notesAPI.getTreandingNotesWeek();
+      final res2 = await _notesAPI.getTreandingNotesWeek(token);
       res2.fold((l) => showSnackBar(context, l.message), (notes) {
         _ref
             .read(trendingNotesWeeklyProvider.notifier)

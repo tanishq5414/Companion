@@ -14,8 +14,8 @@ final dio = Dio();
 
 abstract class INotesAPI {
   FutureEither<List<NotesModal>> getNotes(String token);
-  FutureEither<List<NotesModal>> getTrendingNotesDay();
-  FutureEither<List<NotesModal>> getTreandingNotesWeek();
+  FutureEither<List<NotesModal>> getTrendingNotesDay(String token);
+  FutureEither<List<NotesModal>> getTreandingNotesWeek(String token);
   FutureVoid addTrendingData({required List<TrendingModal> trendingData});
   FutureEither<void> uploadNotes({
     required String name,
@@ -84,8 +84,9 @@ class NotesAPI implements INotesAPI {
   }
 
   @override
-  FutureEither<List<NotesModal>> getTreandingNotesWeek() async {
+  FutureEither<List<NotesModal>> getTreandingNotesWeek(String token) async {
     try {
+      dio.options.headers['authorization'] = token;
       final notesData = await dio.get(trendingNotesByWeekURL);
       List<NotesModal> notesList = [];
       notesData.data['data']['trending'].forEach((element) {
@@ -98,10 +99,11 @@ class NotesAPI implements INotesAPI {
   }
 
   @override
-  FutureEither<List<NotesModal>> getTrendingNotesDay() async {
+  FutureEither<List<NotesModal>> getTrendingNotesDay(String token) async {
     try {
+      dio.options.headers['authorization'] = token;
       final notesData = await dio.get(trendingNotesByDayURL);
-
+      print(notesData.data);
       List<NotesModal> notesList = [];
       notesData.data['data']['trending'].forEach((element) {
         notesList.add(NotesModal.fromJson(element));
