@@ -4,6 +4,7 @@ import 'package:companion/constants/constants.dart';
 import 'package:companion/core/providers/dummy_user_provider.dart';
 import 'package:companion/features/notes/controller/notes_controller.dart';
 import 'package:companion/features/notes/views/notes_menu.dart';
+import 'package:companion/features/notes/views/notes_pdf_view.dart';
 import 'package:companion/features/notes/widgets/notes_preview.dart';
 import 'package:companion/features/user/controller/user_controller.dart';
 import 'package:companion/modal/courses.modal.dart';
@@ -95,7 +96,7 @@ class _BasicSliverAppBarState extends ConsumerState<BasicSliverAppBar> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     var notes = ref.watch(notesDataProvider)!;
-    final user = ref.watch(userDataProvider)??nullUser;
+    final user = ref.watch(userDataProvider) ?? nullUser;
     var sortedAlphabetical = ref.watch(sortNoteProvider) ?? true;
 
     List<NotesModal> notesList = getnotes(widget.course.fileId!, notes);
@@ -273,6 +274,9 @@ class _BasicSliverAppBarState extends ConsumerState<BasicSliverAppBar> {
   ListTile NotesView(
       List<NotesModal> notesList, int index, UserModal user, Size size) {
     return ListTile(
+      onTap: () {
+        Navigator.push(context, NotesPdfView.route(notes: notesList[index]));
+      },
       onLongPress: () => Navigator.of(context).push(
         PageRouteBuilder(
           opaque: false, // set to false

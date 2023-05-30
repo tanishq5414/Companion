@@ -107,8 +107,25 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                 Navigator.push(
                                     context, MobileChatScreen.route(user.uid!));
                               },
-                              child: Image.asset('assets/logo/dm.png',
-                                  width: size.width * 0.08),
+                              child: Stack(
+                                children: [
+                                  Image.asset('assets/logo/dm.png',
+                                      width: size.width * 0.08),
+                                  Positioned(
+                                    right: 0,
+                                    top: 0,
+                                    child: Container(
+                                      width: size.width * 0.03,
+                                      height: size.width * 0.03,
+                                      decoration: BoxDecoration(
+                                        color: Pallete.redColor,
+                                        borderRadius:
+                                            BorderRadius.circular(1000),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],

@@ -1,3 +1,4 @@
+import 'package:companion/theme/custom_page_transistion.dart';
 import 'package:companion/theme/pallete.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +8,10 @@ class AppTheme {
     textTheme: const TextTheme(
       
     ),
+    pageTransitionsTheme: PageTransitionsTheme(builders: {
+      TargetPlatform.android: ExtendedBlackScreenTransitionsBuilder(),
+      TargetPlatform.iOS: ZoomPageTransitionsBuilder(),
+    }),
     splashFactory: NoSplash.splashFactory,
     highlightColor: Colors.transparent,
     splashColor: Colors.transparent,
