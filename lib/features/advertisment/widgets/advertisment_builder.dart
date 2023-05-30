@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:companion/apis/advertisment_api.dart';
 import 'package:companion/features/advertisment/controller/advertisment_controller.dart';
 import 'package:companion/theme/pallete.dart';
@@ -7,21 +8,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
-ListView advertismentBuilder(Size size, context, WidgetRef ref, String place) {
+advertismentBuilder(Size size, context, WidgetRef ref, String place) {
   final advert = ref.read(advertisementsDataProvider);
-
+  
   _launchURL(String url) async {
     final uri = Uri.parse(url);
     // ignore: deprecated_member_use
     await launch(url);
   }
 
-  return ListView.builder(
-      itemCount: (place == "home")?1:advert!.length,
+  return (advert == null)?Container():ListView.builder(
+      itemCount: (place == "home")?1:advert.length,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        String image = advert![index].photoUrl!;
+        String image = advert[index].photoUrl!;
         String url = advert[index].redirectUrl!;
         return (advert[index].display! == false)?Container():(advert[index].size == "large" )
             ? largeAdvertisment(_launchURL, url, size, image)
@@ -49,7 +50,10 @@ Container largeAdvertisment(
             height: size.width * 0.7,
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(20.0),
-                child: Image.network(image))),
+                child: CachedNetworkImage(
+                  imageUrl: image,
+                  fit: BoxFit.fill,
+                ))),
       ),
     ),
   );
@@ -79,16 +83,15 @@ InkWell advertismentSmallBuilder(
         child: Center(
           child: Row(
             children: [
-              // display a network image
               Container(
                 width: size.width * 0.4,
                 height: size.width * 0.4,
-                decoration: BoxDecoration(
-                  color: Pallete.greyColor,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Image.network(
-                  imageUrl,
+                // decoration: BoxDecoration(
+                //   color: Pallete.greyColor,
+                //   borderRadius: BorderRadius.circular(15),
+                // ),
+                child: CachedNetworkImage(
+                  imageUrl: imageUrl,
                   fit: BoxFit.fill,
                 ),
               ),

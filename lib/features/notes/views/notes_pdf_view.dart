@@ -117,6 +117,8 @@ class _NotesPdfViewState extends State<NotesPdfView> {
                         onDocumentLoadFailed: (details) {
                           filereDownload();
                         },
+                        canShowPageLoadingIndicator: false,
+
                       );
                     } else {
                       return Container();

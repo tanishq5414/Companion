@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:companion/core/providers/dummy_user_provider.dart';
 import 'package:companion/features/info/aboutlightheadsview.dart';
 import 'package:companion/features/notes/views/add_notes_view.dart';
@@ -41,7 +42,8 @@ class SideDrawer extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Pallete.whiteColor,
                   image: DecorationImage(
-                    image: NetworkImage(user!.photoUrl!),
+                    image: CachedNetworkImageProvider(
+                                        user.photoUrl!),
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.circular(100),

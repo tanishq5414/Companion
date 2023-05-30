@@ -3,6 +3,7 @@
 import 'package:companion/core/providers/dummy_user_provider.dart';
 import 'package:companion/features/hive/boxes.dart';
 import 'package:companion/features/notes/controller/notes_controller.dart';
+import 'package:companion/features/notes/views/notes_menu.dart';
 import 'package:companion/features/notes/views/notes_pdf_view.dart';
 import 'package:companion/features/user/controller/user_controller.dart';
 import 'package:companion/modal/notes.modal.dart';
@@ -164,6 +165,9 @@ class _SearchState extends ConsumerState<BookmarksSearchPage> {
 
   notesComponent({required NotesModal notes}) {
     return InkWell(
+      onLongPress: () {
+        Navigator.push(context, NotesMenu.route(notes: notes));
+      },
       onTap: () {
         recentlyAccessedBox.add(
             [notes.fileId!, DateTime.now().millisecondsSinceEpoch.toString()]);

@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:companion/common/common.dart';
 import 'package:companion/core/core.dart';
 import 'package:companion/core/providers/dummy_user_provider.dart';
@@ -70,7 +71,8 @@ class SettingsPage extends ConsumerWidget {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                  image: NetworkImage(user!.photoUrl!),
+                                  image: CachedNetworkImageProvider(
+                                        user.photoUrl!),
                                   fit: BoxFit.cover,
                                 ),
                               ),

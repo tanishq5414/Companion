@@ -4,6 +4,7 @@ import 'package:companion/features/courses/controller/courses_controller.dart';
 import 'package:companion/features/hive/boxes.dart';
 import 'package:companion/features/notes/controller/notes_controller.dart';
 import 'package:companion/features/notes/views/notes_pdf_view.dart';
+import 'package:companion/features/search/widgets/notes_component.dart';
 import 'package:companion/modal/courses.modal.dart';
 import 'package:companion/modal/notes.modal.dart';
 import 'package:companion/theme/pallete.dart';
@@ -112,7 +113,7 @@ class _SearchState extends ConsumerState<MainSearchPage> {
                       itemCount:
                           foundedNotes.length > 15 ? 15 : foundedNotes.length,
                       itemBuilder: (context, index) {
-                        return notesComponent(notes: foundedNotes[index]);
+                        return notesComponent(notes: foundedNotes[index], context: context);
                       })
                   : Center(
                       child: (editingController.value.text.isNotEmpty)
@@ -133,51 +134,6 @@ class _SearchState extends ConsumerState<MainSearchPage> {
                     ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  notesComponent({required NotesModal notes}) {
-    return InkWell(
-      onTap: () {
-        recentlyAccessedBox.add(
-            [notes.fileId!, DateTime.now().millisecondsSinceEpoch.toString()]);
-        trendingBox.add(notes.fileId!);
-        Navigator.push(context, NotesPdfView.route(notes: notes));
-      },
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 20),
-        padding: const EdgeInsets.only(top: 10, bottom: 10),
-        child: Row(
-          children: [
-            ZoomTapAnimation(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    notes.name ?? '',
-                    style: const TextStyle(
-                        color: Pallete.whiteColor, fontSize: 16),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    notes.course ?? 'Course Name',
-                    style: const TextStyle(
-                        color: Pallete.lightGreyColor, fontSize: 14),
-                  ),
-                ],
-              ),
-            ),
-            Spacer(),
-            Text(
-              '${notes.unit} Unit',
-              style:
-                  const TextStyle(color: Pallete.lightGreyColor, fontSize: 14),
-            ),
-          ],
         ),
       ),
     );

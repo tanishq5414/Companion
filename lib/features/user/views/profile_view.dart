@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:companion/common/loading_page.dart';
 import 'package:companion/common/sectionchip.dart';
 import 'package:companion/core/providers/dummy_user_provider.dart';
@@ -47,7 +48,8 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                               decoration: BoxDecoration(
                                 color: Pallete.whiteColor,
                                 image: DecorationImage(
-                                  image: NetworkImage(user.photoUrl!),
+                                  image: CachedNetworkImageProvider(
+                                        user.photoUrl!),
                                   fit: BoxFit.cover,
                                 ),
                                 borderRadius: BorderRadius.circular(100),

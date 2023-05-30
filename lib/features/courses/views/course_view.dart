@@ -5,16 +5,13 @@ import 'package:companion/core/providers/dummy_user_provider.dart';
 import 'package:companion/features/notes/controller/notes_controller.dart';
 import 'package:companion/features/notes/views/notes_menu.dart';
 import 'package:companion/features/notes/views/notes_pdf_view.dart';
-import 'package:companion/features/notes/widgets/notes_preview.dart';
 import 'package:companion/features/user/controller/user_controller.dart';
 import 'package:companion/modal/courses.modal.dart';
 import 'package:companion/modal/notes.modal.dart';
 import 'package:companion/modal/user.modal.dart';
 import 'package:companion/theme/pallete.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_octicons/flutter_octicons.dart';
-import 'package:fpdart/fpdart.dart';
-import 'package:timeago/timeago.dart' as timeago;
+import 'package:flutter_octicons/flutter_octicons.dart';import 'package:timeago/timeago.dart' as timeago;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 typedef BoolCallback = void Function(bool val);
@@ -41,7 +38,7 @@ class BasicSliverAppBar extends ConsumerStatefulWidget {
 }
 
 class _BasicSliverAppBarState extends ConsumerState<BasicSliverAppBar> {
-  bool unitView = true;
+  bool unitView = false;
 
   set view(bool val) {
     setState(() {
@@ -97,7 +94,7 @@ class _BasicSliverAppBarState extends ConsumerState<BasicSliverAppBar> {
     final size = MediaQuery.of(context).size;
     var notes = ref.watch(notesDataProvider)!;
     final user = ref.watch(userDataProvider) ?? nullUser;
-    var sortedAlphabetical = ref.watch(sortNoteProvider) ?? true;
+    var sortedAlphabetical = ref.watch(sortNoteProvider) ?? false;
 
     List<NotesModal> notesList = getnotes(widget.course.fileId!, notes);
     List<NotesModal> unit0notesList =
@@ -383,24 +380,6 @@ class SortBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        (unitView)
-            ? const SectionChip(
-                label: 'Unit view',
-                backgroundColor: Colors.white,
-                textColor: Pallete.blackColor,
-              )
-            : SectionChip(
-                onTap: () {
-                  BasicSliverAppBar.of(context)!.view = true;
-                },
-                label: 'Unit view',
-                backgroundColor: Colors.transparent,
-                textColor: Pallete.whiteColor,
-                borderColor: Pallete.whiteColor,
-              ),
-        const SizedBox(
-          width: 10,
-        ),
         (!unitView)
             ? const SectionChip(
                 label: 'All notes',
@@ -412,6 +391,24 @@ class SortBar extends StatelessWidget {
                   BasicSliverAppBar.of(context)!.view = false;
                 },
                 label: 'All notes',
+                backgroundColor: Colors.transparent,
+                textColor: Pallete.whiteColor,
+                borderColor: Pallete.whiteColor,
+              ),
+        const SizedBox(
+          width: 10,
+        ),
+        (unitView)
+            ? const SectionChip(
+                label: 'Unit view',
+                backgroundColor: Colors.white,
+                textColor: Pallete.blackColor,
+              )
+            : SectionChip(
+                onTap: () {
+                  BasicSliverAppBar.of(context)!.view = true;
+                },
+                label: 'Unit view',
                 backgroundColor: Colors.transparent,
                 textColor: Pallete.whiteColor,
                 borderColor: Pallete.whiteColor,

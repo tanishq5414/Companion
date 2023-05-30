@@ -19,6 +19,7 @@ class MobileChatScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -32,9 +33,12 @@ class MobileChatScreen extends ConsumerWidget {
                 isGroupChat: true,
               ),
             ),
-            BottomChatField(
-              recieverUserId: uid,
-              isGroupChat: true,
+            Padding(
+              padding: EdgeInsets.all(size.width * 0.04),
+              child: BottomChatField(
+                recieverUserId: uid,
+                isGroupChat: true,
+              ),
             ),
           ],
         ),

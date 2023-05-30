@@ -53,6 +53,7 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
     return Column(
       children: [
         Row(
@@ -94,11 +95,7 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(
-                bottom: 8,
-                right: 2,
-                left: 2,
-              ),
+              padding: EdgeInsets.only(left: size.width * 0.005),
               child: CircleAvatar(
                 backgroundColor: Pallete.greyColor,
                 radius: 25,

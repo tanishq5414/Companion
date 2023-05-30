@@ -1,6 +1,7 @@
 //flutter screen with a search bar
 // ignore_for_file: unused_import
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:companion/common/common.dart';
 import 'package:companion/core/providers/dummy_user_provider.dart';
 import 'package:companion/features/advertisment/widgets/advertisment_builder.dart';
@@ -67,7 +68,8 @@ class _SearchPageState extends ConsumerState<SearchView> {
                           decoration: BoxDecoration(
                             color: Pallete.whiteColor,
                             image: DecorationImage(
-                              image: NetworkImage(user.photoUrl!),
+                              image:CachedNetworkImageProvider(
+                                        user.photoUrl!),
                               fit: BoxFit.cover,
                             ),
                             borderRadius: BorderRadius.circular(100),
@@ -94,9 +96,7 @@ class _SearchPageState extends ConsumerState<SearchView> {
                         SizedBox(height: size.height * 0.05),
                         const SearchBar(),
                         SizedBox(height: size.height * 0.05),
-                        (internetConnection == false)
-                            ? Container()
-                            : Container(
+                                Container(
                                 margin: EdgeInsets.symmetric(
                                     horizontal: size.height * 0.03),
                                 child: advertismentBuilder(
