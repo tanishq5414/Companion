@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ExtendedBlackScreenTransitionsBuilder extends PageTransitionsBuilder {
   final Duration blackScreenDuration;
 
-  ExtendedBlackScreenTransitionsBuilder({this.blackScreenDuration = const Duration(milliseconds: 1000)});
+  ExtendedBlackScreenTransitionsBuilder({this.blackScreenDuration = const Duration(milliseconds: 2000)});
 
   @override
   Widget buildTransitions<T>(
