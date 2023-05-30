@@ -98,7 +98,7 @@ class _SearchPageState extends ConsumerState<SearchView> {
                         SizedBox(height: size.height * 0.05),
                                 Container(
                                 margin: EdgeInsets.symmetric(
-                                    horizontal: size.height * 0.03),
+                                    horizontal: size.width * 0.03),
                                 child: advertismentBuilder(
                                     size, context, ref, "search")),
                         SizedBox(height: size.height * 0.15),

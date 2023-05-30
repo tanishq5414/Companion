@@ -25,6 +25,8 @@ class _NotesMenuState extends ConsumerState<NotesInfoView> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    DateTime date =
+        DateTime.fromMillisecondsSinceEpoch(int.parse(widget.notes.createdAt!));
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -53,21 +55,45 @@ class _NotesMenuState extends ConsumerState<NotesInfoView> {
                   verticalDirection: VerticalDirection.up,
                   children: [
                     SizedBox(height: size.height * 0.1),
-                    Text('Course: ${widget.notes.course!}', style: TextStyle(color: Pallete.whiteColor),),
+                    Text(
+                      'Course: ${widget.notes.course!}',
+                      style: TextStyle(color: Pallete.whiteColor),
+                    ),
                     SizedBox(height: size.height * 0.02),
-                    Text('Year: ${widget.notes.year!}', style: TextStyle(color: Pallete.whiteColor),),
+                    Text(
+                      'Year: ${widget.notes.year!}',
+                      style: TextStyle(color: Pallete.whiteColor),
+                    ),
                     SizedBox(height: size.height * 0.02),
-                    Text('Semester: ${widget.notes.semester!}', style: TextStyle(color: Pallete.whiteColor),),
+                    Text(
+                      'Semester: ${widget.notes.semester!}',
+                      style: TextStyle(color: Pallete.whiteColor),
+                    ),
                     SizedBox(height: size.height * 0.02),
-                    Text('Unit: ${widget.notes.unit!}', style: TextStyle(color: Pallete.whiteColor),),  
+                    Text(
+                      'Unit: ${widget.notes.unit!}',
+                      style: TextStyle(color: Pallete.whiteColor),
+                    ),
                     SizedBox(height: size.height * 0.02),
-                    Text('Branch: ${widget.notes.branch!}', style: TextStyle(color: Pallete.whiteColor),),
+                    Text(
+                      'Branch: ${widget.notes.branch!}',
+                      style: TextStyle(color: Pallete.whiteColor),
+                    ),
                     SizedBox(height: size.height * 0.02),
-                    Text('Author: ${widget.notes.author!}', style: TextStyle(color: Pallete.whiteColor),),
+                    Text(
+                      'Author: ${widget.notes.author!}',
+                      style: TextStyle(color: Pallete.whiteColor),
+                    ),
                     SizedBox(height: size.height * 0.02),
-                    Text('Created: ${widget.notes.createdAt!}', style: TextStyle(color: Pallete.whiteColor),),
+                    Text(
+                      'Created: ${date}',
+                      style: TextStyle(color: Pallete.whiteColor),
+                    ),
                     SizedBox(height: size.height * 0.02),
-                    Text('Name: ${widget.notes.name!}', style: TextStyle(color: Pallete.whiteColor),),
+                    Text(
+                      'Name: ${widget.notes.name!}',
+                      style: TextStyle(color: Pallete.whiteColor),
+                    ),
                     SizedBox(height: size.height * 0.05),
                     Expanded(
                       child: NotesPreview(
