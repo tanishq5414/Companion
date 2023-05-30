@@ -68,7 +68,7 @@ bool containsNSFWWords(String message, List<String> nsfwWordList) {
 }
 
   Stream getMessages() {
-    return _firestore.collection('messages').orderBy('timestamp', descending: false).limitToLast(20).snapshots();
+    return _firestore.collection('messages').orderBy('timestamp', descending: false).limitToLast(40).snapshots();
   }
 
   // delete message accoring to message id

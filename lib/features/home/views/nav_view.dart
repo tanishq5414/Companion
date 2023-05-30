@@ -66,7 +66,7 @@ class _NavViewState extends ConsumerState<NavView> {
       });
       getUserData();
       WidgetsBinding.instance.addPostFrameCallback((_) {
-      
+          FirebaseDynamicLinkService.initDynamicLink(context, ref);
     });
 
     });
