@@ -92,7 +92,11 @@ class LoginView extends ConsumerWidget {
                           width: size.width *0.8,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(40),
-                            color: Pallete.whiteColor,
+                            color: Colors.transparent,
+                            border: Border.all(
+                              color: Pallete.whiteColor,
+                              width: 1,
+                            ),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -106,7 +110,7 @@ class LoginView extends ConsumerWidget {
                                 'Login with Google',
                                 style: TextStyle(
                                     fontSize: 16,
-                                    color: Pallete.blackColor,
+                                    color: Pallete.whiteColor,
                                     fontWeight: FontWeight.w400),
                               ),
                             ],

@@ -1,10 +1,10 @@
-
 import 'package:companion/features/hive/boxes.dart';
 import 'package:companion/features/hive/modal/recentlyaccessed.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'package:companion/features/auth/controller/auth_controller.dart';
 import 'package:companion/theme/app_theme.dart';
@@ -14,9 +14,8 @@ import 'common/common.dart';
 import 'features/auth/views/login_view.dart';
 import 'features/home/views/nav_view.dart';
 
-
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(RecentlyAccessedAdapter());
   recentlyAccessedBox = await Hive.openBox<List>('recentlyaccessed');

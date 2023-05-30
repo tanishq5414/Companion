@@ -11,6 +11,7 @@ import 'package:companion/features/user/controller/user_controller.dart';
 import 'package:companion/theme/pallete.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_octicons/flutter_octicons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -66,9 +67,8 @@ class _NavViewState extends ConsumerState<NavView> {
       });
       getUserData();
       WidgetsBinding.instance.addPostFrameCallback((_) {
-          FirebaseDynamicLinkService.initDynamicLink(context, ref);
-    });
-
+        FirebaseDynamicLinkService.initDynamicLink(context, ref);
+      });
     });
   }
 
@@ -170,63 +170,66 @@ class _NavViewState extends ConsumerState<NavView> {
         items.removeLast();
       });
     }
-    return (user==null)?Container():Container(
-      color: Pallete.backgroundColor,
-      child: SafeArea(
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: Stack(
-            children: [
-              pages[selectedIndex],
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          //begin color
-                          Colors.black.withOpacity(0.0),
-                          Colors.black.withOpacity(0.1),
-                          Colors.black.withOpacity(0.2),
-                          Colors.black.withOpacity(0.3),
-                          Colors.black.withOpacity(0.4),
-                          Colors.black.withOpacity(0.6),
-                          Colors.black.withOpacity(0.7),
-                          Colors.black.withOpacity(0.8),
-                          Colors.black.withOpacity(0.9),
-                          Colors.black.withOpacity(1.0),
-                        ]),
-                  ),
-                  height: size.height * 0.16,
-                  width: size.width,
-                  child: Container(
-                    margin: EdgeInsets.fromLTRB(size.width * 0.07,
-                        size.width * 0.03, size.width * 0.07, 0),
-                    // color: Colors.transparent,
-                    child: BottomNavigationBar(
-                        type: BottomNavigationBarType.fixed,
-                        selectedItemColor: Pallete.whiteColor,
-                        unselectedItemColor: Pallete.darkGreyColor,
-                        showSelectedLabels: true,
-                        showUnselectedLabels: true,
-                        selectedLabelStyle: const TextStyle(fontSize: 10),
-                        unselectedLabelStyle: const TextStyle(fontSize: 10),
-                        elevation: 40,
-                        backgroundColor: Colors.transparent,
-                        items: items,
-                        currentIndex: selectedIndex,
-                        onTap: (index) => setState(() {
-                              selectedIndex = index;
-                            })),
-                  ),
+    return (user == null)
+        ? Container()
+        : Container(
+            color: Pallete.backgroundColor,
+            child: SafeArea(
+              child: Scaffold(
+                resizeToAvoidBottomInset: false,
+                body: Stack(
+                  children: [
+                    pages[selectedIndex],
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                //begin color
+                                Colors.black.withOpacity(0.0),
+                                Colors.black.withOpacity(0.1),
+                                Colors.black.withOpacity(0.2),
+                                Colors.black.withOpacity(0.3),
+                                Colors.black.withOpacity(0.4),
+                                Colors.black.withOpacity(0.6),
+                                Colors.black.withOpacity(0.7),
+                                Colors.black.withOpacity(0.8),
+                                Colors.black.withOpacity(0.9),
+                                Colors.black.withOpacity(1.0),
+                              ]),
+                        ),
+                        height: size.height * 0.16,
+                        width: size.width,
+                        child: Container(
+                          margin: EdgeInsets.fromLTRB(size.width * 0.07,
+                              size.width * 0.03, size.width * 0.07, 0),
+                          // color: Colors.transparent,
+                          child: BottomNavigationBar(
+                              type: BottomNavigationBarType.fixed,
+                              selectedItemColor: Pallete.whiteColor,
+                              unselectedItemColor: Pallete.darkGreyColor,
+                              showSelectedLabels: true,
+                              showUnselectedLabels: true,
+                              selectedLabelStyle: const TextStyle(fontSize: 10),
+                              unselectedLabelStyle:
+                                  const TextStyle(fontSize: 10),
+                              elevation: 40,
+                              backgroundColor: Colors.transparent,
+                              items: items,
+                              currentIndex: selectedIndex,
+                              onTap: (index) => setState(() {
+                                    selectedIndex = index;
+                                  })),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+              ),
+            ),
+          );
   }
 }
