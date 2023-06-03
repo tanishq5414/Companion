@@ -80,3 +80,12 @@ https://www.linkedin.com/in/kaamil-mirza/
 Tanishq
 tanishq@lightheads.org
 https://www.linkedin.com/in/kaamil-mirza/
+
+## Contributors
+Thank you!
+
+<a href="[https://github.com/tanishq5414/Companion]/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=tanishq5414/Companion" />
+</a>
+
+<br/>
