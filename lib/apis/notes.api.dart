@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:companion/config/config.dart';
 import 'package:companion/core/core.dart';
-import 'package:companion/modal/notes.modal.dart';
-import 'package:companion/modal/trending.modal.dart';
+import 'package:companion/model/notes.model.dart';
+import 'package:companion/model/trending.model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
@@ -13,10 +13,10 @@ final notesAPIProvider = Provider((ref) => NotesAPI());
 final dio = Dio();
 
 abstract class INotesAPI {
-  FutureEither<List<NotesModal>> getNotes(String token);
-  FutureEither<List<NotesModal>> getTrendingNotesDay(String token);
-  FutureEither<List<NotesModal>> getTreandingNotesWeek(String token);
-  FutureVoid addTrendingData({required List<TrendingModal> trendingData});
+  FutureEither<List<NotesModel>> getNotes(String token);
+  FutureEither<List<NotesModel>> getTrendingNotesDay(String token);
+  FutureEither<List<NotesModel>> getTreandingNotesWeek(String token);
+  FutureVoid addTrendingData({required List<TrendingModel> trendingData});
   FutureEither<void> uploadNotes({
     required String name,
     required String year,
@@ -33,15 +33,15 @@ abstract class INotesAPI {
 
 class NotesAPI implements INotesAPI {
   @override
-  FutureEither<List<NotesModal>> getNotes(String token) async {
+  FutureEither<List<NotesModel>> getNotes(String token) async {
     try {
       dio.options.headers['authorization'] = token;
       final notesData = await dio.get(
         notesUrl,
       );
-      List<NotesModal> notesList = [];
+      List<NotesModel> notesList = [];
       notesData.data['data']['files'].forEach((element) {
-        notesList.add(NotesModal.fromJson(element));
+        notesList.add(NotesModel.fromJson(element));
       });
       return right(notesList);
     } catch (e, st) {
@@ -84,13 +84,13 @@ class NotesAPI implements INotesAPI {
   }
 
   @override
-  FutureEither<List<NotesModal>> getTreandingNotesWeek(String token) async {
+  FutureEither<List<NotesModel>> getTreandingNotesWeek(String token) async {
     try {
       dio.options.headers['authorization'] = token;
       final notesData = await dio.get(trendingNotesByWeekURL);
-      List<NotesModal> notesList = [];
+      List<NotesModel> notesList = [];
       notesData.data['data']['trending'].forEach((element) {
-        notesList.add(NotesModal.fromJson(element));
+        notesList.add(NotesModel.fromJson(element));
       });
       return right(notesList);
     } catch (e, st) {
@@ -99,14 +99,14 @@ class NotesAPI implements INotesAPI {
   }
 
   @override
-  FutureEither<List<NotesModal>> getTrendingNotesDay(String token) async {
+  FutureEither<List<NotesModel>> getTrendingNotesDay(String token) async {
     try {
       dio.options.headers['authorization'] = token;
       final notesData = await dio.get(trendingNotesByDayURL);
       print(notesData.data);
-      List<NotesModal> notesList = [];
+      List<NotesModel> notesList = [];
       notesData.data['data']['trending'].forEach((element) {
-        notesList.add(NotesModal.fromJson(element));
+        notesList.add(NotesModel.fromJson(element));
       });
       return right(notesList);
     } catch (e, st) {
@@ -116,7 +116,7 @@ class NotesAPI implements INotesAPI {
 
   @override
   FutureVoid addTrendingData(
-      {required List<TrendingModal> trendingData}) async {
+      {required List<TrendingModel> trendingData}) async {
     try {
       
       var options = Options(

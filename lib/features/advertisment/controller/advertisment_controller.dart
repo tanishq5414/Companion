@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:companion/apis/advertisment_api.dart';
 import 'package:companion/core/core.dart';
 import 'package:companion/features/hive/boxes.dart';
-import 'package:companion/modal/advertisment.modal.dart';
+import 'package:companion/model/advertisment.model.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final advertisementsDataProvider =
-    StateProvider<List<AdvertismentModal>?>((ref) => null);
+    StateProvider<List<AdvertismentModel>?>((ref) => null);
 
 final advertisementControllerProvider =
     StateNotifierProvider<AdvertisementController, bool>((ref) {
@@ -52,10 +52,10 @@ class AdvertisementController extends StateNotifier<bool> {
       final notes = networkCache.get('getAdvertisements');
       if (notes != null) {
         final List<String> getAdvertisments = notes.cast<String>();
-        List<AdvertismentModal> notesList = [];
+        List<AdvertismentModel> notesList = [];
         getAdvertisments.forEach((noteString) {
           final Map<String, dynamic> noteMap = jsonDecode(noteString);
-          notesList.add(AdvertismentModal.fromJson(noteMap));
+          notesList.add(AdvertismentModel.fromJson(noteMap));
         });
         _ref.read(advertisementsDataProvider.notifier).update((state) => notesList);
       }

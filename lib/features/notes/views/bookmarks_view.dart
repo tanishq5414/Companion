@@ -7,7 +7,7 @@ import 'package:companion/features/notes/widgets/notes_preview.dart';
 import 'package:companion/features/home/widgets/side_drawer.dart';
 import 'package:companion/features/notes/controller/notes_controller.dart';
 import 'package:companion/features/user/controller/user_controller.dart';
-import 'package:companion/modal/notes.modal.dart';
+import 'package:companion/model/notes.model.dart';
 import 'package:companion/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_octicons/flutter_octicons.dart';
@@ -31,8 +31,8 @@ class _BookmarksPageState extends ConsumerState<BookmarksView> {
     final user = ref.watch(userDataProvider) ?? nullUser;
     final allnoteslist = ref.read(notesDataProvider)!;
     var userbookmarklist = user.bid!;
-    List<NotesModal> bookmarks = [];
-    List<NotesModal> getBookmarks() {
+    List<NotesModel> bookmarks = [];
+    List<NotesModel> getBookmarks() {
       Set<String> bookmarkFileIds = Set<String>.from(userbookmarklist);
       for (var note in allnoteslist) {
         if (bookmarkFileIds.contains(note.fileId.toString())) {

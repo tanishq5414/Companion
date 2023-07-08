@@ -6,7 +6,7 @@ import 'package:companion/features/notes/controller/notes_controller.dart';
 import 'package:companion/features/notes/views/notes_menu.dart';
 import 'package:companion/features/notes/views/notes_pdf_view.dart';
 import 'package:companion/features/user/controller/user_controller.dart';
-import 'package:companion/modal/notes.modal.dart';
+import 'package:companion/model/notes.model.dart';
 import 'package:companion/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_octicons/flutter_octicons.dart';
@@ -27,11 +27,11 @@ class BookmarksSearchPage extends ConsumerStatefulWidget {
 }
 
 class _SearchState extends ConsumerState<BookmarksSearchPage> {
-  List<NotesModal> foundedNotes = [];
-  List<NotesModal> _notes = [];
+  List<NotesModel> foundedNotes = [];
+  List<NotesModel> _notes = [];
 
-  List<NotesModal> getBookmarks(List<NotesModal> allnotes, user) {
-    List<NotesModal> bookmarks = [];
+  List<NotesModel> getBookmarks(List<NotesModel> allnotes, user) {
+    List<NotesModel> bookmarks = [];
     var userbookmarklist =
         user?.bid?.map((id) => id.toString())?.toList() ?? [];
 
@@ -80,8 +80,8 @@ class _SearchState extends ConsumerState<BookmarksSearchPage> {
     final allnotes = ref.read(notesDataProvider)!;
     var user = ref.watch(userDataProvider) ?? nullUser;
     var userbookmarklist = user?.bid ?? [''];
-    List<NotesModal> bookmarks = [];
-    List<NotesModal> getBookmarks() {
+    List<NotesModel> bookmarks = [];
+    List<NotesModel> getBookmarks() {
       Set<String> bookmarkFileIds = Set<String>.from(userbookmarklist);
       for (var note in allnotes) {
         if (bookmarkFileIds.contains(note.fileId.toString())) {
@@ -163,7 +163,7 @@ class _SearchState extends ConsumerState<BookmarksSearchPage> {
     );
   }
 
-  notesComponent({required NotesModal notes}) {
+  notesComponent({required NotesModel notes}) {
     return InkWell(
       onLongPress: () {
         Navigator.push(context, NotesMenu.route(notes: notes));

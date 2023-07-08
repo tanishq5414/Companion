@@ -6,9 +6,9 @@ import 'package:companion/features/notes/controller/notes_controller.dart';
 import 'package:companion/features/notes/views/notes_menu.dart';
 import 'package:companion/features/notes/views/notes_pdf_view.dart';
 import 'package:companion/features/user/controller/user_controller.dart';
-import 'package:companion/modal/courses.modal.dart';
-import 'package:companion/modal/notes.modal.dart';
-import 'package:companion/modal/user.modal.dart';
+import 'package:companion/model/courses.model.dart';
+import 'package:companion/model/notes.model.dart';
+import 'package:companion/model/user.model.dart';
 import 'package:companion/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_octicons/flutter_octicons.dart';import 'package:timeago/timeago.dart' as timeago;
@@ -18,11 +18,11 @@ typedef BoolCallback = void Function(bool val);
 final sortNoteProvider = StateProvider<bool?>((ref) => null);
 
 class BasicSliverAppBar extends ConsumerStatefulWidget {
-  final CoursesModal course;
+  final CoursesModel course;
   const BasicSliverAppBar({super.key, required this.course});
 
   static Route route({
-    required CoursesModal course,
+    required CoursesModel course,
   }) {
     return MaterialPageRoute<void>(
         builder: (_) => BasicSliverAppBar(
@@ -46,14 +46,14 @@ class _BasicSliverAppBarState extends ConsumerState<BasicSliverAppBar> {
     });
   }
 
-  getnotes(List<String> fileIds, List<NotesModal> notes) {
-    Map<String, NotesModal> notesMap = {};
+  getnotes(List<String> fileIds, List<NotesModel> notes) {
+    Map<String, NotesModel> notesMap = {};
 
     for (var note in notes) {
       notesMap[note.fileId!] = note;
     }
 
-    List<NotesModal> notesList = [];
+    List<NotesModel> notesList = [];
 
     for (var fileId in fileIds) {
       var note = notesMap[fileId];
@@ -65,14 +65,14 @@ class _BasicSliverAppBarState extends ConsumerState<BasicSliverAppBar> {
     return notesList;
   }
 
-  getNotesByUnit(List<String> fileIds, List<NotesModal> notes, int unit) {
-    Map<String, NotesModal> notesMap = {};
+  getNotesByUnit(List<String> fileIds, List<NotesModel> notes, int unit) {
+    Map<String, NotesModel> notesMap = {};
 
     for (var note in notes) {
       notesMap[note.fileId!] = note;
     }
 
-    List<NotesModal> notesList = [];
+    List<NotesModel> notesList = [];
 
     for (var fileId in fileIds) {
       var note = notesMap[fileId];
@@ -96,18 +96,18 @@ class _BasicSliverAppBarState extends ConsumerState<BasicSliverAppBar> {
     final user = ref.watch(userDataProvider) ?? nullUser;
     var sortedAlphabetical = ref.watch(sortNoteProvider) ?? false;
 
-    List<NotesModal> notesList = getnotes(widget.course.fileId!, notes);
-    List<NotesModal> unit0notesList =
+    List<NotesModel> notesList = getnotes(widget.course.fileId!, notes);
+    List<NotesModel> unit0notesList =
         getNotesByUnit(widget.course.fileId!, notes, 0);
-    List<NotesModal> unit1notesList =
+    List<NotesModel> unit1notesList =
         getNotesByUnit(widget.course.fileId!, notes, 1);
-    List<NotesModal> unit2notesList =
+    List<NotesModel> unit2notesList =
         getNotesByUnit(widget.course.fileId!, notes, 2);
-    List<NotesModal> unit3notesList =
+    List<NotesModel> unit3notesList =
         getNotesByUnit(widget.course.fileId!, notes, 3);
-    List<NotesModal> unit4notesList =
+    List<NotesModel> unit4notesList =
         getNotesByUnit(widget.course.fileId!, notes, 4);
-    List<NotesModal> unit5notesList =
+    List<NotesModel> unit5notesList =
         getNotesByUnit(widget.course.fileId!, notes, 5);
     var index = widget.course.cid! % 10;
     return Container(
@@ -225,7 +225,7 @@ class _BasicSliverAppBarState extends ConsumerState<BasicSliverAppBar> {
   }
 
   ExpansionTile UnitExpansionTile(
-      List<NotesModal> unitnotesList, UserModal user, Size size, String title) {
+      List<NotesModel> unitnotesList, UserModel user, Size size, String title) {
     return ExpansionTile(
       iconColor: Pallete.whiteColor,
       collapsedIconColor: Pallete.whiteColor,
@@ -269,7 +269,7 @@ class _BasicSliverAppBarState extends ConsumerState<BasicSliverAppBar> {
   }
 
   ListTile NotesView(
-      List<NotesModal> notesList, int index, UserModal user, Size size) {
+      List<NotesModel> notesList, int index, UserModel user, Size size) {
     return ListTile(
       onTap: () {
         Navigator.push(context, NotesPdfView.route(notes: notesList[index]));

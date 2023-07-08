@@ -1,4 +1,4 @@
-class MessageModal {
+class MessageModel {
   String? message;
   String? messageid;
   String? senderid;
@@ -6,7 +6,7 @@ class MessageModal {
   String? senderPhotoUrl;
   String? timestamp;
 
-  MessageModal(
+  MessageModel(
       {this.message,
       this.messageid,
       this.senderid,
@@ -14,7 +14,7 @@ class MessageModal {
       this.senderPhotoUrl,
       this.timestamp});
 
-  MessageModal.fromJson(Map<String, dynamic> json) {
+  MessageModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     messageid = json['messageid'];
     senderid = json['senderid'];

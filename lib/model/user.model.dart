@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-class UserModal {
+class UserModel {
   String? uid;
   String? email;
   String? name;
@@ -17,7 +17,7 @@ class UserModal {
   List<String>? coursesContributedList;
   List<String>? notesContributedList;
 
-  UserModal(
+  UserModel(
       {this.uid,
       this.email,
       this.name,
@@ -35,7 +35,7 @@ class UserModal {
       this.coursesContributedList,
       this.notesContributedList});
 
-  UserModal.fromJson(Map<String, dynamic> json) {
+  UserModel.fromJson(Map<String, dynamic> json) {
     uid = json['uid'];
     email = json['email'];
     name = json['name'];
@@ -75,7 +75,7 @@ class UserModal {
     return data;
   }
 
-  UserModal copyWith({
+  UserModel copyWith({
     String? uid,
     String? email,
     String? name,
@@ -93,7 +93,7 @@ class UserModal {
     List<String>? coursesContributedList,
     List<String>? notesContributedList,
   }) {
-    return UserModal(
+    return UserModel(
       uid: uid ?? this.uid,
       email: email ?? this.email,
       name: name ?? this.name,

@@ -2,7 +2,7 @@ import 'package:companion/constants/constants.dart';
 import 'package:companion/features/hive/boxes.dart';
 import 'package:companion/features/notes/views/notes_menu.dart';
 import 'package:companion/features/notes/views/notes_pdf_view.dart';
-import 'package:companion/modal/notes.modal.dart';
+import 'package:companion/model/notes.model.dart';
 import 'package:companion/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -17,7 +17,7 @@ class NotesPreview extends StatelessWidget {
   });
 
   final Size size;
-  final NotesModal notes;
+  final NotesModel notes;
   final bool disableonTap;
 
   @override

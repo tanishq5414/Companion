@@ -2,11 +2,11 @@ import 'package:companion/core/providers/dummy_user_provider.dart';
 import 'package:companion/features/courses/controller/courses_controller.dart';
 import 'package:companion/features/courses/widgets/course_preview.dart';
 import 'package:companion/features/user/controller/user_controller.dart';
-import 'package:companion/modal/courses.modal.dart';
+import 'package:companion/model/courses.model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-List<CoursesModal> usercourses = [];
+List<CoursesModel> usercourses = [];
 GridView courseBuilder(Size size, context, WidgetRef ref) {
   final user = ref.watch(userDataProvider)??nullUser;
   List<String> userslist = user.cid!;

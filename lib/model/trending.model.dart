@@ -1,11 +1,11 @@
-class TrendingModal {
+class TrendingModel {
   String? fileId;
   int? accessToday;
   int? accessWeekly;
 
-  TrendingModal({this.fileId, this.accessToday, this.accessWeekly});
+  TrendingModel({this.fileId, this.accessToday, this.accessWeekly});
 
-  TrendingModal.fromJson(Map<String, dynamic> json) {
+  TrendingModel.fromJson(Map<String, dynamic> json) {
     fileId = json['fileId'];
     accessToday = json['accessToday'];
     accessWeekly = json['accessWeekly'];

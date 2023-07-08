@@ -4,7 +4,7 @@ import 'package:companion/core/core.dart';
 import 'package:companion/core/providers/dummy_user_provider.dart';
 import 'package:companion/features/courses/controller/courses_controller.dart';
 import 'package:companion/features/user/controller/user_controller.dart';
-import 'package:companion/modal/courses.modal.dart';
+import 'package:companion/model/courses.model.dart';
 import 'package:companion/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,15 +26,15 @@ class _CourseListFilterPageState extends ConsumerState<CourseFilterView> {
   TextEditingController editingController = TextEditingController();
 
   late List<String> usercourseslist;
-  late List<CoursesModal> courseListFinal;
-  late List<CoursesModal> courseList;
+  late List<CoursesModel> courseListFinal;
+  late List<CoursesModel> courseList;
   @override
   void initState() {
     super.initState();
     var user = ref.read(userDataProvider)??nullUser;
     usercourseslist = List.from(user.cid!);
-    List<CoursesModal> selectedCourses = [];
-    List<CoursesModal> unselectedCourses = [];
+    List<CoursesModel> selectedCourses = [];
+    List<CoursesModel> unselectedCourses = [];
     var courses = ref.read(coursesDataProvider);
     courseList = courses!;
     courseList.sort((a, b) => a.cname!.compareTo(b.cname!));
