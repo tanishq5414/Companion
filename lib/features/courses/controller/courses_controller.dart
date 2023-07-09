@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:companion/apis/courses.api.dart';
 import 'package:companion/core/core.dart';
 import 'package:companion/features/hive/boxes.dart';
-import 'package:companion/modal/courses.modal.dart';
+import 'package:companion/model/courses.model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:companion/features/hive/boxes.dart';
 
-final coursesDataProvider = StateProvider<List<CoursesModal>?>((ref) => null);
+final coursesDataProvider = StateProvider<List<CoursesModel>?>((ref) => null);
 
 final coursesControllerProvider =
     StateNotifierProvider<CoursesController, bool>((ref) {
@@ -45,10 +45,10 @@ class CoursesController extends StateNotifier<bool> {
       final courses = networkCache.get('getCourses');
       if (courses != null) {
         final List<String> courseListString = courses.cast<String>();
-        List<CoursesModal> courseList = [];
+        List<CoursesModel> courseList = [];
         courseListString.forEach((noteString) {
           final Map<String, dynamic> noteMap = jsonDecode(noteString);
-          courseList.add(CoursesModal.fromJson(noteMap));
+          courseList.add(CoursesModel.fromJson(noteMap));
         });
         _ref.read(coursesDataProvider.notifier).update((state) => courseList);
       }

@@ -1,4 +1,4 @@
-class AdvertismentModal {
+class AdvertismentModel {
   String? photoUrl;
   String? size;
   String? title;
@@ -7,7 +7,7 @@ class AdvertismentModal {
   String? redirectUrl;
   bool? display;
 
-  AdvertismentModal(
+  AdvertismentModel(
       {this.photoUrl,
       this.size,
       this.title,
@@ -16,7 +16,7 @@ class AdvertismentModal {
       this.redirectUrl,
       this.display});
 
-  AdvertismentModal.fromJson(Map<String, dynamic> json) {
+  AdvertismentModel.fromJson(Map<String, dynamic> json) {
     photoUrl = json['photoUrl'];
     size = json['size'];
     title = json['title'];

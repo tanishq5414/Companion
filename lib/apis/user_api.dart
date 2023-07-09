@@ -1,5 +1,5 @@
 import 'package:companion/core/core.dart';
-import 'package:companion/modal/user.modal.dart';
+import 'package:companion/model/user.model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fpdart/fpdart.dart';
@@ -16,7 +16,7 @@ final dio = Dio();
 abstract class IUserAPI {
   FutureVoid saveUserData(
       {required uid, required email, required name, required photoUrl});
-  Stream<UserModal> getUserData(String uid);
+  Stream<UserModel> getUserData(String uid);
   FutureVoid deleteUser(String uid);
   FutureVoid updateName(String uid, String name);
   FutureVoid updateBookmarks(String uid, List<String> bookmarks);
@@ -35,14 +35,14 @@ class UserAPI implements IUserAPI {
       : _supabaseClient = supabaseClient;
 
   @override
-  Stream<UserModal> getUserData(String uid) {
-    Stream<UserModal> user;
+  Stream<UserModel> getUserData(String uid) {
+    Stream<UserModel> user;
     user = _supabaseClient
         .from('userscollection')
         .stream(primaryKey: ['uid'])
         .eq('uid', uid)
         .map((event) {
-          return UserModal.fromJson(event.first);
+          return UserModel.fromJson(event.first);
         });
     return user;
   }

@@ -1,8 +1,8 @@
 import 'package:companion/features/notes/widgets/notes_preview.dart';
-import 'package:companion/modal/notes.modal.dart';
+import 'package:companion/model/notes.model.dart';
 import 'package:flutter/material.dart';
 
-notesBuilder(Size size, List<NotesModal> notesData) {
+notesBuilder(Size size, List<NotesModel> notesData) {
   return SizedBox(
     height: size.width * 0.52,
     child: ListView.builder(

@@ -1,6 +1,6 @@
-import 'package:companion/modal/user.modal.dart';
+import 'package:companion/model/user.model.dart';
 
-UserModal nullUser = UserModal(
+UserModel nullUser = UserModel(
   uid: '',
   email: '',
   name: '',

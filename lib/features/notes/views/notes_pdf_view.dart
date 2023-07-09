@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:companion/modal/notes.modal.dart';
+import 'package:companion/model/notes.model.dart';
 import 'package:companion/theme/pallete.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -9,13 +9,13 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 
 class NotesPdfView extends StatefulWidget {
-  static Route route({required NotesModal notes}) {
+  static Route route({required NotesModel notes}) {
     return MaterialPageRoute<void>(
       builder: (_) => NotesPdfView(notes: notes),
     );
   }
 
-  final NotesModal notes;
+  final NotesModel notes;
   const NotesPdfView({super.key, required this.notes});
 
   @override

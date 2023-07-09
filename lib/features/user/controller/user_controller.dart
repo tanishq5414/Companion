@@ -5,11 +5,11 @@ import 'package:companion/apis/user_api.dart';
 import 'package:companion/core/core.dart';
 import 'package:companion/core/providers/dummy_user_provider.dart';
 import 'package:companion/features/hive/boxes.dart';
-import 'package:companion/modal/user.modal.dart';
+import 'package:companion/model/user.model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final userDataProvider = StateProvider<UserModal?>((ref) => null);
+final userDataProvider = StateProvider<UserModel?>((ref) => null);
 final timeTableUrlProvider = StateProvider<String?>((ref) => null);
 final userControllerProvider =
     StateNotifierProvider<UserController, bool>((ref) {
@@ -69,7 +69,7 @@ class UserController extends StateNotifier<bool> {
         final Map<String, dynamic> userMap = jsonDecode(user);
         _ref
             .read(userDataProvider.notifier)
-            .update((state) => UserModal.fromJson(userMap));
+            .update((state) => UserModel.fromJson(userMap));
       }
     }
   }

@@ -1,6 +1,6 @@
 import 'package:companion/features/notes/widgets/notes_preview.dart';
 import 'package:companion/features/user/controller/user_controller.dart';
-import 'package:companion/modal/notes.modal.dart';
+import 'package:companion/model/notes.model.dart';
 import 'package:companion/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_octicons/flutter_octicons.dart';
@@ -9,11 +9,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class NotesInfoView extends ConsumerStatefulWidget {
-  static Route route({required NotesModal notes}) {
+  static Route route({required NotesModel notes}) {
     return MaterialPageRoute<void>(builder: (_) => NotesInfoView(notes: notes));
   }
 
-  final NotesModal notes;
+  final NotesModel notes;
   const NotesInfoView({super.key, required this.notes});
 
   @override

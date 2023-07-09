@@ -1,12 +1,12 @@
 import 'package:companion/features/hive/boxes.dart';
 import 'package:companion/features/notes/views/notes_menu.dart';
 import 'package:companion/features/notes/views/notes_pdf_view.dart';
-import 'package:companion/modal/notes.modal.dart';
+import 'package:companion/model/notes.model.dart';
 import 'package:companion/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
-notesComponent({required NotesModal notes, required BuildContext context}) {
+notesComponent({required NotesModel notes, required BuildContext context}) {
   return InkWell(
     onLongPress: () {
       Navigator.push(context, NotesMenu.route(notes: notes));

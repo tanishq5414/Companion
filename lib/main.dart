@@ -1,5 +1,5 @@
 import 'package:companion/features/hive/boxes.dart';
-import 'package:companion/features/hive/modal/recentlyaccessed.dart';
+import 'package:companion/features/hive/model/recentlyaccessed.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -1,4 +1,4 @@
-class NotesModal {
+class NotesModel {
   String? sId;
   String? gId;
   String? name;
@@ -14,7 +14,7 @@ class NotesModal {
   String? author;
   int? iV;
 
-  NotesModal(
+  NotesModel(
       {this.sId,
       this.gId,
       this.name,
@@ -30,7 +30,7 @@ class NotesModal {
       this.author,
       this.iV});
 
-  NotesModal.fromJson(Map<String, dynamic> json) {
+  NotesModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     gId = json['g_id'];
     name = json['name'];

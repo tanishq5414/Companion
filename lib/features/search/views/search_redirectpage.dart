@@ -5,8 +5,8 @@ import 'package:companion/features/hive/boxes.dart';
 import 'package:companion/features/notes/controller/notes_controller.dart';
 import 'package:companion/features/notes/views/notes_pdf_view.dart';
 import 'package:companion/features/search/widgets/notes_component.dart';
-import 'package:companion/modal/courses.modal.dart';
-import 'package:companion/modal/notes.modal.dart';
+import 'package:companion/model/courses.model.dart';
+import 'package:companion/model/notes.model.dart';
 import 'package:companion/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_octicons/flutter_octicons.dart';
@@ -25,8 +25,8 @@ class MainSearchPage extends ConsumerStatefulWidget {
 
 class _SearchState extends ConsumerState<MainSearchPage> {
   TextEditingController editingController = TextEditingController();
-  late List<NotesModal> notesList;
-  late List<NotesModal> foundedNotes = [];
+  late List<NotesModel> notesList;
+  late List<NotesModel> foundedNotes = [];
 
   @override
   void initState() {

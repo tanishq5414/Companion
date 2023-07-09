@@ -1,12 +1,12 @@
 import 'package:companion/common/common.dart';
 import 'package:companion/core/providers/dummy_user_provider.dart';
 import 'package:companion/features/hive/boxes.dart';
-import 'package:companion/features/hive/modal/recentlyaccessed.dart';
+import 'package:companion/features/hive/model/recentlyaccessed.dart';
 import 'package:companion/features/notes/controller/notes_controller.dart';
 import 'package:companion/features/notes/views/notes_menu.dart';
 import 'package:companion/features/notes/views/notes_pdf_view.dart';
 import 'package:companion/features/user/controller/user_controller.dart';
-import 'package:companion/modal/notes.modal.dart';
+import 'package:companion/model/notes.model.dart';
 import 'package:companion/theme/pallete.dart';
 
 import 'package:flutter/material.dart';
@@ -38,15 +38,15 @@ class _RecentlyAccessedPageState extends ConsumerState<RecentlyAccessedView> {
     final allnoteslist = ref.read(notesDataProvider)!;
     var recentlyAcessedData = recentlyAccessedBox;
 
-    List<NotesModal> recentlyaccessed = [];
-    List<NotesModal> getRecentlyAccessed() {
+    List<NotesModel> recentlyaccessed = [];
+    List<NotesModel> getRecentlyAccessed() {
       // }
       Set<String> fileIdSet =
           allnoteslist.map((note) => note.fileId.toString()).toSet();
       for (var data in recentlyAcessedData.values) {
         String fileId = data[0].toString();
         if (fileIdSet.contains(fileId)) {
-          NotesModal matchingNote = allnoteslist
+          NotesModel matchingNote = allnoteslist
               .firstWhere((note) => note.fileId.toString() == fileId);
           recentlyaccessed.add(matchingNote);
         }
@@ -56,7 +56,7 @@ class _RecentlyAccessedPageState extends ConsumerState<RecentlyAccessedView> {
       return recentlyaccessed;
     }
 
-    List<NotesModal> recentlyAccessed = getRecentlyAccessed();
+    List<NotesModel> recentlyAccessed = getRecentlyAccessed();
     return Container(
       color: Pallete.backgroundColor,
       child: SafeArea(
@@ -81,7 +81,7 @@ class _RecentlyAccessedPageState extends ConsumerState<RecentlyAccessedView> {
                               itemCount: recentlyaccessed.length,
                               itemBuilder: (context, index) {
                                 recentlyAccessed;
-                                NotesModal note = recentlyAccessed[index];
+                                NotesModel note = recentlyAccessed[index];
                                 return ZoomTapAnimation(
                                   child: ListTile(
                                     trailing: Text(

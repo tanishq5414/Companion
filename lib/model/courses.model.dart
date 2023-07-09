@@ -1,12 +1,12 @@
-class CoursesModal {
+class CoursesModel {
   String? sId;
   int? cid;
   String? cname;
   List<String>? fileId;
 
-  CoursesModal({this.sId, this.cid, this.cname, this.fileId});
+  CoursesModel({this.sId, this.cid, this.cname, this.fileId});
 
-  CoursesModal.fromJson(Map<String, dynamic> json) {
+  CoursesModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     cid = json['cid'];
     cname = json['cname'];

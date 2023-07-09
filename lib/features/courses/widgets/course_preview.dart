@@ -2,7 +2,7 @@
 
 import 'dart:ui';
 import 'package:companion/features/courses/views/course_view.dart';
-import 'package:companion/modal/courses.modal.dart';
+import 'package:companion/model/courses.model.dart';
 import 'package:companion/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
@@ -10,7 +10,7 @@ import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 class CoursePreview extends StatefulWidget {
   CoursePreview(this.size, this.course, {super.key});
   late Size size;
-  late CoursesModal course;
+  late CoursesModel course;
   @override
   State<CoursePreview> createState() => _CoursePreviewState();
 }

@@ -4,16 +4,16 @@ import 'dart:io';
 import 'package:companion/apis/notes.api.dart';
 import 'package:companion/core/core.dart';
 import 'package:companion/features/hive/boxes.dart';
-import 'package:companion/modal/notes.modal.dart';
-import 'package:companion/modal/trending.modal.dart';
+import 'package:companion/model/notes.model.dart';
+import 'package:companion/model/trending.model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final notesDataProvider = StateProvider<List<NotesModal>?>((ref) => null);
+final notesDataProvider = StateProvider<List<NotesModel>?>((ref) => null);
 final trendingNotesDailyProvider =
-    StateProvider<List<NotesModal>?>((ref) => null);
+    StateProvider<List<NotesModel>?>((ref) => null);
 final trendingNotesWeeklyProvider =
-    StateProvider<List<NotesModal>?>((ref) => null);
+    StateProvider<List<NotesModel>?>((ref) => null);
 final notesControllerProvider =
     StateNotifierProvider<NotesController, bool>((ref) {
   final notesAPI = ref.watch(notesAPIProvider);
@@ -48,10 +48,10 @@ class NotesController extends StateNotifier<bool> {
       final notes = networkCache.get('getNotes');
       if (notes != null) {
         final List<String> notesListString = notes.cast<String>();
-        List<NotesModal> notesList = [];
+        List<NotesModel> notesList = [];
         notesListString.forEach((noteString) {
           final Map<String, dynamic> noteMap = jsonDecode(noteString);
-          notesList.add(NotesModal.fromJson(noteMap));
+          notesList.add(NotesModel.fromJson(noteMap));
         });
         _ref.read(notesDataProvider.notifier).update((state) => notesList);
       }
@@ -87,20 +87,20 @@ class NotesController extends StateNotifier<bool> {
       final notes = networkCache.get('getTrendingNotesDay');
       if (notes != null) {
         final List<String> notesListString = notes.cast<String>();
-        List<NotesModal> notesList = [];
+        List<NotesModel> notesList = [];
         notesListString.forEach((noteString) {
           final Map<String, dynamic> noteMap = jsonDecode(noteString);
-          notesList.add(NotesModal.fromJson(noteMap));
+          notesList.add(NotesModel.fromJson(noteMap));
         });
         _ref.read(trendingNotesDailyProvider.notifier).update((state) => notesList);
       }
       final notes2 = networkCache.get('getTrendingNotesWeek');
       if (notes2 != null) {
         final List<String> notesListString = notes2.cast<String>();
-        List<NotesModal> notesList = [];
+        List<NotesModel> notesList = [];
         notesListString.forEach((noteString) {
           final Map<String, dynamic> noteMap = jsonDecode(noteString);
-          notesList.add(NotesModal.fromJson(noteMap));
+          notesList.add(NotesModel.fromJson(noteMap));
         });
         _ref.read(trendingNotesWeeklyProvider.notifier).update((state) => notesList);
       }
@@ -144,7 +144,7 @@ class NotesController extends StateNotifier<bool> {
       return;
     }
     List<String> a = trendingBox.values.toList().cast<String>();
-    List<TrendingModal> convertToList(List<String> inputList) {
+    List<TrendingModel> convertToList(List<String> inputList) {
       final Map<String, int> counts = {};
 
       for (final String? fileId in inputList) {
@@ -157,9 +157,9 @@ class NotesController extends StateNotifier<bool> {
         }
       }
 
-      // Create a list of TrendingModal objects
-      final List<TrendingModal> trendingList = counts.entries
-          .map((entry) => TrendingModal(
+      // Create a list of TrendingModel objects
+      final List<TrendingModel> trendingList = counts.entries
+          .map((entry) => TrendingModel(
               fileId: entry.key,
               accessToday: entry.value,
               accessWeekly: entry.value))
