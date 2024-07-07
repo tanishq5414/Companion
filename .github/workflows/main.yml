@@ -37,7 +37,7 @@ jobs:
       - run: |
           gpg -d --passphrase "${{secrets.RELEASE_KEYSTORE}}" --batch companion.jks.asc > android/app/companion.jks
           gpg -d --passphrase "${{secrets.RELEASE_ENV}}" --batch .env.asc > .env
-          gpg -d --passphrase "${{secrets.RELEASE_PROP}}" --batch key.properties.asc > android/key.properties
+          gpg -d --passphrase "${{secrets.RELEASE_PROP}}" --batch android/key.properties.asc > android/key.properties
       - name: Get version.txt
         uses: actions/download-artifact@v2
         with:
