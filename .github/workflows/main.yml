@@ -58,8 +58,9 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: "12.x"
-      - uses: subosito/flutter-action@v1
+      - uses: subosito/flutter-action@v3
         with:
+          flutter-version: 3.19.5
           channel: "stable"
       - run: flutter clean
       - run: flutter pub get
