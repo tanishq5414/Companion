@@ -103,7 +103,6 @@ class NotesAPI implements INotesAPI {
     try {
       dio.options.headers['authorization'] = token;
       final notesData = await dio.get(trendingNotesByDayURL);
-      print(notesData.data);
       List<NotesModel> notesList = [];
       notesData.data['data']['trending'].forEach((element) {
         notesList.add(NotesModel.fromJson(element));
@@ -131,7 +130,6 @@ class NotesAPI implements INotesAPI {
       );
     } catch (e, st) {
       print(e);
-      print(st);
     }
   }
 }

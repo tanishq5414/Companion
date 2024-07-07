@@ -101,13 +101,12 @@ class _NotesPdfViewState extends State<NotesPdfView> {
               centerTitle: true,
               title: Text(
                 widget.notes.name!,
-                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
+                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18, color: Pallete.whiteColor),
               ),
               actions: [
                 //night mode icon button
                 IconButton(
                   onPressed: () {
-                    print(1);
                     setState(() {
                       if (context.mounted) {
                         nightMode = !nightMode;
@@ -129,7 +128,6 @@ class _NotesPdfViewState extends State<NotesPdfView> {
                     }),
                     builder: (context, snapshot) {
                       if (_canShowPdf) {
-                        print(nightMode);
                         return (!nightMode)
                             ? Stack(
                                 children: [

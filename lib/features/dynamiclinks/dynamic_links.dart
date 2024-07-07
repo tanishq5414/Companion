@@ -43,11 +43,9 @@ class FirebaseDynamicLinkService {
 
   static Future<void> handleSpecificDynamicLink(
       Uri deepLink, WidgetRef ref, context) async {
-    print(deepLink);
     var isNote = deepLink.pathSegments.contains('notes');
     if (isNote) {
       String id = deepLink.queryParameters['id']!;
-      print(id);
       var notes = ref.watch(notesDataProvider)!;
       for(var note in notes){
         if(note.fileId == id){

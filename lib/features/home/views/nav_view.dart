@@ -53,13 +53,13 @@ class _NavViewState extends ConsumerState<NavView> {
       widget.firebaseUser.getIdToken(false).then((value) {
         ref
             .read(notesControllerProvider.notifier)
-            .getNotes(context, value, internetConnection);
+            .getNotes(context, value??"", internetConnection);
         ref
             .read(coursesControllerProvider.notifier)
-            .getCourses(context, value, internetConnection);
+            .getCourses(context, value??"", internetConnection);
         ref
             .read(notesControllerProvider.notifier)
-            .getTrendingNotes(context, value, internetConnection);
+            .getTrendingNotes(context, value??"", internetConnection);
         ref.read(notesControllerProvider.notifier).addDataForTrendingNotes();
         ref
             .read(advertisementControllerProvider.notifier)

@@ -2,6 +2,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:companion/common/common.dart';
+import 'package:companion/config/config.dart';
 import 'package:companion/core/core.dart';
 import 'package:companion/core/providers/dummy_user_provider.dart';
 import 'package:companion/features/auth/controller/auth_controller.dart';
@@ -18,6 +19,7 @@ import 'package:companion/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_octicons/flutter_octicons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
 class SettingsPage extends ConsumerWidget {
@@ -142,7 +144,9 @@ class SettingsPage extends ConsumerWidget {
                     title: 'Privacy policy',
                     subtitle: 'View our privacy policy',
                     onpressed: () {
-                      Navigator.push(context, PrivacyPolicyPage.route());
+                      //url_launcher.launch(privacyPolicyURL);
+                      launchUrl(Uri.parse(privacyPolicyURL), mode: LaunchMode.inAppWebView);
+                      
                     },
                   ),
                   DisplayTile(

@@ -91,9 +91,10 @@ class _BookmarksPageState extends ConsumerState<BookmarksView> {
                               ),
                             ),
                             const SizedBox(width: 18),
-                            Text(
+                            const Text(
                               'Your bookmarks',
-                              style: const TextStyle(
+                              style: TextStyle(
+                                  color: Pallete.whiteColor,
                                   fontWeight: FontWeight.w900, fontSize: 24),
                             ),
                           ],

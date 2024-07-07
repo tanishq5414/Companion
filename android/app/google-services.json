@@ -30,55 +30,35 @@
           }
         },
         {
+          "client_id": "169404952251-bio6qfpep9oksb0k73ig7bbobhmt770u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lightheads.companion.app",
+            "certificate_hash": "c81b95a9b47a2127e1fcd389279a4fdc9a8c4e3a"
+          }
+        },
+        {
+          "client_id": "169404952251-ff5p7m6s3q6rmtcenbsg2d5bmfnuliaf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lightheads.companion.app",
+            "certificate_hash": "a0395bf5e95816c65b187ca70c1e67f1d667e286"
+          }
+        },
+        {
+          "client_id": "169404952251-h8quqne7epavn6i2lrh0c8ka8uorump1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lightheads.companion.app",
+            "certificate_hash": "9dd0a9a4895a13283054131e536ed3c474ee433c"
+          }
+        },
+        {
           "client_id": "169404952251-ullgku2stkqaefvonjjf82s88v9dh2p1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.lightheads.companion.app",
             "certificate_hash": "e1d1a33524f3ebe9fa1b92590ba1fe2b780006ca"
-          }
-        },
-        {
-          "client_id": "169404952251-3mbata2epempv3plf4p22gtd66he2qkc.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCONcK3vBX7beN4UTaYi4Sj-j_pxV8FiaM"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "169404952251-3mbata2epempv3plf4p22gtd66he2qkc.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "169404952251-kmjsfhspf5uc943k63dvi95nn93pjmup.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.lightheads.companion.companion"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:169404952251:android:2981a2a2bb694b79c5039e",
-        "android_client_info": {
-          "package_name": "com.lightheads.companion.companion"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "169404952251-li16o9301ld8r5uh1m6oa5i2k3q08br6.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.lightheads.companion.companion",
-            "certificate_hash": "2024d710179fd605ed4791922cf59e387e3317e2"
           }
         },
         {

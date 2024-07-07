@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:companion/common/common.dart';
 import 'package:companion/common/sectionchip.dart';
-import 'package:companion/core/providers/dummy_user_provider.dart';
 import 'package:companion/features/advertisment/widgets/advertisment_builder.dart';
 import 'package:companion/features/chat/views/global_chat.dart';
 import 'package:companion/features/courses/views/course_filter.dart';
@@ -97,7 +96,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             Text(
                               'Good ${greeting()}',
                               style: const TextStyle(
-                                  fontWeight: FontWeight.w900, fontSize: 24),
+                                  fontWeight: FontWeight.w900, fontSize: 24, color: Pallete.whiteColor),
                             ),
                           ],
                         ),
@@ -142,53 +141,64 @@ class _HomeViewState extends ConsumerState<HomeView> {
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 8),
-                              child: Row(
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context, CourseFilterView.route());
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Pallete.greyColor,
-                                        border: Border.all(
-                                            color: Colors.transparent),
-                                        borderRadius:
-                                            BorderRadius.circular(100),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 16, vertical: 8),
-                                        child: Row(
-                                          children: const [
-                                            Text(
-                                              'Courses',
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Pallete.whiteColor,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                            const SizedBox(width: 8),
-                                            Icon(
-                                              OctIcons.pencil_24,
-                                              color: Pallete.whiteColor,
-                                              size: 12,
-                                            )
-                                          ],
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: [
+                                    SectionChip(
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            RecentlyAccessedView.route());
+                                      },
+                                      label: 'Add Notes',
+                                    ),
+                                    const SizedBox(width: 8),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context, CourseFilterView.route());
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Pallete.greyColor,
+                                          border: Border.all(
+                                              color: Colors.transparent),
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 16, vertical: 8),
+                                          child: Row(
+                                            children: const [
+                                              Text(
+                                                'Courses',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Pallete.whiteColor,
+                                                    fontWeight: FontWeight.w500),
+                                              ),
+                                              const SizedBox(width: 8),
+                                              Icon(
+                                                OctIcons.pencil_24,
+                                                color: Pallete.whiteColor,
+                                                size: 12,
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 8),
-                                  SectionChip(
-                                    onTap: () {
-                                      Navigator.push(context,
-                                          RecentlyAccessedView.route());
-                                    },
-                                    label: 'Recently accessed',
-                                  ),
-                                ],
+                                    const SizedBox(width: 8),
+                                    SectionChip(
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            RecentlyAccessedView.route());
+                                      },
+                                      label: 'Recently accessed',
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),

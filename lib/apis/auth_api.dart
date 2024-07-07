@@ -1,6 +1,4 @@
 import 'package:companion/core/core.dart';
-import 'package:companion/features/notes/controller/notes_controller.dart';
-import 'package:companion/features/user/controller/user_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart'; // Firebase Authentication library
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart'; // Riverpod dependency injection
