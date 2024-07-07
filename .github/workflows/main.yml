@@ -1,4 +1,100 @@
-name: Flutter Workflow
+name: Flutter Stream
+
 on:
   push:
-    branches: [main]
+    branches: [production]
+
+jobs:
+  version:
+    name: Create Version Number
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Feth Histories for All Tags and Branches
+        run: |
+          git config remote.origin.url @github.com/${{github.repository">https://x-access-token:${{secrets.TOKEN_GITHUB}}@github.com/${{github.repository}}
+          git fetch --prune --depth=10000
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: "5.x"
+      - name: Use GitVersion
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0.9.7
+      - name: Create version.txt with nuGetVersion
+        run: echo ${{steps.gitversion.outputs.nuGetVersion}} > version.txt
+      - name: Upload version.txt
+        uses: actions/upload-artifact@v2
+        with:
+          name: gitversion
+          path: version.txt
+  build:
+    name: Build APK and Create Release
+    needs: [version]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - run: |
+          echo "${{secrets.RELEASE_KEYSTORE}}" > upload-keystore.jks.asc
+          echo "${{secrets.RELEASE_ENV}}" > .env.asc
+          echo "${{secrets.RELEASE_PROP}}" > key.properties.asc
+          gpg -d --passphrase "${{secrets.RELEASE_KEYSTORE_PASSWORD}}" --batch upload-keystore.jks.asc > android/app/upload-keystore.jks
+          gpg -d --passphrase "${{secrets.RELEASE_ENV_PASSWORD}}" --batch .env.asc > .env
+          gpg -d --passphrase "${{secrets.RELEASE_PROP_PASSWORD}}" --batch key.properties.asc > android/key.properties
+      - name: Get version.txt
+        uses: actions/download-artifact@v2
+        with:
+          name: gitversion
+      - name: Create New File Without Newline Char from version.txt
+        run: tr -d '\n' < version.txt > version1.txt
+      - name: Read Version
+        id: version
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: version1.txt
+      - name: Update Version in YAML
+        run: sed -i 's/99.99.99+99/${{steps.version.outputs.content}}+${{github.run_number}}/g' pubspec.yaml
+      - name: Update Keystore Password in Gradle Properties
+        run: sed -i 's/#{STORE_PASSWORD}#/${{secrets.STORE_PASSWORD}}/g' android/key.properties
+      - name: Update Keystore Key Password in Gradle Properties
+        run: sed -i 's/#{KEY_PASSWORD}#/${{secrets.KEY_PASSWORD}}/g' android/key.properties
+      - uses: actions/setup-java@v1
+        with:
+          java-version: "12.x"
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: "stable"
+      - run: flutter clean
+      - run: flutter pub get
+      - run: flutter build apk --release --split-per-abi --obfuscate --split-debug-info=symbols
+      - run: flutter build appbundle --release --obfuscate --split-debug-info=symbols
+      - name: Create a Release in GitHub
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "build/app/outputs/apk/release/*.apk,build/app/outputs/bundle/release/app-release.aab"
+          token: ${{secrets.TOKEN_GITHUB}}
+          tag: ${{steps.version.outputs.content}}
+          commit: ${{github.sha}}
+      - name: Upload App Bundle
+        uses: actions/upload-artifact@v2
+        with:
+          name: appbundle
+          path: build/app/outputs/bundle/release/app-release.aab
+  release:
+    name: Release App to Production Track
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Get Appbundle from Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: appbundle
+      - name: Release App to Production Track
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{secrets.PLAYSTORE_ACCOUNT_KEY}}
+          packageName: com.package.name
+          releaseFiles: app-release.aab
+          track: production
+          status: completed
