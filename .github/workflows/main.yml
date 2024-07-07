@@ -35,10 +35,10 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - run: |
-          echo "${{secrets.RELEASE_KEYSTORE}}" > upload-keystore.jks.asc
+          echo "${{secrets.RELEASE_KEYSTORE}}" > companion.jks.asc
           echo "${{secrets.RELEASE_ENV}}" > .env.asc
           echo "${{secrets.RELEASE_PROP}}" > key.properties.asc
-          gpg -d --passphrase "${{secrets.RELEASE_KEYSTORE_PASSWORD}}" --batch upload-keystore.jks.asc > android/app/upload-keystore.jks
+          gpg -d --passphrase "${{secrets.RELEASE_KEYSTORE_PASSWORD}}" --batch companion.jks.asc > android/app/companion.jks
           gpg -d --passphrase "${{secrets.RELEASE_ENV_PASSWORD}}" --batch .env.asc > .env
           gpg -d --passphrase "${{secrets.RELEASE_PROP_PASSWORD}}" --batch key.properties.asc > android/key.properties
       - name: Get version.txt
