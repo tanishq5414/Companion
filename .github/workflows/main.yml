@@ -92,7 +92,7 @@ jobs:
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{secrets.PLAYSTORE_ACCOUNT_KEY}}
-          packageName: com.package.name
+          packageName: com.lightheads.companion.app
           releaseFiles: app-release.aab
           track: production
           status: completed
