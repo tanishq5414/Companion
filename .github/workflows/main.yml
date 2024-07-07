@@ -1,0 +1,4 @@
+name: Flutter Workflow
+on:
+  push:
+    branches: [main]
