@@ -1,7 +1,5 @@
 # Companion App
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-
 Companion App is a mobile application built using Flutter, Node.js, and Supabase. It allows students to easily organize and share digital documents among a community of people. Students can rate the quality of digital documents shared and have all their notes present under one application.
 
 ## Table of Contents
