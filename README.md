@@ -77,7 +77,7 @@ https://www.linkedin.com/in/kaamil-mirza/
 
 Tanishq
 tanishq@lightheads.org
-https://www.linkedin.com/in/kaamil-mirza/
+https://www.linkedin.com/in/tanishqagarwal/
 
 ## Contributors
 Thank you!
