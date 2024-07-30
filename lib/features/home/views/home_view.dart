@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_octicons/flutter_octicons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:companion/features/notes/views/add_notes_view.dart';
 
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
@@ -148,7 +149,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                                     SectionChip(
                                       onTap: () {
                                         Navigator.push(context,
-                                            RecentlyAccessedView.route());
+                                            AddNotesView.route());
                                       },
                                       label: 'Add Notes',
                                     ),
