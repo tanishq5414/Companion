@@ -39,7 +39,7 @@ jobs:
           gpg -d --passphrase "${{secrets.RELEASE_ENV}}" --batch .env.asc > .env
           gpg -d --passphrase "${{secrets.RELEASE_PROP}}" --batch android/key.properties.asc > android/key.properties
       - name: Get version.txt
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4.1.7
         with:
           name: gitversion
       - name: Create New File Without Newline Char from version.txt
@@ -85,7 +85,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Get Appbundle from Artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4.1.7
         with:
           name: appbundle
       - name: Release App to Production Track
